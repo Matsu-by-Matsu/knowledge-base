@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matsu Knowledge Base</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0a0b;--surface:#111114;--surface2:#1a1a1f;--surface3:#222228;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.15);
+  --text:#e8e6e0;--muted:#6b6960;--dim:#3d3c38;
+  --accent:#c8a96e;--accent-dim:rgba(200,169,110,0.12);--accent-glow:rgba(200,169,110,0.04);
+  --red:#e05555;--red-dim:rgba(224,85,85,0.1);
+  --amber:#d4903a;--amber-dim:rgba(212,144,58,0.1);
+  --green:#5a9e6f;--green-dim:rgba(90,158,111,0.1);
+  --blue:#4a8fc4;--blue-dim:rgba(74,143,196,0.1);
+  --purple:#8b72c8;--purple-dim:rgba(139,114,200,0.1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+/* ===== LOGIN ===== */
+#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;}
+.login-box{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:40px;width:340px;text-align:center;}
+.login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+.login-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:28px;}
+.login-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;text-align:center;letter-spacing:0.15em;transition:border-color 0.2s;}
+.login-input:focus{border-color:rgba(200,169,110,0.5);}
+.login-btn{width:100%;margin-top:12px;padding:12px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.3);border-radius:8px;color:var(--accent);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;}
+.login-btn:hover{background:rgba(200,169,110,0.2);}
+.login-error{font-size:12px;color:var(--red);margin-top:8px;display:none;}
+
+/* ===== LAYOUT ===== */
+.app{position:relative;z-index:1;display:flex;min-height:100vh;}
+.sidebar{width:240px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;background:var(--surface);}
+.main{margin-left:240px;flex:1;}
+
+/* ===== SIDEBAR ===== */
+.sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid var(--border);}
+.logo-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;}
+.logo-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.sidebar-nav{flex:1;padding:12px 0;overflow-y:auto;}
+.nav-section{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);padding:8px 20px 4px;font-weight:500;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 20px;cursor:pointer;border-left:2px solid transparent;font-size:13px;color:var(--muted);transition:all 0.15s;}
+.nav-item:hover{color:var(--text);background:var(--accent-glow);}
+.nav-item.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-dim);}
+.nav-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.sidebar-footer{padding:14px 20px;border-top:1px solid var(--border);}
+.update-btn{width:100%;padding:8px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.2);border-radius:6px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;}
+.update-btn:hover{background:rgba(200,169,110,0.2);}
+.gh-status{font-size:10px;color:var(--muted);text-align:center;margin-bottom:6px;}
+.gh-status.ok{color:var(--green);}
+.gh-status.err{color:var(--red);}
+
+/* ===== TOPBAR ===== */
+.topbar{height:52px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(10,10,11,0.92);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10;}
+.topbar-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.search-wrap{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 11px;width:200px;transition:border-color 0.2s;}
+.search-wrap:focus-within{border-color:var(--border2);}
+.search-input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;width:100%;}
+.search-input::placeholder{color:var(--muted);}
+.pills{display:flex;gap:5px;}
+.pill{padding:3px 10px;border-radius:20px;font-size:11px;border:1px solid var(--border);cursor:pointer;color:var(--muted);transition:all 0.15s;}
+.pill:hover{border-color:var(--border2);color:var(--text);}
+.pill.active{background:var(--accent-dim);border-color:rgba(200,169,110,0.3);color:var(--accent);}
+
+/* ===== CONTENT ===== */
+.content{padding:28px;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
+.stat-value{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;line-height:1;}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* ===== CATEGORY ===== */
+.cat-section{margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color 0.2s;}
+.cat-section:hover{border-color:var(--border2);}
+.cat-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none;}
+.cat-header:hover{background:rgba(255,255,255,0.02);}
+.cat-left{display:flex;align-items:center;gap:12px;}
+.cat-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.cat-name{font-family:'Syne',sans-serif;font-weight:600;font-size:13px;}
+.cat-meta{font-size:11px;color:var(--muted);margin-top:1px;}
+.cat-right{display:flex;align-items:center;gap:8px;}
+.edit-cat-btn{font-size:11px;color:var(--muted);padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.edit-cat-btn:hover{color:var(--text);border-color:var(--border2);}
+.chevron{font-size:11px;color:var(--muted);transition:transform 0.2s;}
+.chevron.open{transform:rotate(90deg);}
+
+/* ===== SUBCATEGORY ===== */
+.cat-body{border-top:1px solid var(--border);}
+.subcat-group{padding:0 20px;}
+.subcat-hdr{display:flex;align-items:center;gap:7px;padding:10px 0 7px;border-bottom:1px solid var(--border);cursor:pointer;}
+.subcat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.subcat-title{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;flex:1;}
+.subcat-count{font-size:10px;color:var(--dim);}
+.subchev{font-size:10px;color:var(--dim);transition:transform 0.2s;margin-left:4px;}
+.subchev.open{transform:rotate(90deg);}
+
+/* ===== THREAD ITEMS ===== */
+.threads{padding:3px 0 10px 12px;}
+.thread{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background 0.15s;margin:1px 0;position:relative;}
+.thread:hover{background:var(--surface2);}
+.src-badge{font-size:9px;font-weight:600;letter-spacing:0.06em;padding:2px 5px;border-radius:3px;flex-shrink:0;margin-top:2px;text-transform:uppercase;}
+.src-claude{background:var(--accent-dim);color:var(--accent);}
+.src-chatgpt{background:var(--green-dim);color:var(--green);}
+.src-notebooklm{background:var(--blue-dim);color:var(--blue);}
+.src-manual{background:var(--purple-dim);color:var(--purple);}
+.thread-content{flex:1;min-width:0;}
+.thread-title{font-size:13px;color:var(--text);line-height:1.4;transition:color 0.15s;}
+.thread:hover .thread-title{color:var(--accent);}
+.thread-meta{font-size:11px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.imp-badge{font-size:9px;font-weight:600;padding:1px 6px;border-radius:8px;cursor:pointer;}
+.imp-high{background:var(--red-dim);color:var(--red);}
+.imp-mid{background:var(--amber-dim);color:var(--amber);}
+.imp-low{background:rgba(255,255,255,0.04);color:var(--dim);}
+.thread-actions{display:flex;align-items:center;gap:4px;opacity:0;transition:opacity 0.15s;flex-shrink:0;}
+.thread:hover .thread-actions{opacity:1;}
+.t-btn{font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap;}
+.t-btn:hover{border-color:var(--border2);color:var(--text);}
+.t-btn.del:hover{border-color:var(--red);color:var(--red);}
+.thread-arrow{font-size:11px;color:var(--dim);margin-top:2px;flex-shrink:0;transition:all 0.15s;}
+.thread:hover .thread-arrow{color:var(--accent);transform:translateX(2px);}
+
+/* ===== MODALS ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:26px;width:480px;max-height:85vh;overflow-y:auto;}
+.modal-sm{width:380px;}
+.modal-lg{width:600px;}
+.modal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:18px;}
+.fg{margin-bottom:14px;}
+.fl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:5px;}
+.fi,.fs,.fta{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s;}
+.fta{min-height:70px;resize:vertical;}
+.fi:focus,.fs:focus,.fta:focus{border-color:rgba(200,169,110,0.4);}
+.fs option{background:var(--surface2);}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+.btn-primary{padding:8px 18px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.3);border-radius:6px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.btn-primary:hover{background:rgba(200,169,110,0.2);}
+.btn-cancel{padding:8px 18px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.btn-cancel:hover{border-color:var(--border2);color:var(--text);}
+.btn-danger{padding:8px 18px;background:var(--red-dim);border:1px solid rgba(224,85,85,0.3);border-radius:6px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
+
+/* ===== SUMMARY MODAL ===== */
+.summary-source{display:inline-flex;align-items:center;gap:6px;font-size:11px;margin-bottom:14px;}
+.summary-body{font-size:13px;color:var(--muted);line-height:1.7;background:var(--surface2);border-radius:8px;padding:14px;margin-bottom:14px;}
+.summary-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.summary-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--surface3);color:var(--muted);}
+.open-link-btn{display:flex;align-items:center;gap:6px;width:100%;padding:10px 14px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.25);border-radius:8px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;justify-content:center;}
+.open-link-btn:hover{background:rgba(200,169,110,0.2);}
+
+/* ===== GITHUB SETUP ===== */
+.gh-setup{background:var(--surface2);border-radius:8px;padding:14px;margin-bottom:14px;font-size:12px;color:var(--muted);line-height:1.7;}
+.gh-setup code{background:var(--surface3);border-radius:3px;padding:1px 5px;font-size:11px;color:var(--text);font-family:monospace;}
+.code-block{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:monospace;font-size:11px;color:var(--green);margin:8px 0;white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto;}
+.copy-btn{font-size:11px;padding:4px 12px;border-radius:4px;border:1px solid rgba(90,158,111,0.3);background:var(--green-dim);color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.copy-btn:hover{background:rgba(90,158,111,0.2);}
+
+/* ===== CHATGPT IMPORT ===== */
+.import-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.import-tab{flex:1;padding:8px;font-size:12px;cursor:pointer;text-align:center;color:var(--muted);background:transparent;border:none;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.import-tab.active{background:var(--accent-dim);color:var(--accent);}
+.import-panel{display:none;}
+.import-panel.active{display:block;}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 16px;font-size:13px;z-index:200;transform:translateY(70px);opacity:0;transition:all 0.3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ===== INSTRUCTIONS ===== */
+.inst-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:16px;}
+.inst-title{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;}
+.step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.6;}
+.step:last-child{border-bottom:none;}
+.step-n{font-family:'Syne',sans-serif;font-weight:700;font-size:10px;color:var(--accent);width:16px;flex-shrink:0;padding-top:2px;}
+.step strong{color:var(--text);}
+.step code{background:var(--surface2);border-radius:3px;padding:1px 5px;font-size:11px;font-family:monospace;}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Knowledge Base</div>
+    <div class="login-title">Matsu KB</div>
+    <div class="login-sub">パスワードを入力してください</div>
+    <input class="login-input" type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">ログイン</button>
+    <div class="login-error" id="pw-error">パスワードが違います</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app" style="display:none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">Knowledge Base</div>
+      <div class="logo-sub">Matsu · AI会話履歴管理</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">VIEW</div>
+      <div class="nav-item active" onclick="setView('all',this)"><div class="nav-dot" style="background:var(--accent)"></div>すべて</div>
+      <div class="nav-item" onclick="setView('high',this)"><div class="nav-dot" style="background:var(--red)"></div>高重要度</div>
+      <div class="nav-item" onclick="setView('mid',this)"><div class="nav-dot" style="background:var(--amber)"></div>中重要度</div>
+      <div class="nav-section" style="margin-top:10px">SOURCE</div>
+      <div class="nav-item" id="src-claude" onclick="toggleSrc('claude',this)"><div class="nav-dot" style="background:var(--accent)"></div>Claude</div>
+      <div class="nav-item" id="src-chatgpt" onclick="toggleSrc('chatgpt',this)"><div class="nav-dot" style="background:var(--green)"></div>ChatGPT</div>
+      <div class="nav-item" id="src-notebooklm" onclick="toggleSrc('notebooklm',this)"><div class="nav-dot" style="background:var(--blue)"></div>NotebookLM</div>
+      <div class="nav-section" style="margin-top:10px">MANAGE</div>
+      <div class="nav-item" onclick="openAddModal()"><div class="nav-dot" style="background:var(--purple)"></div>+ 新規追加</div>
+      <div class="nav-item" onclick="openImportModal()"><div class="nav-dot" style="background:var(--green)"></div>↓ ChatGPT/NLM取込</div>
+      <div class="nav-item" onclick="openGHModal()"><div class="nav-dot" style="background:var(--blue)"></div>⚙ GitHub連携設定</div>
+      <div class="nav-item" onclick="setView('instructions',this)"><div class="nav-dot" style="background:var(--dim)"></div>更新手順</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="gh-status" id="gh-status-label">GitHub: 未設定</div>
+      <button class="update-btn" onclick="saveToGitHub()">↑ GitHubに保存</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="view-title">全会話マップ</div>
+      <div class="topbar-right">
+        <div class="search-wrap">
+          <span style="color:var(--muted);font-size:13px">⌕</span>
+          <input class="search-input" placeholder="検索..." oninput="doSearch(this.value)">
+        </div>
+        <div class="pills">
+          <div class="pill active" onclick="filterImp(this,'all')">All</div>
+          <div class="pill" onclick="filterImp(this,'high')">高</div>
+          <div class="pill" onclick="filterImp(this,'mid')">中</div>
+          <div class="pill" onclick="filterImp(this,'low')">低</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" id="s-total">0</div><div class="stat-sub">全スレッド数</div></div>
+        <div class="stat-card"><div class="stat-label">High Priority</div><div class="stat-value" style="color:var(--red)" id="s-high">0</div><div class="stat-sub">高重要度</div></div>
+        <div class="stat-card"><div class="stat-label">Categories</div><div class="stat-value" id="s-cats">0</div><div class="stat-sub">カテゴリ数</div></div>
+        <div class="stat-card"><div class="stat-label">Updated</div><div class="stat-value" style="font-size:14px;padding-top:8px" id="s-date">—</div><div class="stat-sub">最終更新</div></div>
+      </div>
+      <div id="inst-panel" style="display:none">
+        <div class="inst-card">
+          <div class="inst-title">🔄 更新手順</div>
+          <div class="step"><span class="step-n">01</span><span><strong>GitHub連携設定</strong>：サイドバーの「GitHub連携設定」でToken・リポジトリ名を入力。以降は「GitHubに保存」ボタン1クリックで自動反映。</span></div>
+          <div class="step"><span class="step-n">02</span><span><strong>Claude追加</strong>：このチャットで「マップ更新して」と送る→俺がJSON出力→「↓ ChatGPT/NLM取込」でペースト。</span></div>
+          <div class="step"><span class="step-n">03</span><span><strong>ChatGPT追加</strong>：「↓ ChatGPT/NLM取込」→ChatGPTタブ→プロンプトをChatGPTに送る→返ってきたJSONをペースト→取込。</span></div>
+          <div class="step"><span class="step-n">04</span><span><strong>編集・削除</strong>：各スレッドにカーソルを乗せると「編集」「削除」ボタンが出る。重要度バッジをクリックでも変更可。</span></div>
+          <div class="step"><span class="step-n">05</span><span><strong>マルチテーマスレッド</strong>：1つの会話で複数テーマが混在する場合、「編集」でカテゴリを手動変更するか、テーマごとに別スレッドを開始して管理するのがベスト。</span></div>
+        </div>
+        <div class="inst-card">
+          <div class="inst-title">📋 ChatGPT用プロンプト</div>
+          <div class="code-block" id="chatgpt-prompt">今月あなたと私が行った会話を以下のJSON配列形式でまとめてください。
+各会話について以下のフィールドを含めてください：
+- title: 会話タイトル（日本語30文字以内）
+- url: 会話URL（存在する場合、なければ""）
+- category: カテゴリ（不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択）
+- subcategory: サブカテゴリ（自由記述）
+- importance: 重要度（high/mid/low）
+- summary: 内容要約（50文字以内）
+- date: 日付（YYYY/MM/DD）
+- source: "chatgpt"
+
+JSON配列のみ出力し、前後の説明文は不要です。</div>
+          <button class="copy-btn" onclick="copyEl('chatgpt-prompt')">コピー</button>
+        </div>
+      </div>
+      <div id="tree-view"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Summary Modal -->
+<div class="overlay" id="summary-modal">
+  <div class="modal modal-sm">
+    <div class="modal-title" id="sum-title"></div>
+    <div class="summary-source"><span class="src-badge" id="sum-src-badge"></span><span id="sum-src-text" style="color:var(--muted);font-size:11px"></span><span id="sum-date" style="color:var(--dim);font-size:11px"></span></div>
+    <div class="summary-body" id="sum-body"></div>
+    <div class="summary-tags" id="sum-tags"></div>
+    <div style="display:flex;gap:8px">
+      <button class="open-link-btn" id="sum-link-btn">スレッドを開く →</button>
+      <button class="btn-cancel" style="flex-shrink:0" onclick="closeModal('summary-modal')">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Thread Modal -->
+<div class="overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title">スレッドを編集</div>
+    <input type="hidden" id="edit-cat-idx">
+    <input type="hidden" id="edit-sub-idx">
+    <input type="hidden" id="edit-thread-idx">
+    <div class="fg"><label class="fl">タイトル</label><input class="fi" id="edit-title"></div>
+    <div class="fg"><label class="fl">URL</label><input class="fi" id="edit-url"></div>
+    <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="edit-cat-sel"></select></div>
+    <div class="fg"><label class="fl">サブカテゴリ</label><input class="fi" id="edit-subcat"></div>
+    <div class="fg"><label class="fl">重要度</label>
+      <select class="fs" id="edit-imp">
+        <option value="high">高（コアビジネス）</option>
+        <option value="mid">中（副業・探索）</option>
+        <option value="low">低（雑談・学習）</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">ソース</label>
+      <select class="fs" id="edit-source">
+        <option value="claude">Claude</option>
+        <option value="chatgpt">ChatGPT</option>
+        <option value="notebooklm">NotebookLM</option>
+        <option value="manual">手動</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">要約</label><textarea class="fta" id="edit-summary"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('edit-modal')">キャンセル</button>
+      <button class="btn-primary" onclick="saveEdit()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="overlay" id="add-modal">
+  <div class="modal">
+    <div class="modal-title">新規エントリを追加</div>
+    <div class="fg"><label class="fl">タイトル</label><input class="fi" id="add-title" placeholder="会話のタイトル..."></div>
+    <div class="fg"><label class="fl">URL</label><input class="fi" id="add-url" placeholder="https://claude.ai/chat/..."></div>
+    <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="add-cat-sel"></select></div>
+    <div class="fg"><label class="fl">サブカテゴリ</label><input class="fi" id="add-subcat" placeholder="例: ファンド実務..."></div>
+    <div class="fg"><label class="fl">重要度</label>
+      <select class="fs" id="add-imp">
+        <option value="high">高</option><option value="mid" selected>中</option><option value="low">低</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">ソース</label>
+      <select class="fs" id="add-source">
+        <option value="claude">Claude</option><option value="chatgpt">ChatGPT</option><option value="notebooklm">NotebookLM</option><option value="manual">手動</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">要約</label><textarea class="fta" id="add-summary" placeholder="50文字程度で..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('add-modal')">キャンセル</button>
+      <button class="btn-primary" onclick="doAdd()">追加</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="overlay" id="del-modal">
+  <div class="modal modal-sm">
+    <div class="modal-title">削除の確認</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px" id="del-msg"></p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('del-modal')">キャンセル</button>
+      <button class="btn-danger" onclick="confirmDelete()">削除する</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import Modal -->
+<div class="overlay" id="import-modal">
+  <div class="modal modal-lg">
+    <div class="modal-title">ChatGPT / NotebookLM データ取込</div>
+    <div class="import-tabs">
+      <button class="import-tab active" onclick="switchImportTab('chatgpt',this)">ChatGPT</button>
+      <button class="import-tab" onclick="switchImportTab('nlm',this)">NotebookLM</button>
+      <button class="import-tab" onclick="switchImportTab('json',this)">JSONペースト</button>
+    </div>
+    <div class="import-panel active" id="itab-chatgpt">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6">①下のプロンプトをコピー → ChatGPTに送る → 返ってきたJSONを②にペースト</p>
+      <div class="code-block" id="imp-chatgpt-prompt">今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話: title(30文字以内), url(なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, importance(high/mid/low), summary(50文字以内), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。</div>
+      <button class="copy-btn" onclick="copyEl('imp-chatgpt-prompt')" style="margin-bottom:12px">プロンプトをコピー</button>
+      <label class="fl">②ChatGPTの返答（JSON）をペースト</label>
+      <textarea class="fta" id="imp-chatgpt-json" style="min-height:120px;margin-bottom:10px" placeholder='[{"title":"...","url":"...","category":"...","subcategory":"...","importance":"mid","summary":"...","date":"2026/05/01","source":"chatgpt"}]'></textarea>
+    </div>
+    <div class="import-panel" id="itab-nlm">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6">NotebookLMのノートブックURLと情報を手動で入力するか、JSONでペーストしてください。</p>
+      <div class="fg"><label class="fl">ノートブックタイトル</label><input class="fi" id="nlm-title" placeholder="例: 不動産市場調査2026"></div>
+      <div class="fg"><label class="fl">URL</label><input class="fi" id="nlm-url" placeholder="https://notebooklm.google.com/notebook/..."></div>
+      <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="nlm-cat"></select></div>
+      <div class="fg"><label class="fl">要約</label><textarea class="fta" id="nlm-summary" placeholder="ノートブックの内容を50文字程度で..."></textarea></div>
+    </div>
+    <div class="import-panel" id="itab-json">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6">任意のJSON配列をペーストして一括取込。sourceフィールドがあれば自動判別。</p>
+      <textarea class="fta" id="imp-raw-json" style="min-height:150px" placeholder='[{"title":"...","url":"...","category":"...","subcategory":"...","importance":"mid","summary":"...","date":"2026/05/01","source":"claude"}]'></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('import-modal')">キャンセル</button>
+      <button class="btn-primary" onclick="doImport()">取り込む</button>
+    </div>
+  </div>
+</div>
+
+<!-- GitHub Modal -->
+<div class="overlay" id="gh-modal">
+  <div class="modal">
+    <div class="modal-title">⚙ GitHub連携設定</div>
+    <div class="gh-setup">
+      <strong style="color:var(--text)">GitHub Personal Access Tokenの取得方法：</strong><br>
+      GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>
+      スコープ: <code>repo</code> にチェック → Generate token → コピー
+    </div>
+    <div class="fg"><label class="fl">GitHub Token</label><input class="fi" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx"></div>
+    <div class="fg"><label class="fl">リポジトリ（owner/repo）</label><input class="fi" id="gh-repo" placeholder="Matsu-by-Matsu/knowledge-base"></div>
+    <div class="fg"><label class="fl">ブランチ</label><input class="fi" id="gh-branch" value="main"></div>
+    <div id="gh-test-result" style="font-size:12px;margin-top:4px"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('gh-modal')">キャンセル</button>
+      <button class="btn-primary" onclick="testGH()" style="background:var(--blue-dim);border-color:rgba(74,143,196,0.3);color:var(--blue)">接続テスト</button>
+      <button class="btn-primary" onclick="saveGHConfig()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== PASSWORD =====
+const PASS = 'matsu2026';
+function doLogin(){
+  const v = document.getElementById('pw-input').value;
+  if(v === PASS){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='flex';
+    init();
+  } else {
+    document.getElementById('pw-error').style.display='block';
+    document.getElementById('pw-input').value='';
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+// ===== DATA =====
+const DEFAULT = {
+  lastUpdated:"2026/05/22",
+  categories:[
+    {id:"realestate",name:"不動産ビジネス（本業・高度）",icon:"🏢",color:"#e05555",bg:"rgba(224,85,85,0.1)",imp:3,subcategories:[
+      {name:"ファンド・ディール実務",color:"#e05555",threads:[
+        {title:"不動産転売ファンドの立ち上げ",url:"https://claude.ai/chat/0e4a1488-4a4f-4e73-b91a-5a8b9c285dcc",importance:"high",source:"claude",summary:"SPC構造・アドバイザリー設計・業務委託契約書作成",date:"2026/04/13"},
+        {title:"普通借地の解体・底地人の同意",url:"https://claude.ai/chat/3fc223ef-784a-4db3-86ee-be37bf0927c4",importance:"high",source:"claude",summary:"借地借家法・分筆済み土地の実務論点",date:"2026/04/17"},
+        {title:"LaSalle Japan投資分析（62スライド翻訳）",url:"https://claude.ai/chat/64c1a6aa-7efa-49d4-a063-02aef246a881",importance:"high",source:"claude",summary:"PPTXワークフロー・チャートXML修正",date:"2026/04/08"}
+      ]},
+      {name:"市場分析・アンダーライティング",color:"#e05555",threads:[
+        {title:"仙台リテール市場（ロードベース分析）",url:"https://claude.ai/chat/5fa041f0-cdaf-41b1-b94c-cb7304118957",importance:"high",source:"claude",summary:"Cap Rate・坪単価・J-REITデータ",date:"2026/04/16"},
+        {title:"開発単価データベース（地域別）",url:"https://claude.ai/chat/7e4bdc13-6e94-4449-b97b-f5a5efd3f0a0",importance:"high",source:"claude",summary:"GFA/FAR/NRA別・コロナ前〜2026実績",date:"2026/04/08"},
+        {title:"空き家・用途規制緩和ファンド戦略",url:"https://claude.ai/chat/bbd6fb8d-2a94-42c4-b6d3-d2c072cc407b",importance:"high",source:"claude",summary:"NPL取得・国家戦略特区・都市再生",date:"2026/04/08"},
+        {title:"GAテクノロジーズ SPC証券買収分析",url:"https://claude.ai/chat/d459ab01-8d36-4b62-810c-ac12391120a8",importance:"high",source:"claude",summary:"相続税改正・小口商品の逆風",date:"2026/04/14"}
+      ]},
+      {name:"Crest Court浅草（ホテル運営）",color:"#e05555",threads:[
+        {title:"レジ→ホテルコンバージョン 40室分析",url:"https://claude.ai/chat/deeb5cd7-7481-420f-a5e3-77b8442c0649",importance:"high",source:"claude",summary:"ADR/㎡・加重平均ADR・Y1/Y3シナリオ",date:"2026/04/10"},
+        {title:"アパートメントホテル投資ロジック",url:"https://claude.ai/chat/aaf3746e-847c-46df-88cf-c9531b0501d3",importance:"high",source:"claude",summary:"霞が関キャピタルKPIダッシュボード",date:"2026/04/08"}
+      ]}
+    ]},
+    {id:"content",name:"X/noteコンテンツ事業",icon:"📱",color:"#5a9e6f",bg:"rgba(90,158,111,0.1)",imp:2,subcategories:[
+      {name:"戦略・ツイート設計",color:"#5a9e6f",threads:[
+        {title:"Note販売X 引き継ぎ文書・戦略設計",url:"https://claude.ai/chat/cbb4513e-90da-41c1-9028-34f9e055e557",importance:"high",source:"claude",summary:"¥29,800高単価note・LP設計・X広告",date:"2026/04/29"},
+        {title:"note運営戦略の初期設計",url:"https://claude.ai/chat/c0b9c76b-5038-42a3-94da-3b0b24fc18a8",importance:"mid",source:"claude",summary:"無料/有料記事交互・3記事公開済み",date:"2026/04/08"}
+      ]},
+      {name:"コンテンツ作成・分析",color:"#5a9e6f",threads:[
+        {title:"note記事：不動産プロの立地判断術",url:"https://claude.ai/chat/94c614d8-f755-429d-9a3e-a77e9724975f",importance:"mid",source:"claude",summary:"コクリエーションモデル確立",date:"2026/04/06"},
+        {title:"X性格分析・ビッグデータ収集",url:"https://claude.ai/chat/e9dae11a-fe99-4f4b-87e3-17ae70786e9c",importance:"mid",source:"claude",summary:"Big5分析・商業化フレーム",date:"2026/04/20"}
+      ]}
+    ]},
+    {id:"newbiz",name:"新規ビジネス探索・自動化",icon:"💡",color:"#4a8fc4",bg:"rgba(74,143,196,0.1)",imp:2,subcategories:[
+      {name:"ビジネスモデル・収益化",color:"#4a8fc4",threads:[
+        {title:"ビジネスモデル（稼ぎネタ320）",url:"https://claude.ai/chat/82db6c65-7fdd-4ee1-ad07-b41d76c7c159",importance:"mid",source:"claude",summary:"Flippaアービトラージ・YouTubeチャンネルM&A",date:"2026/04/10"},
+        {title:"稼ぐパターン17分類フレームワーク",url:"https://claude.ai/chat/a07c0d56-e3f3-4c26-b8e2-8933065133ec",importance:"mid",source:"claude",summary:"3軸整理・強みとのマッピング",date:"2026/04/20"},
+        {title:"AI活用 不動産DDレポート販売",url:"https://claude.ai/chat/f34f1c9e-c318-4296-8081-4a1cc2189c8e",importance:"mid",source:"claude",summary:"¥30,000/件・自動化・Buy-side向け",date:"2026/04/07"}
+      ]},
+      {name:"ツール・データ事業",color:"#4a8fc4",threads:[
+        {title:"Apify活用・データパイプライン",url:"https://claude.ai/chat/daacd9fc-988f-42cb-92fa-12d69c27c753",importance:"mid",source:"claude",summary:"ホテルOTA動的価格・YouTube M&A調査",date:"2026/04/20"},
+        {title:"ビッグデータ×AI分析パイプライン",url:"https://claude.ai/chat/1779450633734",importance:"mid",source:"claude",summary:"恋愛・ライフスタイル分野・Reddit/知恵袋",date:"2026/05/18"},
+        {title:"不動産SaaS市場分析・白地領域",url:"https://claude.ai/chat/ac265ddf-e00c-4593-8a41-3ae9e1ccbbef",importance:"mid",source:"claude",summary:"外資系AMターゲット型リーシングSaaS",date:"2026/04/09"},
+        {title:"ポッドキャスト企画（岩本さんと）",url:"https://claude.ai/chat/bc6b7b5a-a942-49f9-9c29-def48a0b2f51",importance:"mid",source:"claude",summary:"駅・街・建築の成り立ち・収益化",date:"2026/05/14"}
+      ]}
+    ]},
+    {id:"tech",name:"テクノロジー学習・ツール習得",icon:"⚙️",color:"#8b72c8",bg:"rgba(139,114,200,0.1)",imp:1,subcategories:[
+      {name:"開発環境・基礎知識",color:"#8b72c8",threads:[
+        {title:"Claude Codeのインストール・環境構築",url:"https://claude.ai/chat/035a39e0-6d76-4b2d-b063-ef0e00ce084a",importance:"low",source:"claude",summary:"Git/Node.js/PowerShell セットアップ",date:"2026/05/08"},
+        {title:"HTMLの基礎・ローカル vs クラウド保存",url:"https://claude.ai/chat/d3785f0f-abdf-4454-9444-d8a5b6113b98",importance:"low",source:"claude",summary:"静的サイト概念の理解",date:"2026/04/10"},
+        {title:"日本語ファイルの文字化け対策",url:"https://claude.ai/chat/2bf17faa-3101-4661-bf13-d51f08910423",importance:"low",source:"claude",summary:"PPTXテーマXML・游ゴシック統一修正",date:"2026/05/08"},
+        {title:"知識ベースURL管理ツール作成",url:"https://claude.ai/chat/current",importance:"high",source:"claude",summary:"GitHub Pages + パスワード保護 + 自動反映",date:"2026/05/22"}
+      ]}
+    ]},
+    {id:"lifestyle",name:"ライフスタイル・個人",icon:"🌿",color:"#5a9e6f",bg:"rgba(90,158,111,0.08)",imp:1,subcategories:[
+      {name:"フィットネス・身体",color:"#5a9e6f",threads:[
+        {title:"36歳男性の体組成分析・内臓脂肪対策",url:"https://claude.ai/chat/c0173ae6-b320-4aa6-aed3-c04a2edb2d00",importance:"low",source:"claude",summary:"キックボクシング・アルコール削減",date:"2026/04/28"},
+        {title:"前髪のうねり対策・ヘアケア",url:"https://claude.ai/chat/4b2c1f59-d574-4eed-bd68-83b3454d65fb",importance:"low",source:"claude",summary:"Ocean Trico Clay・マット仕上げ好み",date:"2026/04/28"}
+      ]},
+      {name:"雑談・エンタメ",color:"#5a9e6f",threads:[
+        {title:"大喜利セッション（温泉旅館・甲子園）",url:"https://claude.ai/chat/a9fda816-7d0f-4fad-b5d5-9269d24b5b94",importance:"low",source:"claude",summary:"ユーモアセンス開発・採点フォーマット",date:"2026/05/12"},
+        {title:"本棚から読む性格分析",url:"https://claude.ai/chat/cec3fad7-598f-46d4-9817-9fb932b787c1",importance:"low",source:"claude",summary:"X知人の本棚画像分析",date:"2026/04/16"}
+      ]}
+    ]}
+  ]
+};
+
+let data = null;
+let filter = {imp:'all', src:null, search:''};
+let openCats = {}, openSubs = {};
+let pendingDel = null;
+let currentImportTab = 'chatgpt';
+let ghConfig = JSON.parse(localStorage.getItem('kb_gh')||'{}');
+
+function init(){
+  data = JSON.parse(localStorage.getItem('kb_data')||'null') || DEFAULT;
+  updateGHStatus();
+  populateCatSelects();
+  render();
+}
+
+function populateCatSelects(){
+  ['edit-cat-sel','add-cat-sel','nlm-cat'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = data.categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  });
+}
+
+function save(){
+  data.lastUpdated = new Date().toLocaleDateString('ja-JP').replace(/\//g,'/');
+  localStorage.setItem('kb_data', JSON.stringify(data));
+  updateStats();
+}
+
+function render(){
+  updateStats();
+  const c = document.getElementById('tree-view');
+  c.innerHTML='';
+  data.categories.forEach((cat,ci)=>{
+    let hasMatch = false;
+    cat.subcategories.forEach(sub=>sub.threads.forEach(t=>{ if(match(t)) hasMatch=true; }));
+    if(!hasMatch) return;
+    const isOpen = openCats[cat.id]!==false;
+    const div = document.createElement('div');
+    div.className='cat-section';
+    div.innerHTML=`
+      <div class="cat-header" onclick="toggleCat('${cat.id}')">
+        <div class="cat-left">
+          <div class="cat-icon" style="background:${cat.bg}">${cat.icon}</div>
+          <div>
+            <div class="cat-name">${cat.name}</div>
+            <div class="cat-meta">${countCat(cat)}件</div>
+          </div>
+        </div>
+        <div class="cat-right">
+          <span class="chevron ${isOpen?'open':''}" id="chev-${cat.id}">›</span>
+        </div>
+      </div>
+      <div class="cat-body" id="catb-${cat.id}" style="${isOpen?'':'display:none'}">
+        ${renderSubs(cat,ci)}
+      </div>`;
+    c.appendChild(div);
+  });
+}
+
+function renderSubs(cat,ci){
+  return cat.subcategories.map((sub,si)=>{
+    const mt = sub.threads.filter(t=>match(t));
+    if(!mt.length) return '';
+    const key=`${cat.id}_${si}`;
+    const isOpen = openSubs[key]!==false;
+    const threads = mt.map((t,ti)=>{
+      const realTi = sub.threads.indexOf(t);
+      const srcC = `src-${t.source||'claude'}`;
+      const srcL = {claude:'Claude',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[t.source]||'Claude';
+      const impC = `imp-${t.importance}`;
+      const impL = {high:'高',mid:'中',low:'低'}[t.importance]||'低';
+      return `<div class="thread" onclick="openSummary(${ci},${si},${realTi})">
+        <span class="src-badge ${srcC}">${srcL}</span>
+        <div class="thread-content">
+          <div class="thread-title">${t.title}</div>
+          <div class="thread-meta">
+            <span class="imp-badge ${impC}" onclick="cycleImp(event,${ci},${si},${realTi})" title="クリックで変更">${impL}</span>
+            <span>${t.date||''}</span>
+            <span style="opacity:0.6;font-size:10px;max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${t.summary||''}</span>
+          </div>
+        </div>
+        <div class="thread-actions">
+          <button class="t-btn" onclick="openEdit(event,${ci},${si},${realTi})">編集</button>
+          <button class="t-btn del" onclick="openDel(event,${ci},${si},${realTi})">削除</button>
+        </div>
+        <span class="thread-arrow">→</span>
+      </div>`;
+    }).join('');
+    return `<div class="subcat-group">
+      <div class="subcat-hdr" onclick="toggleSub('${key}')">
+        <div class="subcat-dot" style="background:${sub.color}"></div>
+        <span class="subcat-title">${sub.name}</span>
+        <span class="subcat-count">${mt.length}件</span>
+        <span class="subchev ${isOpen?'open':''}" id="subchev-${key}">›</span>
+      </div>
+      <div class="threads" id="subb-${key}" style="${isOpen?'':'display:none'}">${threads}</div>
+    </div>`;
+  }).join('');
+}
+
+function match(t){
+  if(filter.imp!=='all' && t.importance!==filter.imp) return false;
+  if(filter.src && t.source!==filter.src) return false;
+  if(filter.search){
+    const q=filter.search.toLowerCase();
+    if(!t.title.toLowerCase().includes(q) && !(t.summary||'').toLowerCase().includes(q)) return false;
+  }
+  return true;
+}
+
+function countCat(cat){
+  let n=0;
+  cat.subcategories.forEach(s=>s.threads.forEach(t=>{ if(match(t))n++; }));
+  return n;
+}
+
+function updateStats(){
+  let all=[]; data.categories.forEach(c=>c.subcategories.forEach(s=>s.threads.forEach(t=>all.push(t))));
+  document.getElementById('s-total').textContent=all.length;
+  document.getElementById('s-high').textContent=all.filter(t=>t.importance==='high').length;
+  document.getElementById('s-cats').textContent=data.categories.length;
+  document.getElementById('s-date').textContent=data.lastUpdated||'—';
+}
+
+function toggleCat(id){
+  openCats[id]=openCats[id]===false?true:false;
+  const b=document.getElementById('catb-'+id);
+  const c=document.getElementById('chev-'+id);
+  if(b) b.style.display=openCats[id]===false?'none':'';
+  if(c) c.classList.toggle('open',openCats[id]!==false);
+}
+function toggleSub(key){
+  openSubs[key]=openSubs[key]===false?true:false;
+  const b=document.getElementById('subb-'+key);
+  const c=document.getElementById('subchev-'+key);
+  if(b) b.style.display=openSubs[key]===false?'none':'';
+  if(c) c.classList.toggle('open',openSubs[key]!==false);
+}
+
+// ===== SUMMARY =====
+function openSummary(ci,si,ti){
+  const t=data.categories[ci].subcategories[si].threads[ti];
+  document.getElementById('sum-title').textContent=t.title;
+  const srcL={claude:'Claude',chatgpt:'ChatGPT',notebooklm:'NotebookLM',manual:'手動'}[t.source]||'Claude';
+  const srcBadge=document.getElementById('sum-src-badge');
+  srcBadge.textContent=srcL; srcBadge.className=`src-badge src-${t.source||'claude'}`;
+  document.getElementById('sum-src-text').textContent=' '+srcL+' · ';
+  document.getElementById('sum-date').textContent=t.date||'';
+  document.getElementById('sum-body').textContent=t.summary||'要約なし';
+  const tags=[
+    {high:'高重要度',mid:'中重要度',low:'低重要度'}[t.importance],
+    data.categories[ci].name,
+    data.categories[ci].subcategories[si].name
+  ];
+  document.getElementById('sum-tags').innerHTML=tags.map(tg=>`<span class="summary-tag">${tg}</span>`).join('');
+  const btn=document.getElementById('sum-link-btn');
+  if(t.url && t.url!=='#'){
+    btn.onclick=()=>{ window.open(t.url,'_blank'); };
+    btn.style.display='flex';
+  } else {
+    btn.style.display='none';
+  }
+  openModal('summary-modal');
+}
+
+// ===== IMP CYCLE =====
+function cycleImp(e,ci,si,ti){
+  e.stopPropagation();
+  const t=data.categories[ci].subcategories[si].threads[ti];
+  const order=['high','mid','low'];
+  const idx=order.indexOf(t.importance);
+  t.importance=order[(idx+1)%3];
+  save(); render();
+}
+
+// ===== EDIT =====
+function openEdit(e,ci,si,ti){
+  e.stopPropagation();
+  const t=data.categories[ci].subcategories[si].threads[ti];
+  document.getElementById('edit-cat-idx').value=ci;
+  document.getElementById('edit-sub-idx').value=si;
+  document.getElementById('edit-thread-idx').value=ti;
+  document.getElementById('edit-title').value=t.title;
+  document.getElementById('edit-url').value=t.url||'';
+  document.getElementById('edit-subcat').value=data.categories[ci].subcategories[si].name;
+  document.getElementById('edit-imp').value=t.importance||'mid';
+  document.getElementById('edit-source').value=t.source||'claude';
+  document.getElementById('edit-summary').value=t.summary||'';
+  const sel=document.getElementById('edit-cat-sel');
+  sel.value=data.categories[ci].id;
+  openModal('edit-modal');
+}
+
+function saveEdit(){
+  const ci=parseInt(document.getElementById('edit-cat-idx').value);
+  const si=parseInt(document.getElementById('edit-sub-idx').value);
+  const ti=parseInt(document.getElementById('edit-thread-idx').value);
+  const t=data.categories[ci].subcategories[si].threads[ti];
+  const newCatId=document.getElementById('edit-cat-sel').value;
+  const newSubName=document.getElementById('edit-subcat').value.trim()||data.categories[ci].subcategories[si].name;
+  t.title=document.getElementById('edit-title').value;
+  t.url=document.getElementById('edit-url').value;
+  t.importance=document.getElementById('edit-imp').value;
+  t.source=document.getElementById('edit-source').value;
+  t.summary=document.getElementById('edit-summary').value;
+  // Move to different cat/sub if changed
+  const newCatIdx=data.categories.findIndex(c=>c.id===newCatId);
+  if(newCatIdx!==ci || newSubName!==data.categories[ci].subcategories[si].name){
+    data.categories[ci].subcategories[si].threads.splice(ti,1);
+    const newCat=data.categories[newCatIdx];
+    let newSub=newCat.subcategories.find(s=>s.name===newSubName);
+    if(!newSub){newSub={name:newSubName,color:newCat.color,threads:[]};newCat.subcategories.push(newSub);}
+    newSub.threads.push(t);
+  }
+  save(); render(); closeModal('edit-modal'); toast('✓ 保存しました');
+}
+
+// ===== DELETE =====
+function openDel(e,ci,si,ti){
+  e.stopPropagation();
+  const t=data.categories[ci].subcategories[si].threads[ti];
+  document.getElementById('del-msg').textContent=`「${t.title}」を削除しますか？`;
+  pendingDel={ci,si,ti};
+  openModal('del-modal');
+}
+
+function confirmDelete(){
+  const{ci,si,ti}=pendingDel;
+  data.categories[ci].subcategories[si].threads.splice(ti,1);
+  save(); render(); closeModal('del-modal'); toast('🗑 削除しました');
+}
+
+// ===== ADD =====
+function openAddModal(){
+  populateCatSelects();
+  openModal('add-modal');
+}
+
+function doAdd(){
+  const title=document.getElementById('add-title').value.trim();
+  if(!title){toast('タイトルを入力してください');return;}
+  const catId=document.getElementById('add-cat-sel').value;
+  const subName=document.getElementById('add-subcat').value.trim()||'手動追加';
+  const cat=data.categories.find(c=>c.id===catId);
+  let sub=cat.subcategories.find(s=>s.name===subName);
+  if(!sub){sub={name:subName,color:cat.color,threads:[]};cat.subcategories.push(sub);}
+  sub.threads.push({
+    title,url:document.getElementById('add-url').value,
+    importance:document.getElementById('add-imp').value,
+    source:document.getElementById('add-source').value,
+    summary:document.getElementById('add-summary').value,
+    date:new Date().toLocaleDateString('ja-JP')
+  });
+  save();render();closeModal('add-modal');toast('✓ 追加しました');
+}
+
+// ===== IMPORT =====
+function openImportModal(){populateCatSelects();openModal('import-modal');}
+function switchImportTab(tab,btn){
+  currentImportTab=tab;
+  document.querySelectorAll('.import-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.import-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('itab-'+tab).classList.add('active');
+}
+
+function doImport(){
+  let items=[];
+  try{
+    if(currentImportTab==='chatgpt'){
+      items=JSON.parse(document.getElementById('imp-chatgpt-json').value.trim());
+    } else if(currentImportTab==='nlm'){
+      const t=document.getElementById('nlm-title').value.trim();
+      if(!t){toast('タイトルを入力してください');return;}
+      items=[{title:t,url:document.getElementById('nlm-url').value,
+        category:document.getElementById('nlm-cat').value,
+        subcategory:'NotebookLMノート',importance:'mid',
+        summary:document.getElementById('nlm-summary').value,
+        date:new Date().toLocaleDateString('ja-JP'),source:'notebooklm'}];
+    } else {
+      items=JSON.parse(document.getElementById('imp-raw-json').value.trim());
+    }
+  } catch(e){toast('JSONの形式が正しくありません');return;}
+  if(!Array.isArray(items)||!items.length){toast('データが空です');return;}
+  let added=0;
+  items.forEach(item=>{
+    const catId=data.categories.find(c=>c.name===item.category||c.id===item.category)?.id||data.categories[0].id;
+    const cat=data.categories.find(c=>c.id===catId);
+    const subName=item.subcategory||'インポート';
+    let sub=cat.subcategories.find(s=>s.name===subName);
+    if(!sub){sub={name:subName,color:cat.color,threads:[]};cat.subcategories.push(sub);}
+    sub.threads.push({title:item.title||'無題',url:item.url||'',importance:item.importance||'mid',
+      source:item.source||'manual',summary:item.summary||'',date:item.date||new Date().toLocaleDateString('ja-JP')});
+    added++;
+  });
+  save();render();closeModal('import-modal');toast(`✓ ${added}件取り込みました`);
+}
+
+// ===== GITHUB =====
+function updateGHStatus(){
+  const el=document.getElementById('gh-status-label');
+  if(ghConfig.token&&ghConfig.repo){el.textContent='GitHub: 接続済み';el.className='gh-status ok';}
+  else{el.textContent='GitHub: 未設定';el.className='gh-status';}
+}
+
+function openGHModal(){
+  document.getElementById('gh-token').value=ghConfig.token||'';
+  document.getElementById('gh-repo').value=ghConfig.repo||'Matsu-by-Matsu/knowledge-base';
+  document.getElementById('gh-branch').value=ghConfig.branch||'main';
+  openModal('gh-modal');
+}
+
+function saveGHConfig(){
+  ghConfig={
+    token:document.getElementById('gh-token').value.trim(),
+    repo:document.getElementById('gh-repo').value.trim(),
+    branch:document.getElementById('gh-branch').value.trim()||'main'
+  };
+  localStorage.setItem('kb_gh',JSON.stringify(ghConfig));
+  updateGHStatus();closeModal('gh-modal');toast('✓ GitHub設定を保存しました');
+}
+
+async function testGH(){
+  const token=document.getElementById('gh-token').value.trim();
+  const repo=document.getElementById('gh-repo').value.trim();
+  const res=document.getElementById('gh-test-result');
+  res.textContent='接続テスト中...';res.style.color='var(--muted)';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{Authorization:`token ${token}`}});
+    if(r.ok){res.textContent='✓ 接続成功！';res.style.color='var(--green)';}
+    else{res.textContent=`✗ エラー: ${r.status}`;res.style.color='var(--red)';}
+  }catch(e){res.textContent='✗ 接続失敗';res.style.color='var(--red)';}
+}
+
+async function saveToGitHub(){
+  if(!ghConfig.token||!ghConfig.repo){openGHModal();return;}
+  const content=`window.KB_DATA = ${JSON.stringify(data, null, 2)};`;
+  const b64=btoa(unescape(encodeURIComponent(content)));
+  try{
+    // Get current SHA
+    const getR=await fetch(`https://api.github.com/repos/${ghConfig.repo}/contents/data.js`,
+      {headers:{Authorization:`token ${ghConfig.token}`}});
+    let sha='';
+    if(getR.ok){const j=await getR.json();sha=j.sha;}
+    // Update file
+    const putR=await fetch(`https://api.github.com/repos/${ghConfig.repo}/contents/data.js`,{
+      method:'PUT',
+      headers:{Authorization:`token ${ghConfig.token}`,'Content-Type':'application/json'},
+      body:JSON.stringify({message:'Update knowledge base',content:b64,sha,branch:ghConfig.branch||'main'})
+    });
+    if(putR.ok){toast('✓ GitHubに保存しました（1〜2分で反映）');}
+    else{const j=await putR.json();toast('✗ 保存失敗: '+j.message);}
+  }catch(e){toast('✗ GitHub保存エラー: '+e.message);}
+}
+
+// ===== FILTERS =====
+function setView(v,el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('inst-panel').style.display='none';
+  document.getElementById('tree-view').style.display='block';
+  document.getElementById('stats-row').style.display='grid';
+  if(v==='instructions'){
+    document.getElementById('inst-panel').style.display='block';
+    document.getElementById('tree-view').style.display='none';
+    document.getElementById('stats-row').style.display='none';
+    document.getElementById('view-title').textContent='更新手順';return;
+  }
+  if(v==='all'){filter.imp='all';document.getElementById('view-title').textContent='全会話マップ';}
+  else if(v==='high'){filter.imp='high';document.getElementById('view-title').textContent='高重要度スレッド';}
+  else if(v==='mid'){filter.imp='mid';document.getElementById('view-title').textContent='中重要度スレッド';}
+  render();
+}
+
+function toggleSrc(src,el){
+  filter.src=filter.src===src?null:src;
+  document.querySelectorAll('[id^="src-"]').forEach(n=>n.classList.remove('active'));
+  if(filter.src) el.classList.add('active');
+  render();
+}
+
+function filterImp(btn,v){
+  document.querySelectorAll('.pills .pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');filter.imp=v;render();
+}
+
+function doSearch(v){filter.search=v;render();}
+
+// ===== UTILS =====
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function copyEl(id){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('📋 コピーしました'));}
+
+// Close overlay on bg click
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
+});
+</script>
+</body>
+</html>
