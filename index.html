@@ -3,464 +3,442 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matsu Knowledge Base</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<title>Matsu KB</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0a0a0b;--surface:#111114;--surface2:#1a1a1f;--surface3:#222228;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.15);
-  --text:#e8e6e0;--muted:#6b6960;--dim:#3d3c38;
-  --accent:#c8a96e;--accent-dim:rgba(200,169,110,0.12);--accent-glow:rgba(200,169,110,0.04);
-  --red:#e05555;--red-dim:rgba(224,85,85,0.1);
-  --amber:#d4903a;--amber-dim:rgba(212,144,58,0.1);
-  --green:#5a9e6f;--green-dim:rgba(90,158,111,0.1);
-  --blue:#4a8fc4;--blue-dim:rgba(74,143,196,0.1);
-  --purple:#8b72c8;--purple-dim:rgba(139,114,200,0.1);
+:root{
+  --bg:#09090b;--s1:#111113;--s2:#18181b;--s3:#222226;
+  --b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.12);--b3:rgba(255,255,255,0.2);
+  --t1:#e4e2dc;--t2:#72706a;--t3:#3a3936;
+  --gold:#c8a96e;--gold-d:rgba(200,169,110,0.1);--gold-g:rgba(200,169,110,0.03);
+  --red:#e05555;--red-d:rgba(224,85,85,0.08);
+  --grn:#5a9e6f;--grn-d:rgba(90,158,111,0.08);
+  --blu:#4a8fc4;--blu-d:rgba(74,143,196,0.08);
+  --pur:#8b72c8;--pur-d:rgba(139,114,200,0.08);
+  --amb:#d4903a;--amb-d:rgba(212,144,58,0.08);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;font-size:13px;}
 
-/* ===== LOGIN ===== */
-#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;}
-.login-box{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:40px;width:340px;text-align:center;}
-.login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
-.login-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;margin-bottom:6px;}
-.login-sub{font-size:13px;color:var(--muted);margin-bottom:28px;}
-.login-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;text-align:center;letter-spacing:0.15em;transition:border-color 0.2s;}
-.login-input:focus{border-color:rgba(200,169,110,0.5);}
-.login-btn{width:100%;margin-top:12px;padding:12px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.3);border-radius:8px;color:var(--accent);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;}
-.login-btn:hover{background:rgba(200,169,110,0.2);}
-.login-error{font-size:12px;color:var(--red);margin-top:8px;display:none;}
+/* LOGIN */
+#ls{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;}
+.lb{background:var(--s1);border:1px solid var(--b2);border-radius:14px;padding:36px;width:320px;text-align:center;}
+.lb-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+.lb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;margin-bottom:20px;}
+.lb-input{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:7px;padding:10px 14px;color:var(--t1);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;text-align:center;letter-spacing:0.12em;transition:border-color 0.2s;}
+.lb-input:focus{border-color:rgba(200,169,110,0.4);}
+.lb-btn{width:100%;margin-top:10px;padding:10px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.25);border-radius:7px;color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;}
+.lb-btn:hover{background:rgba(200,169,110,0.16);}
+.lb-err{font-size:11px;color:var(--red);margin-top:6px;display:none;}
 
-/* ===== LAYOUT ===== */
-.app{position:relative;z-index:1;display:flex;min-height:100vh;}
-.sidebar{width:240px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;background:var(--surface);}
-.main{margin-left:240px;flex:1;}
+/* LAYOUT */
+.app{display:flex;min-height:100vh;}
+.sb{width:200px;flex-shrink:0;border-right:1px solid var(--b1);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;background:var(--s1);}
+.mn{margin-left:200px;flex:1;display:flex;flex-direction:column;}
 
-/* ===== SIDEBAR ===== */
-.sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid var(--border);}
-.logo-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;}
-.logo-sub{font-size:11px;color:var(--muted);margin-top:2px;}
-.sidebar-nav{flex:1;padding:12px 0;overflow-y:auto;}
-.nav-section{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);padding:8px 20px 4px;font-weight:500;}
-.nav-item{display:flex;align-items:center;gap:9px;padding:8px 20px;cursor:pointer;border-left:2px solid transparent;font-size:13px;color:var(--muted);transition:all 0.15s;}
-.nav-item:hover{color:var(--text);background:var(--accent-glow);}
-.nav-item.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-dim);}
-.nav-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.sidebar-footer{padding:14px 20px;border-top:1px solid var(--border);}
-.update-btn{width:100%;padding:8px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.2);border-radius:6px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;}
-.update-btn:hover{background:rgba(200,169,110,0.2);}
-.gh-status{font-size:10px;color:var(--muted);text-align:center;margin-bottom:6px;}
-.gh-status.ok{color:var(--green);}
-.gh-status.err{color:var(--red);}
+/* SIDEBAR */
+.sb-logo{padding:16px 16px 12px;border-bottom:1px solid var(--b1);}
+.sb-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:10px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;}
+.sb-sub{font-size:10px;color:var(--t3);margin-top:1px;}
+.sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
+.sb-sec{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);padding:8px 14px 3px;font-weight:500;}
+.ni{display:flex;align-items:center;gap:7px;padding:6px 14px;cursor:pointer;border-left:2px solid transparent;font-size:12px;color:var(--t2);transition:all 0.12s;}
+.ni:hover{color:var(--t1);background:var(--gold-g);}
+.ni.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-d);}
+.ni-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.sb-foot{padding:10px 14px;border-top:1px solid var(--b1);}
+.gh-st{font-size:9px;color:var(--t2);margin-bottom:5px;text-align:center;}
+.gh-st.ok{color:var(--grn);}
+.save-btn{width:100%;padding:7px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.18);border-radius:5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;}
+.save-btn:hover{background:rgba(200,169,110,0.16);}
 
-/* ===== TOPBAR ===== */
-.topbar{height:52px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(10,10,11,0.92);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10;}
-.topbar-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;}
-.topbar-right{display:flex;align-items:center;gap:10px;}
-.search-wrap{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 11px;width:200px;transition:border-color 0.2s;}
-.search-wrap:focus-within{border-color:var(--border2);}
-.search-input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;width:100%;}
-.search-input::placeholder{color:var(--muted);}
-.pills{display:flex;gap:5px;}
-.pill{padding:3px 10px;border-radius:20px;font-size:11px;border:1px solid var(--border);cursor:pointer;color:var(--muted);transition:all 0.15s;}
-.pill:hover{border-color:var(--border2);color:var(--text);}
-.pill.active{background:var(--accent-dim);border-color:rgba(200,169,110,0.3);color:var(--accent);}
+/* TOPBAR */
+.tb{height:44px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(9,9,11,0.95);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10;flex-shrink:0;}
+.tb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;}
+.tb-r{display:flex;align-items:center;gap:8px;}
+.srch{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--b1);border-radius:5px;padding:4px 9px;width:180px;}
+.srch input{background:none;border:none;outline:none;color:var(--t1);font-family:'DM Sans',sans-serif;font-size:12px;width:100%;}
+.srch input::placeholder{color:var(--t2);}
+.pills{display:flex;gap:4px;}
+.pill{padding:3px 9px;border-radius:16px;font-size:10px;border:1px solid var(--b1);cursor:pointer;color:var(--t2);transition:all 0.12s;}
+.pill:hover{border-color:var(--b2);color:var(--t1);}
+.pill.active{background:var(--gold-d);border-color:rgba(200,169,110,0.25);color:var(--gold);}
 
-/* ===== CONTENT ===== */
-.content{padding:28px;}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
-.stat-value{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;line-height:1;}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+/* CONTENT */
+.ct{padding:16px 20px;flex:1;}
 
-/* ===== CATEGORY ===== */
-.cat-section{margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color 0.2s;}
-.cat-section:hover{border-color:var(--border2);}
-.cat-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none;}
-.cat-header:hover{background:rgba(255,255,255,0.02);}
-.cat-left{display:flex;align-items:center;gap:12px;}
-.cat-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.cat-name{font-family:'Syne',sans-serif;font-weight:600;font-size:13px;}
-.cat-meta{font-size:11px;color:var(--muted);margin-top:1px;}
-.cat-right{display:flex;align-items:center;gap:8px;}
-.edit-cat-btn{font-size:11px;color:var(--muted);padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
-.edit-cat-btn:hover{color:var(--text);border-color:var(--border2);}
-.chevron{font-size:11px;color:var(--muted);transition:transform 0.2s;}
-.chevron.open{transform:rotate(90deg);}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.sc{background:var(--s1);border:1px solid var(--b1);border-radius:8px;padding:10px 14px;}
+.sc-l{font-size:9px;color:var(--t2);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;}
+.sc-v{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;line-height:1;}
+.sc-s{font-size:10px;color:var(--t2);margin-top:3px;}
 
-/* ===== SUBCATEGORY ===== */
-.cat-body{border-top:1px solid var(--border);}
-.subcat-group{padding:0 20px;}
-.subcat-hdr{display:flex;align-items:center;gap:7px;padding:10px 0 7px;border-bottom:1px solid var(--border);cursor:pointer;}
-.subcat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.subcat-title{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;flex:1;}
-.subcat-count{font-size:10px;color:var(--dim);}
-.subchev{font-size:10px;color:var(--dim);transition:transform 0.2s;margin-left:4px;}
-.subchev.open{transform:rotate(90deg);}
+/* CATEGORY */
+.cat{margin-bottom:10px;background:var(--s1);border:1px solid var(--b1);border-radius:9px;overflow:hidden;}
+.cat:hover{border-color:var(--b2);}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none;}
+.ch:hover{background:rgba(255,255,255,0.015);}
+.ch-l{display:flex;align-items:center;gap:10px;}
+.ci{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.cn{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;}
+.cm{font-size:10px;color:var(--t2);margin-top:1px;}
+.chev{font-size:10px;color:var(--t2);transition:transform 0.18s;}
+.chev.open{transform:rotate(90deg);}
+.cb{border-top:1px solid var(--b1);}
 
-/* ===== THREAD ITEMS ===== */
-.threads{padding:3px 0 10px 12px;}
-.thread{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background 0.15s;margin:1px 0;position:relative;}
-.thread:hover{background:var(--surface2);}
-.src-badge{font-size:9px;font-weight:600;letter-spacing:0.06em;padding:2px 5px;border-radius:3px;flex-shrink:0;margin-top:2px;text-transform:uppercase;}
-.src-claude{background:var(--accent-dim);color:var(--accent);}
-.src-chatgpt{background:var(--green-dim);color:var(--green);}
-.src-notebooklm{background:var(--blue-dim);color:var(--blue);}
-.src-manual{background:var(--purple-dim);color:var(--purple);}
-.thread-content{flex:1;min-width:0;}
-.thread-title{font-size:13px;color:var(--text);line-height:1.4;transition:color 0.15s;}
-.thread:hover .thread-title{color:var(--accent);}
-.thread-meta{font-size:11px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.imp-badge{font-size:9px;font-weight:600;padding:1px 6px;border-radius:8px;cursor:pointer;}
-.imp-high{background:var(--red-dim);color:var(--red);}
-.imp-mid{background:var(--amber-dim);color:var(--amber);}
-.imp-low{background:rgba(255,255,255,0.04);color:var(--dim);}
-.thread-actions{display:flex;align-items:center;gap:4px;opacity:0;transition:opacity 0.15s;flex-shrink:0;}
-.thread:hover .thread-actions{opacity:1;}
-.t-btn{font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap;}
-.t-btn:hover{border-color:var(--border2);color:var(--text);}
-.t-btn.del:hover{border-color:var(--red);color:var(--red);}
-.thread-arrow{font-size:11px;color:var(--dim);margin-top:2px;flex-shrink:0;transition:all 0.15s;}
-.thread:hover .thread-arrow{color:var(--accent);transform:translateX(2px);}
+/* SUBCAT */
+.sg{padding:0 14px;}
+.sh{display:flex;align-items:center;gap:6px;padding:7px 0 5px;border-bottom:1px solid var(--b1);cursor:pointer;}
+.sh-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+.sh-name{font-size:10px;font-weight:500;color:var(--t2);text-transform:uppercase;letter-spacing:0.07em;flex:1;}
+.sh-cnt{font-size:9px;color:var(--t3);}
+.sh-chev{font-size:9px;color:var(--t3);transition:transform 0.15s;margin-left:3px;}
+.sh-chev.open{transform:rotate(90deg);}
 
-/* ===== MODALS ===== */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
-.overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:26px;width:480px;max-height:85vh;overflow-y:auto;}
-.modal-sm{width:380px;}
-.modal-lg{width:600px;}
-.modal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:18px;}
-.fg{margin-bottom:14px;}
-.fl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:5px;}
-.fi,.fs,.fta{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s;}
-.fta{min-height:70px;resize:vertical;}
-.fi:focus,.fs:focus,.fta:focus{border-color:rgba(200,169,110,0.4);}
-.fs option{background:var(--surface2);}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
-.btn-primary{padding:8px 18px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.3);border-radius:6px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;}
-.btn-primary:hover{background:rgba(200,169,110,0.2);}
-.btn-cancel{padding:8px 18px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;}
-.btn-cancel:hover{border-color:var(--border2);color:var(--text);}
-.btn-danger{padding:8px 18px;background:var(--red-dim);border:1px solid rgba(224,85,85,0.3);border-radius:6px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
+/* THREADS - dense */
+.tl{padding:2px 0 6px 8px;}
+.tr{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:5px;cursor:pointer;transition:background 0.12s;margin:1px 0;}
+.tr:hover{background:var(--s2);}
+.src{font-size:8px;font-weight:700;letter-spacing:0.05em;padding:1px 4px;border-radius:3px;flex-shrink:0;text-transform:uppercase;}
+.src-claude{background:var(--gold-d);color:var(--gold);}
+.src-chatgpt{background:var(--grn-d);color:var(--grn);}
+.src-notebooklm{background:var(--blu-d);color:var(--blu);}
+.src-manual{background:var(--pur-d);color:var(--pur);}
+.tc{flex:1;min-width:0;}
+.tt{font-size:12px;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 0.12s;}
+.tr:hover .tt{color:var(--gold);}
+.tm{font-size:10px;color:var(--t2);display:flex;align-items:center;gap:5px;margin-top:1px;}
+.tm-date{color:var(--t3);}
 
-/* ===== SUMMARY MODAL ===== */
-.summary-source{display:inline-flex;align-items:center;gap:6px;font-size:11px;margin-bottom:14px;}
-.summary-body{font-size:13px;color:var(--muted);line-height:1.7;background:var(--surface2);border-radius:8px;padding:14px;margin-bottom:14px;}
-.summary-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-.summary-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--surface3);color:var(--muted);}
-.open-link-btn{display:flex;align-items:center;gap:6px;width:100%;padding:10px 14px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.25);border-radius:8px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;justify-content:center;}
-.open-link-btn:hover{background:rgba(200,169,110,0.2);}
+/* SCORE */
+.score-wrap{display:flex;align-items:center;gap:3px;flex-shrink:0;}
+.score-num{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;width:16px;text-align:center;}
+.score-btn{width:14px;height:14px;border-radius:3px;border:1px solid var(--b1);background:transparent;cursor:pointer;color:var(--t2);font-size:10px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;line-height:1;}
+.score-btn:hover{border-color:var(--b2);color:var(--t1);}
 
-/* ===== GITHUB SETUP ===== */
-.gh-setup{background:var(--surface2);border-radius:8px;padding:14px;margin-bottom:14px;font-size:12px;color:var(--muted);line-height:1.7;}
-.gh-setup code{background:var(--surface3);border-radius:3px;padding:1px 5px;font-size:11px;color:var(--text);font-family:monospace;}
-.code-block{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:monospace;font-size:11px;color:var(--green);margin:8px 0;white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto;}
-.copy-btn{font-size:11px;padding:4px 12px;border-radius:4px;border:1px solid rgba(90,158,111,0.3);background:var(--green-dim);color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-.copy-btn:hover{background:rgba(90,158,111,0.2);}
+/* score colors */
+.s10{color:#ff4444;} .s9{color:#ff6644;} .s8{color:#ff8844;}
+.s7{color:#ffaa44;} .s6{color:#ffcc44;} .s5{color:#d4903a;}
+.s4{color:#88aa55;} .s3{color:#5a9e6f;} .s2{color:#4a8fc4;} .s1{color:#8b72c8;} .s0{color:var(--t3);}
 
-/* ===== CHATGPT IMPORT ===== */
-.import-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
-.import-tab{flex:1;padding:8px;font-size:12px;cursor:pointer;text-align:center;color:var(--muted);background:transparent;border:none;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
-.import-tab.active{background:var(--accent-dim);color:var(--accent);}
-.import-panel{display:none;}
-.import-panel.active{display:block;}
+/* ACTIONS */
+.ta{display:flex;align-items:center;gap:3px;opacity:0;transition:opacity 0.12s;flex-shrink:0;}
+.tr:hover .ta{opacity:1;}
+.tb2{font-size:9px;padding:1px 5px;border-radius:3px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.12s;white-space:nowrap;}
+.tb2:hover{border-color:var(--b2);color:var(--t1);}
+.tb2.del:hover{border-color:var(--red);color:var(--red);}
+.tb2.ai{border-color:rgba(200,169,110,0.2);color:var(--gold);}
+.tb2.ai:hover{background:var(--gold-d);}
+.tr-arr{font-size:10px;color:var(--t3);flex-shrink:0;transition:all 0.12s;}
+.tr:hover .tr-arr{color:var(--gold);transform:translateX(2px);}
 
-/* ===== TOAST ===== */
-.toast{position:fixed;bottom:22px;right:22px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 16px;font-size:13px;z-index:200;transform:translateY(70px);opacity:0;transition:all 0.3s;}
+/* MODALS */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.18s;}
+.ov.open{opacity:1;pointer-events:all;}
+.md{background:var(--s1);border:1px solid var(--b2);border-radius:12px;padding:22px;width:460px;max-height:88vh;overflow-y:auto;}
+.md-sm{width:360px;}
+.md-lg{width:580px;}
+.md-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:16px;}
+.fg{margin-bottom:12px;}
+.fl{display:block;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--t2);margin-bottom:4px;}
+.fi,.fs,.fta{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:5px;padding:7px 10px;color:var(--t1);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color 0.18s;}
+.fta{min-height:80px;resize:vertical;}
+.fi:focus,.fs:focus,.fta:focus{border-color:rgba(200,169,110,0.35);}
+.fs option{background:var(--s2);}
+.ma{display:flex;gap:7px;justify-content:flex-end;margin-top:16px;}
+.btn-p{padding:7px 16px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.25);border-radius:5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.18s;}
+.btn-p:hover{background:rgba(200,169,110,0.16);}
+.btn-c{padding:7px 16px;background:transparent;border:1px solid var(--b1);border-radius:5px;color:var(--t2);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.18s;}
+.btn-c:hover{border-color:var(--b2);color:var(--t1);}
+.btn-d{padding:7px 16px;background:var(--red-d);border:1px solid rgba(224,85,85,0.25);border-radius:5px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;}
+.btn-ai{padding:7px 16px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.25);border-radius:5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+
+/* DETAIL MODAL */
+.dm-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+.dm-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;line-height:1.3;flex:1;margin-right:12px;}
+.dm-score{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;}
+.dm-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.dm-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--s2);color:var(--t2);}
+.dm-section{margin-bottom:12px;}
+.dm-sec-title{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--t2);margin-bottom:6px;font-weight:500;}
+.dm-body{font-size:12px;color:var(--t2);line-height:1.7;background:var(--s2);border-radius:6px;padding:12px;}
+.dm-highlights{list-style:none;}
+.dm-hl{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--b1);font-size:12px;color:var(--t2);line-height:1.5;}
+.dm-hl:last-child{border-bottom:none;}
+.dm-hl::before{content:'→';color:var(--gold);flex-shrink:0;}
+.ai-loading{text-align:center;padding:20px;color:var(--t2);font-size:12px;}
+.ai-loading::after{content:'';display:inline-block;width:16px;height:16px;border:2px solid var(--b2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin-left:8px;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.open-link{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:9px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.2);border-radius:6px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.18s;margin-top:4px;}
+.open-link:hover{background:rgba(200,169,110,0.16);}
+
+/* SCORE EDITOR in detail */
+.score-editor{display:flex;align-items:center;gap:10px;background:var(--s2);border-radius:6px;padding:10px 14px;margin-bottom:12px;}
+.score-editor-num{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;width:40px;text-align:center;}
+.score-bar{flex:1;height:4px;background:var(--b1);border-radius:2px;overflow:hidden;}
+.score-fill{height:100%;border-radius:2px;background:var(--gold);transition:width 0.2s;}
+.score-btns{display:flex;flex-direction:column;gap:4px;}
+.seb{width:24px;height:22px;border-radius:4px;border:1px solid var(--b1);background:transparent;cursor:pointer;color:var(--t1);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;}
+.seb:hover{border-color:var(--b2);background:var(--s3);}
+
+/* IMPORT TABS */
+.itabs{display:flex;border:1px solid var(--b1);border-radius:6px;overflow:hidden;margin-bottom:14px;}
+.itab{flex:1;padding:7px;font-size:11px;cursor:pointer;text-align:center;color:var(--t2);background:transparent;border:none;font-family:'DM Sans',sans-serif;transition:all 0.12s;}
+.itab.active{background:var(--gold-d);color:var(--gold);}
+.ipanel{display:none;}
+.ipanel.active{display:block;}
+.code-box{background:var(--bg);border:1px solid var(--b1);border-radius:5px;padding:9px;font-family:monospace;font-size:10px;color:var(--grn);max-height:120px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;margin-bottom:6px;}
+.copy-btn{font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid rgba(90,158,111,0.25);background:var(--grn-d);color:var(--grn);cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* GH SETUP */
+.gh-setup{background:var(--s2);border-radius:6px;padding:11px;margin-bottom:12px;font-size:11px;color:var(--t2);line-height:1.6;}
+.gh-setup code{background:var(--s3);border-radius:3px;padding:1px 4px;font-size:10px;color:var(--t1);font-family:monospace;}
+
+/* INST */
+.inst-card{background:var(--s1);border:1px solid var(--b1);border-radius:9px;padding:18px;margin-bottom:10px;}
+.inst-title{font-family:'Syne',sans-serif;font-weight:700;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;}
+.step{display:flex;gap:9px;padding:7px 0;border-bottom:1px solid var(--b1);font-size:12px;color:var(--t2);line-height:1.6;}
+.step:last-child{border-bottom:none;}
+.step-n{font-family:'Syne',sans-serif;font-weight:700;font-size:9px;color:var(--gold);width:14px;flex-shrink:0;padding-top:2px;}
+.step strong{color:var(--t1);}
+.step code{background:var(--s2);border-radius:3px;padding:1px 4px;font-size:10px;font-family:monospace;}
+
+/* TOAST */
+.toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 14px;font-size:12px;z-index:200;transform:translateY(60px);opacity:0;transition:all 0.25s;}
 .toast.show{transform:translateY(0);opacity:1;}
 
-/* ===== INSTRUCTIONS ===== */
-.inst-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:16px;}
-.inst-title{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;}
-.step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.6;}
-.step:last-child{border-bottom:none;}
-.step-n{font-family:'Syne',sans-serif;font-weight:700;font-size:10px;color:var(--accent);width:16px;flex-shrink:0;padding-top:2px;}
-.step strong{color:var(--text);}
-.step code{background:var(--surface2);border-radius:3px;padding:1px 5px;font-size:11px;font-family:monospace;}
-
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-
+/* MOBILE */
 @media(max-width:768px){
   .app{flex-direction:column;}
-  .sidebar{width:100%;height:auto;position:relative;flex-shrink:0;border-right:none;border-bottom:1px solid var(--border);}
-  .sidebar-logo{padding:12px 14px 8px;}
-  .sidebar-nav{display:flex;flex-wrap:wrap;padding:6px 10px;gap:4px;overflow-x:auto;}
-  .nav-section{display:none;}
-  .nav-item{padding:4px 10px;font-size:11px;border-left:none;border-radius:16px;border:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
-  .nav-item.active{border-color:rgba(200,169,110,0.3);}
-  .sidebar-footer{display:flex;align-items:center;gap:8px;padding:8px 12px;}
-  .gh-status{margin:0;font-size:10px;white-space:nowrap;}
-  .update-btn{width:auto;padding:5px 12px;font-size:11px;white-space:nowrap;flex-shrink:0;}
-  .main{margin-left:0;width:100%;}
-  .topbar{padding:0 12px;height:44px;}
-  .topbar-right{gap:5px;}
-  .search-wrap{width:110px;}
+  .sb{width:100%;height:auto;position:relative;flex-shrink:0;border-right:none;border-bottom:1px solid var(--b1);}
+  .sb-logo{padding:10px 14px 8px;}
+  .sb-nav{display:flex;flex-wrap:wrap;padding:5px 10px;gap:3px;overflow-x:auto;}
+  .sb-sec{display:none;}
+  .ni{padding:3px 9px;font-size:11px;border-left:none;border-radius:14px;border:1px solid var(--b1);white-space:nowrap;flex-shrink:0;}
+  .ni.active{border-color:rgba(200,169,110,0.3);}
+  .sb-foot{display:flex;align-items:center;gap:7px;padding:7px 12px;}
+  .gh-st{margin:0;white-space:nowrap;}
+  .save-btn{width:auto;padding:5px 10px;white-space:nowrap;flex-shrink:0;}
+  .mn{margin-left:0;width:100%;}
+  .tb{padding:0 12px;height:42px;}
+  .srch{width:110px;}
   .pills{gap:3px;}
-  .pill{padding:2px 6px;font-size:10px;}
-  .content{padding:12px;}
-  .stats-row{grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:12px;}
-  .stat-card{padding:12px 14px;}
-  .stat-value{font-size:20px;}
-  .stat-label{font-size:9px;}
-  .cat-header{padding:10px 12px;}
-  .cat-icon{width:28px;height:28px;font-size:13px;}
-  .cat-name{font-size:12px;}
-  .cat-meta{font-size:10px;}
-  .subcat-group{padding:0 12px;}
-  .threads{padding:2px 0 8px 6px;}
-  .thread{padding:7px 8px;gap:7px;}
-  .thread-title{font-size:12px;}
-  .thread-meta{font-size:10px;gap:4px;}
-  .thread-actions{opacity:1;}
-  .t-btn{font-size:9px;padding:1px 5px;}
-  .modal{width:94vw;padding:18px;max-height:90vh;}
-  .modal-lg{width:94vw;}
+  .pill{padding:2px 6px;font-size:9px;}
+  .ct{padding:10px 12px;}
+  .stats{grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px;}
+  .sc{padding:9px 11px;}
+  .sc-v{font-size:18px;}
+  .md{width:94vw;padding:16px;max-height:92vh;}
+  .md-lg{width:94vw;}
 }
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px;}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">Knowledge Base</div>
-    <div class="login-title">Matsu KB</div>
-    <div class="login-sub">パスワードを入力してください</div>
-    <input class="login-input" type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">ログイン</button>
-    <div class="login-error" id="pw-error">パスワードが違います</div>
+<div id="ls">
+  <div class="lb">
+    <div class="lb-logo">Knowledge Base</div>
+    <div class="lb-title">Matsu KB</div>
+    <input class="lb-input" type="password" id="pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="lb-btn" onclick="doLogin()">ログイン</button>
+    <div class="lb-err" id="pw-err">パスワードが違います</div>
   </div>
 </div>
 
 <!-- APP -->
 <div class="app" id="app" style="display:none">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-mark">Knowledge Base</div>
-      <div class="logo-sub">Matsu · AI会話履歴管理</div>
+  <aside class="sb">
+    <div class="sb-logo">
+      <div class="sb-brand">Knowledge Base</div>
+      <div class="sb-sub">Matsu · AI会話管理</div>
     </div>
-    <nav class="sidebar-nav">
-      <div class="nav-section">VIEW</div>
-      <div class="nav-item active" onclick="setView('all',this)"><div class="nav-dot" style="background:var(--accent)"></div>すべて</div>
-      <div class="nav-item" onclick="setView('high',this)"><div class="nav-dot" style="background:var(--red)"></div>高重要度</div>
-      <div class="nav-item" onclick="setView('mid',this)"><div class="nav-dot" style="background:var(--amber)"></div>中重要度</div>
-      <div class="nav-section" style="margin-top:10px">SOURCE</div>
-      <div class="nav-item" id="src-claude" onclick="toggleSrc('claude',this)"><div class="nav-dot" style="background:var(--accent)"></div>Claude</div>
-      <div class="nav-item" id="src-chatgpt" onclick="toggleSrc('chatgpt',this)"><div class="nav-dot" style="background:var(--green)"></div>ChatGPT</div>
-      <div class="nav-item" id="src-notebooklm" onclick="toggleSrc('notebooklm',this)"><div class="nav-dot" style="background:var(--blue)"></div>NotebookLM</div>
-      <div class="nav-section" style="margin-top:10px">MANAGE</div>
-      <div class="nav-item" onclick="openAddModal()"><div class="nav-dot" style="background:var(--purple)"></div>+ 新規追加</div>
-      <div class="nav-item" onclick="openImportModal()"><div class="nav-dot" style="background:var(--green)"></div>↓ ChatGPT/NLM取込</div>
-      <div class="nav-item" onclick="openGHModal()"><div class="nav-dot" style="background:var(--blue)"></div>⚙ GitHub連携設定</div>
-      <div class="nav-item" onclick="setView('instructions',this)"><div class="nav-dot" style="background:var(--dim)"></div>更新手順</div>
+    <nav class="sb-nav">
+      <div class="sb-sec">VIEW</div>
+      <div class="ni active" onclick="setView('all',this)"><div class="ni-dot" style="background:var(--gold)"></div>すべて</div>
+      <div class="ni" onclick="setView('high',this)"><div class="ni-dot" style="background:var(--red)"></div>高スコア(7+)</div>
+      <div class="ni" onclick="setView('mid',this)"><div class="ni-dot" style="background:var(--amb)"></div>中スコア(4-6)</div>
+      <div class="sb-sec">SOURCE</div>
+      <div class="ni" id="src-claude" onclick="toggleSrc('claude',this)"><div class="ni-dot" style="background:var(--gold)"></div>Claude</div>
+      <div class="ni" id="src-chatgpt" onclick="toggleSrc('chatgpt',this)"><div class="ni-dot" style="background:var(--grn)"></div>ChatGPT</div>
+      <div class="ni" id="src-notebooklm" onclick="toggleSrc('notebooklm',this)"><div class="ni-dot" style="background:var(--blu)"></div>NotebookLM</div>
+      <div class="sb-sec">MANAGE</div>
+      <div class="ni" onclick="openAdd()"><div class="ni-dot" style="background:var(--pur)"></div>+ 新規追加</div>
+      <div class="ni" onclick="openImport()"><div class="ni-dot" style="background:var(--grn)"></div>↓ 取込</div>
+      <div class="ni" onclick="openGH()"><div class="ni-dot" style="background:var(--blu)"></div>⚙ GitHub設定</div>
+      <div class="ni" onclick="setView('inst',this)"><div class="ni-dot" style="background:var(--t3)"></div>更新手順</div>
     </nav>
-    <div class="sidebar-footer">
-      <div class="gh-status" id="gh-status-label">GitHub: 未設定</div>
-      <button class="update-btn" onclick="saveToGitHub()">↑ GitHubに保存</button>
+    <div class="sb-foot">
+      <div class="gh-st" id="gh-st">GitHub: 未設定</div>
+      <button class="save-btn" onclick="saveGH()">↑ 保存</button>
     </div>
   </aside>
 
-  <!-- Main -->
-  <main class="main">
-    <div class="topbar">
-      <div class="topbar-title" id="view-title">全会話マップ</div>
-      <div class="topbar-right">
-        <div class="search-wrap">
-          <span style="color:var(--muted);font-size:13px">⌕</span>
-          <input class="search-input" placeholder="検索..." oninput="doSearch(this.value)">
-        </div>
+  <div class="mn">
+    <div class="tb">
+      <div class="tb-title" id="vt">全会話マップ</div>
+      <div class="tb-r">
+        <div class="srch"><span style="color:var(--t2)">⌕</span><input placeholder="検索..." oninput="doSearch(this.value)"></div>
         <div class="pills">
-          <div class="pill active" onclick="filterImp(this,'all')">All</div>
-          <div class="pill" onclick="filterImp(this,'high')">高</div>
-          <div class="pill" onclick="filterImp(this,'mid')">中</div>
-          <div class="pill" onclick="filterImp(this,'low')">低</div>
+          <div class="pill active" onclick="fImp(this,'all')">All</div>
+          <div class="pill" onclick="fImp(this,'high')">高</div>
+          <div class="pill" onclick="fImp(this,'mid')">中</div>
+          <div class="pill" onclick="fImp(this,'low')">低</div>
         </div>
       </div>
     </div>
 
-    <div class="content">
-      <div class="stats-row" id="stats-row">
-        <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" id="s-total">0</div><div class="stat-sub">全スレッド数</div></div>
-        <div class="stat-card"><div class="stat-label">High Priority</div><div class="stat-value" style="color:var(--red)" id="s-high">0</div><div class="stat-sub">高重要度</div></div>
-        <div class="stat-card"><div class="stat-label">Categories</div><div class="stat-value" id="s-cats">0</div><div class="stat-sub">カテゴリ数</div></div>
-        <div class="stat-card"><div class="stat-label">Updated</div><div class="stat-value" style="font-size:14px;padding-top:8px" id="s-date">—</div><div class="stat-sub">最終更新</div></div>
+    <div class="ct">
+      <div class="stats" id="stats">
+        <div class="sc"><div class="sc-l">Total</div><div class="sc-v" id="s-tot">0</div><div class="sc-s">全スレッド</div></div>
+        <div class="sc"><div class="sc-l">Top Score</div><div class="sc-v s10" id="s-top">0</div><div class="sc-s">最高スコア件数</div></div>
+        <div class="sc"><div class="sc-l">Categories</div><div class="sc-v" id="s-cat">0</div><div class="sc-s">カテゴリ数</div></div>
+        <div class="sc"><div class="sc-l">Updated</div><div class="sc-v" style="font-size:12px;padding-top:6px" id="s-upd">—</div><div class="sc-s">最終更新</div></div>
       </div>
-      <div id="inst-panel" style="display:none">
+      <div id="inst" style="display:none">
         <div class="inst-card">
           <div class="inst-title">🔄 更新手順</div>
-          <div class="step"><span class="step-n">01</span><span><strong>GitHub連携設定</strong>：サイドバーの「GitHub連携設定」でToken・リポジトリ名を入力。以降は「GitHubに保存」ボタン1クリックで自動反映。</span></div>
-          <div class="step"><span class="step-n">02</span><span><strong>Claude追加</strong>：このチャットで「マップ更新して」と送る→俺がJSON出力→「↓ ChatGPT/NLM取込」でペースト。</span></div>
-          <div class="step"><span class="step-n">03</span><span><strong>ChatGPT追加</strong>：「↓ ChatGPT/NLM取込」→ChatGPTタブ→プロンプトをChatGPTに送る→返ってきたJSONをペースト→取込。</span></div>
-          <div class="step"><span class="step-n">04</span><span><strong>編集・削除</strong>：各スレッドにカーソルを乗せると「編集」「削除」ボタンが出る。重要度バッジをクリックでも変更可。</span></div>
-          <div class="step"><span class="step-n">05</span><span><strong>マルチテーマスレッド</strong>：1つの会話で複数テーマが混在する場合、「編集」でカテゴリを手動変更するか、テーマごとに別スレッドを開始して管理するのがベスト。</span></div>
-        </div>
-        <div class="inst-card">
-          <div class="inst-title">📋 ChatGPT用プロンプト</div>
-          <div class="code-block" id="chatgpt-prompt">今月あなたと私が行った会話を以下のJSON配列形式でまとめてください。
-各会話について以下のフィールドを含めてください：
-- title: 会話タイトル（日本語30文字以内）
-- url: 会話URL（存在する場合、なければ""）
-- category: カテゴリ（不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択）
-- subcategory: サブカテゴリ（自由記述）
-- importance: 重要度（high/mid/low）
-- summary: 内容要約（50文字以内）
-- date: 日付（YYYY/MM/DD）
-- source: "chatgpt"
-
-JSON配列のみ出力し、前後の説明文は不要です。</div>
-          <button class="copy-btn" onclick="copyEl('chatgpt-prompt')">コピー</button>
+          <div class="step"><span class="step-n">01</span><span><strong>Claude更新</strong>：「マップ更新して」と送ると最新JSONを出力。「↓ 取込」でペースト。</span></div>
+          <div class="step"><span class="step-n">02</span><span><strong>ChatGPT更新</strong>：「↓ 取込」→ChatGPTタブ→プロンプトをChatGPTに送る→返却JSONをペースト。</span></div>
+          <div class="step"><span class="step-n">03</span><span><strong>自動要約</strong>：各スレッドの「AI要約」ボタンを押すと、Claude APIがsummaryとhighlightsを自動生成。</span></div>
+          <div class="step"><span class="step-n">04</span><span><strong>スコア設定</strong>：スレッド横の±ボタン、またはポップアップ内で0-10点を設定。高スコア順に自動ソート。</span></div>
+          <div class="step"><span class="step-n">05</span><span><strong>GitHub保存</strong>：「⚙ GitHub設定」でToken設定後、「↑ 保存」で全デバイスに同期。</span></div>
         </div>
       </div>
-      <div id="tree-view"></div>
-    </div>
-  </main>
-</div>
-
-<!-- ===== MODALS ===== -->
-
-<!-- Summary Modal -->
-<div class="overlay" id="summary-modal">
-  <div class="modal modal-sm">
-    <div class="modal-title" id="sum-title"></div>
-    <div class="summary-source"><span class="src-badge" id="sum-src-badge"></span><span id="sum-src-text" style="color:var(--muted);font-size:11px"></span><span id="sum-date" style="color:var(--dim);font-size:11px"></span></div>
-    <div class="summary-body" id="sum-body"></div>
-    <div class="summary-tags" id="sum-tags"></div>
-    <div style="display:flex;gap:8px">
-      <button class="open-link-btn" id="sum-link-btn">スレッドを開く →</button>
-      <button class="btn-cancel" style="flex-shrink:0" onclick="closeModal('summary-modal')">閉じる</button>
+      <div id="tree"></div>
     </div>
   </div>
 </div>
 
-<!-- Edit Thread Modal -->
-<div class="overlay" id="edit-modal">
-  <div class="modal">
-    <div class="modal-title">スレッドを編集</div>
-    <input type="hidden" id="edit-cat-idx">
-    <input type="hidden" id="edit-sub-idx">
-    <input type="hidden" id="edit-thread-idx">
-    <div class="fg"><label class="fl">タイトル</label><input class="fi" id="edit-title"></div>
-    <div class="fg"><label class="fl">URL</label><input class="fi" id="edit-url"></div>
-    <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="edit-cat-sel"></select></div>
-    <div class="fg"><label class="fl">サブカテゴリ</label><input class="fi" id="edit-subcat"></div>
-    <div class="fg"><label class="fl">重要度</label>
-      <select class="fs" id="edit-imp">
-        <option value="high">高（コアビジネス）</option>
-        <option value="mid">中（副業・探索）</option>
-        <option value="low">低（雑談・学習）</option>
-      </select>
+<!-- DETAIL MODAL -->
+<div class="ov" id="dm">
+  <div class="md">
+    <div class="dm-header">
+      <div class="dm-title" id="dm-title"></div>
+      <div class="dm-score" id="dm-score-num"></div>
     </div>
+    <div class="score-editor">
+      <div class="score-editor-num" id="dm-score-big"></div>
+      <div class="score-bar"><div class="score-fill" id="dm-score-bar"></div></div>
+      <div class="score-btns">
+        <button class="seb" onclick="dmScoreChange(1)">＋</button>
+        <button class="seb" onclick="dmScoreChange(-1)">－</button>
+      </div>
+    </div>
+    <div class="dm-meta" id="dm-meta"></div>
+    <div class="dm-section">
+      <div class="dm-sec-title">要約</div>
+      <div class="dm-body" id="dm-body">—</div>
+    </div>
+    <div class="dm-section" id="dm-hl-section" style="display:none">
+      <div class="dm-sec-title">ハイライト</div>
+      <ul class="dm-highlights" id="dm-hl"></ul>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-ai" onclick="autoSummarize()" id="ai-btn">✦ AI要約を生成</button>
+      <button class="open-link" id="dm-link" style="flex:1">スレッドを開く →</button>
+    </div>
+    <div class="ma" style="margin-top:10px">
+      <button class="btn-c" onclick="closeM('dm')">閉じる</button>
+      <button class="btn-p" onclick="openEditFromDetail()">編集</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="ov" id="em">
+  <div class="md">
+    <div class="md-title">スレッドを編集</div>
+    <input type="hidden" id="e-ci"><input type="hidden" id="e-si"><input type="hidden" id="e-ti">
+    <div class="fg"><label class="fl">タイトル</label><input class="fi" id="e-title"></div>
+    <div class="fg"><label class="fl">URL</label><input class="fi" id="e-url"></div>
+    <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="e-cat"></select></div>
+    <div class="fg"><label class="fl">サブカテゴリ</label><input class="fi" id="e-sub"></div>
+    <div class="fg"><label class="fl">スコア (0-10)</label><input class="fi" id="e-score" type="number" min="0" max="10"></div>
     <div class="fg"><label class="fl">ソース</label>
-      <select class="fs" id="edit-source">
-        <option value="claude">Claude</option>
-        <option value="chatgpt">ChatGPT</option>
-        <option value="notebooklm">NotebookLM</option>
-        <option value="manual">手動</option>
-      </select>
+      <select class="fs" id="e-src"><option value="claude">Claude</option><option value="chatgpt">ChatGPT</option><option value="notebooklm">NotebookLM</option><option value="manual">手動</option></select>
     </div>
-    <div class="fg"><label class="fl">要約</label><textarea class="fta" id="edit-summary"></textarea></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('edit-modal')">キャンセル</button>
-      <button class="btn-primary" onclick="saveEdit()">保存</button>
+    <div class="fg"><label class="fl">要約</label><textarea class="fta" id="e-sum"></textarea></div>
+    <div class="fg"><label class="fl">ハイライト（改行区切り）</label><textarea class="fta" id="e-hl" placeholder="重要ポイント1&#10;重要ポイント2&#10;重要ポイント3"></textarea></div>
+    <div class="ma">
+      <button class="btn-c" onclick="closeM('em')">キャンセル</button>
+      <button class="btn-p" onclick="saveEdit()">保存</button>
     </div>
   </div>
 </div>
 
-<!-- Add Modal -->
-<div class="overlay" id="add-modal">
-  <div class="modal">
-    <div class="modal-title">新規エントリを追加</div>
-    <div class="fg"><label class="fl">タイトル</label><input class="fi" id="add-title" placeholder="会話のタイトル..."></div>
-    <div class="fg"><label class="fl">URL</label><input class="fi" id="add-url" placeholder="https://claude.ai/chat/..."></div>
-    <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="add-cat-sel"></select></div>
-    <div class="fg"><label class="fl">サブカテゴリ</label><input class="fi" id="add-subcat" placeholder="例: ファンド実務..."></div>
-    <div class="fg"><label class="fl">重要度</label>
-      <select class="fs" id="add-imp">
-        <option value="high">高</option><option value="mid" selected>中</option><option value="low">低</option>
-      </select>
-    </div>
+<!-- ADD MODAL -->
+<div class="ov" id="am">
+  <div class="md">
+    <div class="md-title">新規追加</div>
+    <div class="fg"><label class="fl">タイトル</label><input class="fi" id="a-title" placeholder="会話タイトル..."></div>
+    <div class="fg"><label class="fl">URL</label><input class="fi" id="a-url" placeholder="https://claude.ai/chat/..."></div>
+    <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="a-cat"></select></div>
+    <div class="fg"><label class="fl">サブカテゴリ</label><input class="fi" id="a-sub" placeholder="例: ファンド実務..."></div>
+    <div class="fg"><label class="fl">スコア (0-10)</label><input class="fi" id="a-score" type="number" min="0" max="10" value="5"></div>
     <div class="fg"><label class="fl">ソース</label>
-      <select class="fs" id="add-source">
-        <option value="claude">Claude</option><option value="chatgpt">ChatGPT</option><option value="notebooklm">NotebookLM</option><option value="manual">手動</option>
-      </select>
+      <select class="fs" id="a-src"><option value="claude">Claude</option><option value="chatgpt">ChatGPT</option><option value="notebooklm">NotebookLM</option><option value="manual">手動</option></select>
     </div>
-    <div class="fg"><label class="fl">要約</label><textarea class="fta" id="add-summary" placeholder="50文字程度で..."></textarea></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('add-modal')">キャンセル</button>
-      <button class="btn-primary" onclick="doAdd()">追加</button>
-    </div>
+    <div class="fg"><label class="fl">要約</label><textarea class="fta" id="a-sum" placeholder="50文字程度..."></textarea></div>
+    <div class="ma"><button class="btn-c" onclick="closeM('am')">キャンセル</button><button class="btn-p" onclick="doAdd()">追加</button></div>
   </div>
 </div>
 
-<!-- Delete Confirm Modal -->
-<div class="overlay" id="del-modal">
-  <div class="modal modal-sm">
-    <div class="modal-title">削除の確認</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:18px" id="del-msg"></p>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('del-modal')">キャンセル</button>
-      <button class="btn-danger" onclick="confirmDelete()">削除する</button>
-    </div>
+<!-- DELETE MODAL -->
+<div class="ov" id="delm">
+  <div class="md md-sm">
+    <div class="md-title">削除の確認</div>
+    <p style="font-size:12px;color:var(--t2);margin-bottom:16px" id="del-msg"></p>
+    <div class="ma"><button class="btn-c" onclick="closeM('delm')">キャンセル</button><button class="btn-d" onclick="confirmDel()">削除</button></div>
   </div>
 </div>
 
-<!-- Import Modal -->
-<div class="overlay" id="import-modal">
-  <div class="modal modal-lg">
-    <div class="modal-title">ChatGPT / NotebookLM データ取込</div>
-    <div class="import-tabs">
-      <button class="import-tab active" onclick="switchImportTab('chatgpt',this)">ChatGPT</button>
-      <button class="import-tab" onclick="switchImportTab('nlm',this)">NotebookLM</button>
-      <button class="import-tab" onclick="switchImportTab('json',this)">JSONペースト</button>
+<!-- IMPORT MODAL -->
+<div class="ov" id="im">
+  <div class="md md-lg">
+    <div class="md-title">データ取込</div>
+    <div class="itabs">
+      <button class="itab active" onclick="switchTab('chatgpt',this)">ChatGPT</button>
+      <button class="itab" onclick="switchTab('nlm',this)">NotebookLM</button>
+      <button class="itab" onclick="switchTab('raw',this)">JSON直接</button>
     </div>
-    <div class="import-panel active" id="itab-chatgpt">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6">①下のプロンプトをコピー → ChatGPTに送る → 返ってきたJSONを②にペースト</p>
-      <div class="code-block" id="imp-chatgpt-prompt">今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話: title(30文字以内), url(なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, importance(high/mid/low), summary(50文字以内), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。</div>
-      <button class="copy-btn" onclick="copyEl('imp-chatgpt-prompt')" style="margin-bottom:12px">プロンプトをコピー</button>
-      <label class="fl">②ChatGPTの返答（JSON）をペースト</label>
-      <textarea class="fta" id="imp-chatgpt-json" style="min-height:120px;margin-bottom:10px" placeholder='[{"title":"...","url":"...","category":"...","subcategory":"...","importance":"mid","summary":"...","date":"2026/05/01","source":"chatgpt"}]'></textarea>
+    <div class="ipanel active" id="itab-chatgpt">
+      <p style="font-size:11px;color:var(--t2);margin-bottom:8px;line-height:1.6">①プロンプトをコピー → ChatGPTに送る → ②返答JSONをペースト</p>
+      <div class="code-box" id="cpt-prompt">今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度点数), summary(200文字以内の詳細要約), highlights(重要ポイントの配列、3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。</div>
+      <button class="copy-btn" onclick="copyEl('cpt-prompt')" style="margin-bottom:10px">コピー</button>
+      <label class="fl">②JSONをペースト</label>
+      <textarea class="fta" id="cpt-json" style="min-height:100px" placeholder='[{"title":"...","score":8,"summary":"詳細な要約...","highlights":["ポイント1","ポイント2"],...}]'></textarea>
     </div>
-    <div class="import-panel" id="itab-nlm">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6">NotebookLMのノートブックURLと情報を手動で入力するか、JSONでペーストしてください。</p>
-      <div class="fg"><label class="fl">ノートブックタイトル</label><input class="fi" id="nlm-title" placeholder="例: 不動産市場調査2026"></div>
-      <div class="fg"><label class="fl">URL</label><input class="fi" id="nlm-url" placeholder="https://notebooklm.google.com/notebook/..."></div>
-      <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="nlm-cat"></select></div>
-      <div class="fg"><label class="fl">要約</label><textarea class="fta" id="nlm-summary" placeholder="ノートブックの内容を50文字程度で..."></textarea></div>
+    <div class="ipanel" id="itab-nlm">
+      <div class="fg"><label class="fl">タイトル</label><input class="fi" id="nlm-t" placeholder="ノートブック名..."></div>
+      <div class="fg"><label class="fl">URL</label><input class="fi" id="nlm-u" placeholder="https://notebooklm.google.com/..."></div>
+      <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="nlm-c"></select></div>
+      <div class="fg"><label class="fl">要約</label><textarea class="fta" id="nlm-s"></textarea></div>
     </div>
-    <div class="import-panel" id="itab-json">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6">任意のJSON配列をペーストして一括取込。sourceフィールドがあれば自動判別。</p>
-      <textarea class="fta" id="imp-raw-json" style="min-height:150px" placeholder='[{"title":"...","url":"...","category":"...","subcategory":"...","importance":"mid","summary":"...","date":"2026/05/01","source":"claude"}]'></textarea>
+    <div class="ipanel" id="itab-raw">
+      <textarea class="fta" id="raw-json" style="min-height:140px" placeholder='[{"title":"...","score":7,"summary":"...","highlights":["..."],...}]'></textarea>
     </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('import-modal')">キャンセル</button>
-      <button class="btn-primary" onclick="doImport()">取り込む</button>
-    </div>
+    <div class="ma"><button class="btn-c" onclick="closeM('im')">キャンセル</button><button class="btn-p" onclick="doImport()">取込</button></div>
   </div>
 </div>
 
-<!-- GitHub Modal -->
-<div class="overlay" id="gh-modal">
-  <div class="modal">
-    <div class="modal-title">⚙ GitHub連携設定</div>
-    <div class="gh-setup">
-      <strong style="color:var(--text)">GitHub Personal Access Tokenの取得方法：</strong><br>
-      GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>
-      スコープ: <code>repo</code> にチェック → Generate token → コピー
-    </div>
-    <div class="fg"><label class="fl">GitHub Token</label><input class="fi" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx"></div>
-    <div class="fg"><label class="fl">リポジトリ（owner/repo）</label><input class="fi" id="gh-repo" placeholder="Matsu-by-Matsu/knowledge-base"></div>
-    <div class="fg"><label class="fl">ブランチ</label><input class="fi" id="gh-branch" value="main"></div>
-    <div id="gh-test-result" style="font-size:12px;margin-top:4px"></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('gh-modal')">キャンセル</button>
-      <button class="btn-primary" onclick="testGH()" style="background:var(--blue-dim);border-color:rgba(74,143,196,0.3);color:var(--blue)">接続テスト</button>
-      <button class="btn-primary" onclick="saveGHConfig()">保存</button>
+<!-- GITHUB MODAL -->
+<div class="ov" id="ghm">
+  <div class="md">
+    <div class="md-title">⚙ GitHub連携設定</div>
+    <div class="gh-setup">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>スコープ: <code>repo</code> にチェック → Generate → コピー</div>
+    <div class="fg"><label class="fl">GitHub Token</label><input class="fi" id="gh-tok" type="password" placeholder="ghp_xxxxxxxxxxxx"></div>
+    <div class="fg"><label class="fl">リポジトリ (owner/repo)</label><input class="fi" id="gh-rep" placeholder="Matsu-by-Matsu/knowledge-base"></div>
+    <div class="fg"><label class="fl">ブランチ</label><input class="fi" id="gh-br" value="main"></div>
+    <div id="gh-test-res" style="font-size:11px;margin-top:4px"></div>
+    <div class="ma">
+      <button class="btn-c" onclick="closeM('ghm')">キャンセル</button>
+      <button class="btn-p" style="background:var(--blu-d);border-color:rgba(74,143,196,0.25);color:var(--blu)" onclick="testGH()">接続テスト</button>
+      <button class="btn-p" onclick="saveGHConf()">保存</button>
     </div>
   </div>
 </div>
@@ -469,503 +447,553 @@ JSON配列のみ出力し、前後の説明文は不要です。</div>
 
 <script>
 // ===== PASSWORD =====
-const PASS = 'matsu2026';
+const PASS='matsu2026';
 function doLogin(){
-  const v = document.getElementById('pw-input').value;
-  if(v === PASS){
-    document.getElementById('login-screen').style.display='none';
+  if(document.getElementById('pw').value===PASS){
+    document.getElementById('ls').style.display='none';
     document.getElementById('app').style.display='flex';
     init();
   } else {
-    document.getElementById('pw-error').style.display='block';
-    document.getElementById('pw-input').value='';
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw').value='';
   }
 }
-document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
-// ===== DATA =====
-const DEFAULT = {
-  lastUpdated:"2026/05/22",
+// ===== DEFAULT DATA =====
+const DEFAULT={
+  lastUpdated:"2026/05/23",
   categories:[
-    {id:"realestate",name:"不動産ビジネス（本業・高度）",icon:"🏢",color:"#e05555",bg:"rgba(224,85,85,0.1)",imp:3,subcategories:[
+    {id:"re",name:"不動産ビジネス（本業・高度）",icon:"🏢",color:"#e05555",bg:"rgba(224,85,85,0.08)",subcategories:[
       {name:"ファンド・ディール実務",color:"#e05555",threads:[
-        {title:"不動産転売ファンドの立ち上げ",url:"https://claude.ai/chat/0e4a1488-4a4f-4e73-b91a-5a8b9c285dcc",importance:"high",source:"claude",summary:"SPC構造・アドバイザリー設計・業務委託契約書作成",date:"2026/04/13"},
-        {title:"普通借地の解体・底地人の同意",url:"https://claude.ai/chat/3fc223ef-784a-4db3-86ee-be37bf0927c4",importance:"high",source:"claude",summary:"借地借家法・分筆済み土地の実務論点",date:"2026/04/17"},
-        {title:"LaSalle Japan投資分析（62スライド翻訳）",url:"https://claude.ai/chat/64c1a6aa-7efa-49d4-a063-02aef246a881",importance:"high",source:"claude",summary:"PPTXワークフロー・チャートXML修正",date:"2026/04/08"}
+        {title:"不動産転売ファンドの立ち上げ",url:"https://claude.ai/chat/0e4a1488-4a4f-4e73-b91a-5a8b9c285dcc",score:9,source:"claude",summary:"SPC構造・アドバイザリー設計・業務委託契約書作成。パフォーマンスフィー連動型の報酬設計と、メザニン+シニアの二層ファイナンス構造を詳細に設計した。",highlights:["SPC設立とノンリコースローン構造の設計","パフォーマンスフィー連動型アドバイザリー報酬","業務委託契約書の正式ドラフト作成"],date:"2026/04/13"},
+        {title:"普通借地の解体・底地人の同意",url:"https://claude.ai/chat/3fc223ef-784a-4db3-86ee-be37bf0927c4",score:8,source:"claude",summary:"借地借家法における解体承諾の実務論点。分筆済み土地での借地権者と底地人の権利関係を分析。",highlights:["借地借家法における解体承諾の要件","底地人同意取得の実務フロー"],date:"2026/04/17"},
+        {title:"LaSalle Japan投資分析（62スライド翻訳）",url:"https://claude.ai/chat/64c1a6aa-7efa-49d4-a063-02aef246a881",score:8,source:"claude",summary:"LaSalle Investment ManagementのJapan市場レポート62スライドを完全翻訳。PPTXのXMLワークフローを確立し、チャートデータも修正。",highlights:["PPTX XMLワークフローの確立","キャップレート・NOIトレンド分析","チャートXML修正手法"],date:"2026/04/08"}
       ]},
       {name:"市場分析・アンダーライティング",color:"#e05555",threads:[
-        {title:"仙台リテール市場（ロードベース分析）",url:"https://claude.ai/chat/5fa041f0-cdaf-41b1-b94c-cb7304118957",importance:"high",source:"claude",summary:"Cap Rate・坪単価・J-REITデータ",date:"2026/04/16"},
-        {title:"開発単価データベース（地域別）",url:"https://claude.ai/chat/7e4bdc13-6e94-4449-b97b-f5a5efd3f0a0",importance:"high",source:"claude",summary:"GFA/FAR/NRA別・コロナ前〜2026実績",date:"2026/04/08"},
-        {title:"空き家・用途規制緩和ファンド戦略",url:"https://claude.ai/chat/bbd6fb8d-2a94-42c4-b6d3-d2c072cc407b",importance:"high",source:"claude",summary:"NPL取得・国家戦略特区・都市再生",date:"2026/04/08"},
-        {title:"GAテクノロジーズ SPC証券買収分析",url:"https://claude.ai/chat/d459ab01-8d36-4b62-810c-ac12391120a8",importance:"high",source:"claude",summary:"相続税改正・小口商品の逆風",date:"2026/04/14"}
+        {title:"仙台リテール市場（ロードベース分析）",url:"https://claude.ai/chat/5fa041f0-cdaf-41b1-b94c-cb7304118957",score:9,source:"claude",summary:"仙台主要通りのキャップレート・坪単価をJ-REITデータで詳細分析。通り別の賃料水準と空室率をマッピング。",highlights:["一番町・青葉通り沿いのCap Rate実績","J-REIT開示データからの賃料推計","エリア別投資優先度ランキング"],date:"2026/04/16"},
+        {title:"開発単価データベース（地域別）",url:"https://claude.ai/chat/7e4bdc13-6e94-4449-b97b-f5a5efd3f0a0",score:8,source:"claude",summary:"コロナ前〜2026の建築費高騰トレンドをGFA/FAR/NRA別に整理。地域別開発単価のデータベース構築。",highlights:["建築費単価の時系列変化（2019-2026）","地域別・用途別の開発単価比較"],date:"2026/04/08"},
+        {title:"空き家・用途規制緩和ファンド戦略",url:"https://claude.ai/chat/bbd6fb8d-2a94-42c4-b6d3-d2c072cc407b",score:7,source:"claude",summary:"NPL取得と国家戦略特区・都市再生特区を活用したバリューアップ戦略の設計。",highlights:["特区制度を活用した容積率緩和戦略","NPL取得から再生までのフロー"],date:"2026/04/08"},
+        {title:"GAテクノロジーズ SPC証券買収分析",url:"https://claude.ai/chat/d459ab01-8d36-4b62-810c-ac12391120a8",score:7,source:"claude",summary:"相続税改正が小口不動産商品に与える逆風を分析。GA TechnologiesのSPC証券買収の戦略的意図を考察。",highlights:["相続税改正による小口商品への影響","SPC証券買収の戦略的位置づけ"],date:"2026/04/14"}
       ]},
       {name:"Crest Court浅草（ホテル運営）",color:"#e05555",threads:[
-        {title:"レジ→ホテルコンバージョン 40室分析",url:"https://claude.ai/chat/deeb5cd7-7481-420f-a5e3-77b8442c0649",importance:"high",source:"claude",summary:"ADR/㎡・加重平均ADR・Y1/Y3シナリオ",date:"2026/04/10"},
-        {title:"アパートメントホテル投資ロジック",url:"https://claude.ai/chat/aaf3746e-847c-46df-88cf-c9531b0501d3",importance:"high",source:"claude",summary:"霞が関キャピタルKPIダッシュボード",date:"2026/04/08"}
+        {title:"レジ→ホテルコンバージョン 40室分析",url:"https://claude.ai/chat/deeb5cd7-7481-420f-a5e3-77b8442c0649",score:9,source:"claude",summary:"Crest Court浅草柳通の40室コンバージョン案件のADR/㎡・加重平均ADRをY1/Y3シナリオで詳細分析。SQUEEZEオペレーション前提。",highlights:["5タイプ（A/B/C1/C2/D）別ADR/㎡分析","Y1・Y3シナリオの収支モデル","SQUEEZEとの運営委託条件の論点"],date:"2026/04/10"},
+        {title:"アパートメントホテル投資ロジック",url:"https://claude.ai/chat/aaf3746e-847c-46df-88cf-c9531b0501d3",score:8,source:"claude",summary:"霞が関キャピタルのKPIダッシュボードを構築。RevPAR・GOP・ADRのトレンドからアパートメントホテル投資の論拠を整理。",highlights:["霞が関キャピタルKPIダッシュボード作成","RevPAR・GOP目標値の設定","投資リターン試算モデル"],date:"2026/04/08"}
       ]}
     ]},
-    {id:"content",name:"X/noteコンテンツ事業",icon:"📱",color:"#5a9e6f",bg:"rgba(90,158,111,0.1)",imp:2,subcategories:[
-      {name:"戦略・ツイート設計",color:"#5a9e6f",threads:[
-        {title:"Note販売X 引き継ぎ文書・戦略設計",url:"https://claude.ai/chat/cbb4513e-90da-41c1-9028-34f9e055e557",importance:"high",source:"claude",summary:"¥29,800高単価note・LP設計・X広告",date:"2026/04/29"},
-        {title:"note運営戦略の初期設計",url:"https://claude.ai/chat/c0b9c76b-5038-42a3-94da-3b0b24fc18a8",importance:"mid",source:"claude",summary:"無料/有料記事交互・3記事公開済み",date:"2026/04/08"}
+    {id:"ct",name:"X/noteコンテンツ事業",icon:"📱",color:"#5a9e6f",bg:"rgba(90,158,111,0.08)",subcategories:[
+      {name:"戦略・設計",color:"#5a9e6f",threads:[
+        {title:"Note販売X 引き継ぎ文書・戦略設計",url:"https://claude.ai/chat/cbb4513e-90da-41c1-9028-34f9e055e557",score:8,source:"claude",summary:"¥29,800高単価noteへの移行戦略。LP設計・X広告・ピン留め投稿の改善まで包括的に設計。返信グラインドから高単価コンテンツへの転換方針を確立。",highlights:["高単価note（¥29,800）への移行戦略","LP設計とCV導線の最適化","X広告の費用対効果試算"],date:"2026/04/29"},
+        {title:"note運営戦略の初期設計",url:"https://claude.ai/chat/c0b9c76b-5038-42a3-94da-3b0b24fc18a8",score:6,source:"claude",summary:"無料/有料記事交互投稿モデルの設計。初期3記事の公開済み実績をベースに収益化ロードマップを策定。",highlights:["無料/有料交互モデルの設計","コンテンツカレンダーの作成"],date:"2026/04/08"}
       ]},
-      {name:"コンテンツ作成・分析",color:"#5a9e6f",threads:[
-        {title:"note記事：不動産プロの立地判断術",url:"https://claude.ai/chat/94c614d8-f755-429d-9a3e-a77e9724975f",importance:"mid",source:"claude",summary:"コクリエーションモデル確立",date:"2026/04/06"},
-        {title:"X性格分析・ビッグデータ収集",url:"https://claude.ai/chat/e9dae11a-fe99-4f4b-87e3-17ae70786e9c",importance:"mid",source:"claude",summary:"Big5分析・商業化フレーム",date:"2026/04/20"}
+      {name:"コンテンツ作成",color:"#5a9e6f",threads:[
+        {title:"note記事：不動産プロの立地判断術",url:"https://claude.ai/chat/94c614d8-f755-429d-9a3e-a77e9724975f",score:6,source:"claude",summary:"Matsuの一次情報をベースにしたコクリエーションモデルを確立した記事。外資系不動産プロの立地判断プロセスを体系化。",highlights:["コクリエーションワークフローの確立","立地判断5ステップフレームワーク"],date:"2026/04/06"},
+        {title:"X性格分析・ビッグデータ収集",url:"https://claude.ai/chat/e9dae11a-fe99-4f4b-87e3-17ae70786e9c",score:5,source:"claude",summary:"Big5性格モデルを使ったX投稿の性格分析。商業化フレームの設計とデータ収集手法の検討。",highlights:["Big5モデルによる投稿分析手法","商業化フレームの設計"],date:"2026/04/20"}
       ]}
     ]},
-    {id:"newbiz",name:"新規ビジネス探索・自動化",icon:"💡",color:"#4a8fc4",bg:"rgba(74,143,196,0.1)",imp:2,subcategories:[
+    {id:"nb",name:"新規ビジネス探索・自動化",icon:"💡",color:"#4a8fc4",bg:"rgba(74,143,196,0.08)",subcategories:[
       {name:"ビジネスモデル・収益化",color:"#4a8fc4",threads:[
-        {title:"ビジネスモデル（稼ぎネタ320）",url:"https://claude.ai/chat/82db6c65-7fdd-4ee1-ad07-b41d76c7c159",importance:"mid",source:"claude",summary:"Flippaアービトラージ・YouTubeチャンネルM&A",date:"2026/04/10"},
-        {title:"稼ぐパターン17分類フレームワーク",url:"https://claude.ai/chat/a07c0d56-e3f3-4c26-b8e2-8933065133ec",importance:"mid",source:"claude",summary:"3軸整理・強みとのマッピング",date:"2026/04/20"},
-        {title:"AI活用 不動産DDレポート販売",url:"https://claude.ai/chat/f34f1c9e-c318-4296-8081-4a1cc2189c8e",importance:"mid",source:"claude",summary:"¥30,000/件・自動化・Buy-side向け",date:"2026/04/07"}
+        {title:"稼ぐパターン17分類フレームワーク",url:"https://claude.ai/chat/a07c0d56-e3f3-4c26-b8e2-8933065133ec",score:7,source:"claude",summary:"キャッシュフロー構造を軸に17パターンの稼ぎ方を分類。Matsuの既存強みとのマッピングで優先度を整理。",highlights:["17パターンの分類と優先度マッピング","強みを活かせるビジネス候補の特定"],date:"2026/04/20"},
+        {title:"AI活用 不動産DDレポート販売",url:"https://claude.ai/chat/f34f1c9e-c318-4296-8081-4a1cc2189c8e",score:7,source:"claude",summary:"¥30,000/件の不動産デューデリジェンスレポートをAI自動化で販売するモデル。Buy-side向けに特化。固定費ほぼゼロの設計。",highlights:["¥30,000/件・AI自動化・固定費ゼロ設計","Buy-side向けDDレポートの内容設計"],date:"2026/04/07"},
+        {title:"ビジネスモデル（稼ぎネタ320）",url:"https://claude.ai/chat/82db6c65-7fdd-4ee1-ad07-b41d76c7c159",score:5,source:"claude",summary:"Flippaアービトラージ・YouTubeチャンネルM&Aなど320のビジネスアイデアを整理。実行可能性の高いものを抽出。",highlights:["Flippa M&Aアービトラージの実行手順","YouTubeチャンネル売買の価格設計"],date:"2026/04/10"}
       ]},
       {name:"ツール・データ事業",color:"#4a8fc4",threads:[
-        {title:"Apify活用・データパイプライン",url:"https://claude.ai/chat/daacd9fc-988f-42cb-92fa-12d69c27c753",importance:"mid",source:"claude",summary:"ホテルOTA動的価格・YouTube M&A調査",date:"2026/04/20"},
-        {title:"ビッグデータ×AI分析パイプライン",url:"https://claude.ai/chat/1779450633734",importance:"mid",source:"claude",summary:"恋愛・ライフスタイル分野・Reddit/知恵袋",date:"2026/05/18"},
-        {title:"不動産SaaS市場分析・白地領域",url:"https://claude.ai/chat/ac265ddf-e00c-4593-8a41-3ae9e1ccbbef",importance:"mid",source:"claude",summary:"外資系AMターゲット型リーシングSaaS",date:"2026/04/09"},
-        {title:"ポッドキャスト企画（岩本さんと）",url:"https://claude.ai/chat/bc6b7b5a-a942-49f9-9c29-def48a0b2f51",importance:"mid",source:"claude",summary:"駅・街・建築の成り立ち・収益化",date:"2026/05/14"}
+        {title:"Apify活用・データパイプライン",url:"https://claude.ai/chat/daacd9fc-988f-42cb-92fa-12d69c27c753",score:6,source:"claude",summary:"OTA動的価格データとYouTubeチャンネルM&A調査へのApify活用方法を設計。データパイプラインの自動化構成。",highlights:["OTA価格データ自動収集の設計","YouTube M&A調査パイプライン"],date:"2026/04/20"},
+        {title:"不動産SaaS市場分析・白地領域",url:"https://claude.ai/chat/ac265ddf-e00c-4593-8a41-3ae9e1ccbbef",score:6,source:"claude",summary:"RENOSY・ITANDI BB・WealthParkなどの4類型整理。外資系AMターゲット型リーシング管理SaaSの白地を特定。",highlights:["既存SaaS4類型の整理","外資系AM向け白地領域の特定"],date:"2026/04/09"},
+        {title:"ポッドキャスト企画（岩本さんと）",url:"https://claude.ai/chat/bc6b7b5a-a942-49f9-9c29-def48a0b2f51",score:5,source:"claude",summary:"駅・街・建築の成り立ちをテーマにしたポッドキャスト企画。岩本氏との共同制作・収益化ロードマップを設計。",highlights:["コンテンツ方向性と差別化戦略","収益化ロードマップ（広告・スポンサー）"],date:"2026/05/14"}
       ]}
     ]},
-    {id:"tech",name:"テクノロジー学習・ツール習得",icon:"⚙️",color:"#8b72c8",bg:"rgba(139,114,200,0.1)",imp:1,subcategories:[
-      {name:"開発環境・基礎知識",color:"#8b72c8",threads:[
-        {title:"Claude Codeのインストール・環境構築",url:"https://claude.ai/chat/035a39e0-6d76-4b2d-b063-ef0e00ce084a",importance:"low",source:"claude",summary:"Git/Node.js/PowerShell セットアップ",date:"2026/05/08"},
-        {title:"HTMLの基礎・ローカル vs クラウド保存",url:"https://claude.ai/chat/d3785f0f-abdf-4454-9444-d8a5b6113b98",importance:"low",source:"claude",summary:"静的サイト概念の理解",date:"2026/04/10"},
-        {title:"日本語ファイルの文字化け対策",url:"https://claude.ai/chat/2bf17faa-3101-4661-bf13-d51f08910423",importance:"low",source:"claude",summary:"PPTXテーマXML・游ゴシック統一修正",date:"2026/05/08"},
-        {title:"知識ベースURL管理ツール作成",url:"https://claude.ai/chat/current",importance:"high",source:"claude",summary:"GitHub Pages + パスワード保護 + 自動反映",date:"2026/05/22"}
+    {id:"tc",name:"テクノロジー学習",icon:"⚙️",color:"#8b72c8",bg:"rgba(139,114,200,0.08)",subcategories:[
+      {name:"開発・ツール",color:"#8b72c8",threads:[
+        {title:"知識ベースURL管理ツール作成",url:"https://claude.ai/chat/current",score:8,source:"claude",summary:"GitHub Pages + パスワード保護 + GitHub API自動反映 + Claude AI要約機能を組み込んだ知識管理ツールをゼロから構築。",highlights:["GitHub Pages無料ホスティングの活用","GitHub API経由の自動データ同期","Claude API組み込みAI要約機能"],date:"2026/05/23"},
+        {title:"Claude Codeインストール・環境構築",url:"https://claude.ai/chat/035a39e0-6d76-4b2d-b063-ef0e00ce084a",score:4,source:"claude",summary:"Git/Node.js/PowerShellのセットアップ手順。Windows環境でのClaude Code初期設定。",highlights:["Node.js・Git・PowerShellの設定","Claude Code初期設定手順"],date:"2026/05/08"}
       ]}
     ]},
-    {id:"lifestyle",name:"ライフスタイル・個人",icon:"🌿",color:"#5a9e6f",bg:"rgba(90,158,111,0.08)",imp:1,subcategories:[
-      {name:"フィットネス・身体",color:"#5a9e6f",threads:[
-        {title:"36歳男性の体組成分析・内臓脂肪対策",url:"https://claude.ai/chat/c0173ae6-b320-4aa6-aed3-c04a2edb2d00",importance:"low",source:"claude",summary:"キックボクシング・アルコール削減",date:"2026/04/28"},
-        {title:"前髪のうねり対策・ヘアケア",url:"https://claude.ai/chat/4b2c1f59-d574-4eed-bd68-83b3454d65fb",importance:"low",source:"claude",summary:"Ocean Trico Clay・マット仕上げ好み",date:"2026/04/28"}
+    {id:"ls",name:"ライフスタイル・個人",icon:"🌿",color:"#5a9e6f",bg:"rgba(90,158,111,0.05)",subcategories:[
+      {name:"フィットネス",color:"#5a9e6f",threads:[
+        {title:"36歳男性の体組成分析・内臓脂肪対策",url:"https://claude.ai/chat/c0173ae6-b320-4aa6-aed3-c04a2edb2d00",score:4,source:"claude",summary:"キックボクシング週数回での体脂肪8-12%達成に向けた食事・運動計画。アルコール削減が最優先課題として特定。",highlights:["アルコール削減が最大の改善レバー","キックボクシング+有酸素の組合せ"],date:"2026/04/28"}
       ]},
       {name:"雑談・エンタメ",color:"#5a9e6f",threads:[
-        {title:"大喜利セッション（温泉旅館・甲子園）",url:"https://claude.ai/chat/a9fda816-7d0f-4fad-b5d5-9269d24b5b94",importance:"low",source:"claude",summary:"ユーモアセンス開発・採点フォーマット",date:"2026/05/12"},
-        {title:"本棚から読む性格分析",url:"https://claude.ai/chat/cec3fad7-598f-46d4-9817-9fb932b787c1",importance:"low",source:"claude",summary:"X知人の本棚画像分析",date:"2026/04/16"}
+        {title:"大喜利セッション（温泉旅館・甲子園）",url:"https://claude.ai/chat/a9fda816-7d0f-4fad-b5d5-9269d24b5b94",score:2,source:"claude",summary:"ユーモアセンス開発セッション。採点フォーマットを使った大喜利練習。",highlights:["採点フォーマットの確立"],date:"2026/05/12"}
       ]}
     ]}
   ]
 };
 
-let data = null;
-let filter = {imp:'all', src:null, search:''};
-let openCats = {}, openSubs = {};
-let pendingDel = null;
-let currentImportTab = 'chatgpt';
-let ghConfig = JSON.parse(localStorage.getItem('kb_gh')||'{}');
+// ===== STATE =====
+let data=null, filter={imp:'all',src:null,search:''};
+let openCats={}, openSubs={};
+let pendDel=null, dmRef=null;
+let ghConf=JSON.parse(localStorage.getItem('kb_gh')||'{}');
+let curImportTab='chatgpt';
 
+// ===== INIT =====
 function init(){
-  // Always prefer KB_DATA from data.js (GitHub) over localStorage
   if(window.KB_DATA){
-    data = window.KB_DATA;
-    // Sync to localStorage so edits work
-    localStorage.setItem('kb_data', JSON.stringify(data));
+    data=window.KB_DATA;
+    localStorage.setItem('kb_data',JSON.stringify(data));
   } else {
-    data = JSON.parse(localStorage.getItem('kb_data')||'null') || DEFAULT;
+    data=JSON.parse(localStorage.getItem('kb_data')||'null')||DEFAULT;
   }
-  updateGHStatus();
-  populateCatSelects();
+  updateGHSt();
+  fillCatSels();
   render();
 }
 
-function populateCatSelects(){
-  ['edit-cat-sel','add-cat-sel','nlm-cat'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.innerHTML = data.categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+function fillCatSels(){
+  ['e-cat','a-cat','nlm-c'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.innerHTML=data.categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   });
 }
 
 function save(){
-  data.lastUpdated = new Date().toLocaleDateString('ja-JP').replace(/\//g,'/');
-  localStorage.setItem('kb_data', JSON.stringify(data));
+  data.lastUpdated=new Date().toLocaleDateString('ja-JP');
+  localStorage.setItem('kb_data',JSON.stringify(data));
   updateStats();
 }
 
+// ===== RENDER =====
 function render(){
   updateStats();
-  const c = document.getElementById('tree-view');
+  const c=document.getElementById('tree');
   c.innerHTML='';
+  // Sort categories, sort threads by score desc
   data.categories.forEach((cat,ci)=>{
-    let hasMatch = false;
-    cat.subcategories.forEach(sub=>sub.threads.forEach(t=>{ if(match(t)) hasMatch=true; }));
-    if(!hasMatch) return;
-    const isOpen = openCats[cat.id]!==false;
-    const div = document.createElement('div');
-    div.className='cat-section';
+    let hasMatch=false;
+    cat.subcategories.forEach(sub=>sub.threads.forEach(t=>{if(matchT(t))hasMatch=true;}));
+    if(!hasMatch)return;
+    const isOpen=openCats[cat.id]!==false;
+    const div=document.createElement('div');
+    div.className='cat';
     div.innerHTML=`
-      <div class="cat-header" onclick="toggleCat('${cat.id}')">
-        <div class="cat-left">
-          <div class="cat-icon" style="background:${cat.bg}">${cat.icon}</div>
-          <div>
-            <div class="cat-name">${cat.name}</div>
-            <div class="cat-meta">${countCat(cat)}件</div>
-          </div>
+      <div class="ch" onclick="togCat('${cat.id}')">
+        <div class="ch-l">
+          <div class="ci" style="background:${cat.bg}">${cat.icon}</div>
+          <div><div class="cn">${cat.name}</div><div class="cm">${cntCat(cat)}件</div></div>
         </div>
-        <div class="cat-right">
-          <span class="chevron ${isOpen?'open':''}" id="chev-${cat.id}">›</span>
-        </div>
+        <span class="chev ${isOpen?'open':''}" id="chev-${cat.id}">›</span>
       </div>
-      <div class="cat-body" id="catb-${cat.id}" style="${isOpen?'':'display:none'}">
-        ${renderSubs(cat,ci)}
-      </div>`;
+      <div class="cb" id="catb-${cat.id}" style="${isOpen?'':'display:none'}">${renderSubs(cat,ci)}</div>`;
     c.appendChild(div);
   });
 }
 
 function renderSubs(cat,ci){
   return cat.subcategories.map((sub,si)=>{
-    const mt = sub.threads.filter(t=>match(t));
-    if(!mt.length) return '';
+    const mt=sub.threads.filter(t=>matchT(t));
+    if(!mt.length)return'';
+    // Sort by score desc
+    const sorted=[...mt].sort((a,b)=>(b.score||0)-(a.score||0));
     const key=`${cat.id}_${si}`;
-    const isOpen = openSubs[key]!==false;
-    const threads = mt.map((t,ti)=>{
-      const realTi = sub.threads.indexOf(t);
-      const srcC = `src-${t.source||'claude'}`;
-      const srcL = {claude:'Claude',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[t.source]||'Claude';
-      const impC = `imp-${t.importance}`;
-      const impL = {high:'高',mid:'中',low:'低'}[t.importance]||'低';
-      return `<div class="thread" onclick="openSummary(${ci},${si},${realTi})">
-        <span class="src-badge ${srcC}">${srcL}</span>
-        <div class="thread-content">
-          <div class="thread-title">${t.title}</div>
-          <div class="thread-meta">
-            <span class="imp-badge ${impC}" onclick="cycleImp(event,${ci},${si},${realTi})" title="クリックで変更">${impL}</span>
-            <span>${t.date||''}</span>
-            <span style="opacity:0.6;font-size:10px;max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${t.summary||''}</span>
-          </div>
+    const isOpen=openSubs[key]!==false;
+    const threads=sorted.map(t=>{
+      const realTi=sub.threads.indexOf(t);
+      const sc=t.score||0;
+      const scCls=`s${Math.min(10,sc)}`;
+      return `<div class="tr" onclick="openDetail(${ci},${si},${realTi})">
+        <span class="src src-${t.source||'claude'}">${{claude:'CLD',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[t.source||'claude']}</span>
+        <div class="tc">
+          <div class="tt">${t.title}</div>
+          <div class="tm"><span class="tm-date">${t.date||''}</span><span style="opacity:0.6;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:200px">${(t.summary||'').substring(0,40)}${(t.summary||'').length>40?'...':''}</span></div>
         </div>
-        <div class="thread-actions">
-          <button class="t-btn" onclick="openEdit(event,${ci},${si},${realTi})">編集</button>
-          <button class="t-btn del" onclick="openDel(event,${ci},${si},${realTi})">削除</button>
+        <div class="score-wrap">
+          <button class="score-btn" onclick="scChange(event,${ci},${si},${realTi},-1)">－</button>
+          <span class="score-num ${scCls}">${sc}</span>
+          <button class="score-btn" onclick="scChange(event,${ci},${si},${realTi},1)">＋</button>
         </div>
-        <span class="thread-arrow">→</span>
+        <div class="ta">
+          <button class="tb2 ai" onclick="openDetailAI(event,${ci},${si},${realTi})">AI要約</button>
+          <button class="tb2" onclick="openEdit(event,${ci},${si},${realTi})">編集</button>
+          <button class="tb2 del" onclick="openDel(event,${ci},${si},${realTi})">削除</button>
+        </div>
+        <span class="tr-arr">→</span>
       </div>`;
     }).join('');
-    return `<div class="subcat-group">
-      <div class="subcat-hdr" onclick="toggleSub('${key}')">
-        <div class="subcat-dot" style="background:${sub.color}"></div>
-        <span class="subcat-title">${sub.name}</span>
-        <span class="subcat-count">${mt.length}件</span>
-        <span class="subchev ${isOpen?'open':''}" id="subchev-${key}">›</span>
+    return `<div class="sg">
+      <div class="sh" onclick="togSub('${key}')">
+        <div class="sh-dot" style="background:${sub.color}"></div>
+        <span class="sh-name">${sub.name}</span>
+        <span class="sh-cnt">${mt.length}件</span>
+        <span class="sh-chev ${isOpen?'open':''}" id="subchev-${key}">›</span>
       </div>
-      <div class="threads" id="subb-${key}" style="${isOpen?'':'display:none'}">${threads}</div>
+      <div class="tl" id="subb-${key}" style="${isOpen?'':'display:none'}">${threads}</div>
     </div>`;
   }).join('');
 }
 
-function match(t){
-  if(filter.imp!=='all' && t.importance!==filter.imp) return false;
-  if(filter.src && t.source!==filter.src) return false;
+function matchT(t){
+  const sc=t.score||0;
+  if(filter.imp==='high'&&sc<7)return false;
+  if(filter.imp==='mid'&&(sc<4||sc>=7))return false;
+  if(filter.imp==='low'&&sc>=4)return false;
+  if(filter.src&&t.source!==filter.src)return false;
   if(filter.search){
     const q=filter.search.toLowerCase();
-    if(!t.title.toLowerCase().includes(q) && !(t.summary||'').toLowerCase().includes(q)) return false;
+    if(!t.title.toLowerCase().includes(q)&&!(t.summary||'').toLowerCase().includes(q))return false;
   }
   return true;
 }
 
-function countCat(cat){
-  let n=0;
-  cat.subcategories.forEach(s=>s.threads.forEach(t=>{ if(match(t))n++; }));
-  return n;
-}
+function cntCat(cat){let n=0;cat.subcategories.forEach(s=>s.threads.forEach(t=>{if(matchT(t))n++;}));return n;}
 
 function updateStats(){
-  let all=[]; data.categories.forEach(c=>c.subcategories.forEach(s=>s.threads.forEach(t=>all.push(t))));
-  document.getElementById('s-total').textContent=all.length;
-  document.getElementById('s-high').textContent=all.filter(t=>t.importance==='high').length;
-  document.getElementById('s-cats').textContent=data.categories.length;
-  document.getElementById('s-date').textContent=data.lastUpdated||'—';
+  let all=[];data.categories.forEach(c=>c.subcategories.forEach(s=>s.threads.forEach(t=>all.push(t))));
+  document.getElementById('s-tot').textContent=all.length;
+  document.getElementById('s-top').textContent=all.filter(t=>(t.score||0)>=8).length;
+  document.getElementById('s-cat').textContent=data.categories.length;
+  document.getElementById('s-upd').textContent=data.lastUpdated||'—';
 }
 
-function toggleCat(id){
+function togCat(id){
   openCats[id]=openCats[id]===false?true:false;
-  const b=document.getElementById('catb-'+id);
-  const c=document.getElementById('chev-'+id);
-  if(b) b.style.display=openCats[id]===false?'none':'';
-  if(c) c.classList.toggle('open',openCats[id]!==false);
+  const b=document.getElementById('catb-'+id),c=document.getElementById('chev-'+id);
+  if(b)b.style.display=openCats[id]===false?'none':'';
+  if(c)c.classList.toggle('open',openCats[id]!==false);
 }
-function toggleSub(key){
+function togSub(key){
   openSubs[key]=openSubs[key]===false?true:false;
-  const b=document.getElementById('subb-'+key);
-  const c=document.getElementById('subchev-'+key);
-  if(b) b.style.display=openSubs[key]===false?'none':'';
-  if(c) c.classList.toggle('open',openSubs[key]!==false);
+  const b=document.getElementById('subb-'+key),c=document.getElementById('subchev-'+key);
+  if(b)b.style.display=openSubs[key]===false?'none':'';
+  if(c)c.classList.toggle('open',openSubs[key]!==false);
 }
 
-// ===== SUMMARY =====
-function openSummary(ci,si,ti){
-  const t=data.categories[ci].subcategories[si].threads[ti];
-  document.getElementById('sum-title').textContent=t.title;
-  const srcL={claude:'Claude',chatgpt:'ChatGPT',notebooklm:'NotebookLM',manual:'手動'}[t.source]||'Claude';
-  const srcBadge=document.getElementById('sum-src-badge');
-  srcBadge.textContent=srcL; srcBadge.className=`src-badge src-${t.source||'claude'}`;
-  document.getElementById('sum-src-text').textContent=' '+srcL+' · ';
-  document.getElementById('sum-date').textContent=t.date||'';
-  document.getElementById('sum-body').textContent=t.summary||'要約なし';
-  const tags=[
-    {high:'高重要度',mid:'中重要度',low:'低重要度'}[t.importance],
-    data.categories[ci].name,
-    data.categories[ci].subcategories[si].name
-  ];
-  document.getElementById('sum-tags').innerHTML=tags.map(tg=>`<span class="summary-tag">${tg}</span>`).join('');
-  const btn=document.getElementById('sum-link-btn');
-  if(t.url && t.url!=='#'){
-    btn.onclick=()=>{ window.open(t.url,'_blank'); };
-    btn.style.display='flex';
-  } else {
-    btn.style.display='none';
-  }
-  openModal('summary-modal');
-}
-
-// ===== IMP CYCLE =====
-function cycleImp(e,ci,si,ti){
+// ===== SCORE =====
+function scChange(e,ci,si,ti,d){
   e.stopPropagation();
   const t=data.categories[ci].subcategories[si].threads[ti];
-  const order=['high','mid','low'];
-  const idx=order.indexOf(t.importance);
-  t.importance=order[(idx+1)%3];
-  save(); render();
+  t.score=Math.max(0,Math.min(10,(t.score||0)+d));
+  save();render();
+}
+
+// ===== DETAIL =====
+function openDetail(ci,si,ti){
+  dmRef={ci,si,ti};
+  const t=data.categories[ci].subcategories[si].threads[ti];
+  showDetail(t,ci,si);
+  openM('dm');
+}
+
+function openDetailAI(e,ci,si,ti){
+  e.stopPropagation();
+  dmRef={ci,si,ti};
+  const t=data.categories[ci].subcategories[si].threads[ti];
+  showDetail(t,ci,si);
+  openM('dm');
+  autoSummarize();
+}
+
+function showDetail(t,ci,si){
+  const sc=t.score||0;
+  const scCls=`s${Math.min(10,sc)}`;
+  document.getElementById('dm-title').textContent=t.title;
+  document.getElementById('dm-score-num').className=`dm-score ${scCls}`;
+  document.getElementById('dm-score-num').textContent=sc;
+  document.getElementById('dm-score-big').className=`score-editor-num ${scCls}`;
+  document.getElementById('dm-score-big').textContent=sc;
+  document.getElementById('dm-score-bar').style.width=(sc*10)+'%';
+  // meta tags
+  const srcL={claude:'Claude',chatgpt:'ChatGPT',notebooklm:'NotebookLM',manual:'手動'}[t.source||'claude'];
+  const tags=[srcL,t.date||'',data.categories[ci].name,data.categories[ci].subcategories[si].name];
+  document.getElementById('dm-meta').innerHTML=tags.map(tg=>`<span class="dm-tag">${tg}</span>`).join('');
+  // summary
+  document.getElementById('dm-body').textContent=t.summary||'要約なし。「AI要約を生成」ボタンで自動生成できます。';
+  // highlights
+  const hls=t.highlights||[];
+  const hlSec=document.getElementById('dm-hl-section');
+  if(hls.length){
+    hlSec.style.display='block';
+    document.getElementById('dm-hl').innerHTML=hls.map(h=>`<li class="dm-hl">${h}</li>`).join('');
+  } else {
+    hlSec.style.display='none';
+  }
+  // link
+  const lb=document.getElementById('dm-link');
+  if(t.url&&t.url!=='#'&&t.url!==''){
+    lb.onclick=()=>window.open(t.url,'_blank');
+    lb.style.display='flex';
+  } else {lb.style.display='none';}
+}
+
+function dmScoreChange(d){
+  if(!dmRef)return;
+  const t=data.categories[dmRef.ci].subcategories[dmRef.si].threads[dmRef.ti];
+  t.score=Math.max(0,Math.min(10,(t.score||0)+d));
+  const sc=t.score;
+  const scCls=`s${Math.min(10,sc)}`;
+  document.getElementById('dm-score-num').className=`dm-score ${scCls}`;
+  document.getElementById('dm-score-num').textContent=sc;
+  document.getElementById('dm-score-big').className=`score-editor-num ${scCls}`;
+  document.getElementById('dm-score-big').textContent=sc;
+  document.getElementById('dm-score-bar').style.width=(sc*10)+'%';
+  save();render();
+}
+
+// ===== AI SUMMARIZE =====
+async function autoSummarize(){
+  if(!dmRef)return;
+  const t=data.categories[dmRef.ci].subcategories[dmRef.si].threads[dmRef.ti];
+  const btn=document.getElementById('ai-btn');
+  const body=document.getElementById('dm-body');
+  btn.disabled=true;
+  body.innerHTML='<div class="ai-loading">Claude AIが要約を生成中</div>';
+  document.getElementById('dm-hl-section').style.display='none';
+  try{
+    const prompt=`以下の会話スレッドについて、詳細な要約とハイライトを生成してください。
+
+スレッドタイトル: ${t.title}
+カテゴリ: ${data.categories[dmRef.ci].name}
+現在の要約: ${t.summary||'なし'}
+日付: ${t.date||'不明'}
+
+以下のJSON形式のみで回答してください（前後の説明不要）:
+{
+  "summary": "200-300文字の詳細要約。具体的な内容、決定事項、数値があれば含める",
+  "highlights": ["重要ポイント1", "重要ポイント2", "重要ポイント3", "重要ポイント4", "重要ポイント5"]
+}`;
+
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const json=await resp.json();
+    const text=json.content?.[0]?.text||'{}';
+    const clean=text.replace(/```json|```/g,'').trim();
+    const result=JSON.parse(clean);
+    t.summary=result.summary||t.summary;
+    t.highlights=result.highlights||[];
+    save();
+    showDetail(t,dmRef.ci,dmRef.si);
+    toast('✦ AI要約を生成しました');
+  }catch(err){
+    body.textContent=t.summary||'生成に失敗しました。手動で要約を入力してください。';
+    toast('✗ 生成エラー: '+err.message);
+  }
+  btn.disabled=false;
+}
+
+function openEditFromDetail(){
+  if(!dmRef)return;
+  closeM('dm');
+  openEdit(null,dmRef.ci,dmRef.si,dmRef.ti);
 }
 
 // ===== EDIT =====
 function openEdit(e,ci,si,ti){
-  e.stopPropagation();
+  if(e)e.stopPropagation();
   const t=data.categories[ci].subcategories[si].threads[ti];
-  document.getElementById('edit-cat-idx').value=ci;
-  document.getElementById('edit-sub-idx').value=si;
-  document.getElementById('edit-thread-idx').value=ti;
-  document.getElementById('edit-title').value=t.title;
-  document.getElementById('edit-url').value=t.url||'';
-  document.getElementById('edit-subcat').value=data.categories[ci].subcategories[si].name;
-  document.getElementById('edit-imp').value=t.importance||'mid';
-  document.getElementById('edit-source').value=t.source||'claude';
-  document.getElementById('edit-summary').value=t.summary||'';
-  const sel=document.getElementById('edit-cat-sel');
-  sel.value=data.categories[ci].id;
-  openModal('edit-modal');
+  document.getElementById('e-ci').value=ci;
+  document.getElementById('e-si').value=si;
+  document.getElementById('e-ti').value=ti;
+  document.getElementById('e-title').value=t.title;
+  document.getElementById('e-url').value=t.url||'';
+  document.getElementById('e-sub').value=data.categories[ci].subcategories[si].name;
+  document.getElementById('e-score').value=t.score||0;
+  document.getElementById('e-src').value=t.source||'claude';
+  document.getElementById('e-sum').value=t.summary||'';
+  document.getElementById('e-hl').value=(t.highlights||[]).join('\n');
+  document.getElementById('e-cat').value=data.categories[ci].id;
+  openM('em');
 }
 
 function saveEdit(){
-  const ci=parseInt(document.getElementById('edit-cat-idx').value);
-  const si=parseInt(document.getElementById('edit-sub-idx').value);
-  const ti=parseInt(document.getElementById('edit-thread-idx').value);
+  const ci=parseInt(document.getElementById('e-ci').value);
+  const si=parseInt(document.getElementById('e-si').value);
+  const ti=parseInt(document.getElementById('e-ti').value);
   const t=data.categories[ci].subcategories[si].threads[ti];
-  const newCatId=document.getElementById('edit-cat-sel').value;
-  const newSubName=document.getElementById('edit-subcat').value.trim()||data.categories[ci].subcategories[si].name;
-  t.title=document.getElementById('edit-title').value;
-  t.url=document.getElementById('edit-url').value;
-  t.importance=document.getElementById('edit-imp').value;
-  t.source=document.getElementById('edit-source').value;
-  t.summary=document.getElementById('edit-summary').value;
-  // Move to different cat/sub if changed
+  const newCatId=document.getElementById('e-cat').value;
+  const newSub=document.getElementById('e-sub').value.trim();
+  t.title=document.getElementById('e-title').value;
+  t.url=document.getElementById('e-url').value;
+  t.score=parseInt(document.getElementById('e-score').value)||0;
+  t.source=document.getElementById('e-src').value;
+  t.summary=document.getElementById('e-sum').value;
+  t.highlights=document.getElementById('e-hl').value.split('\n').filter(h=>h.trim());
+  // Move cat/sub if changed
   const newCatIdx=data.categories.findIndex(c=>c.id===newCatId);
-  if(newCatIdx!==ci || newSubName!==data.categories[ci].subcategories[si].name){
+  if(newCatIdx!==ci||newSub!==data.categories[ci].subcategories[si].name){
     data.categories[ci].subcategories[si].threads.splice(ti,1);
-    const newCat=data.categories[newCatIdx];
-    let newSub=newCat.subcategories.find(s=>s.name===newSubName);
-    if(!newSub){newSub={name:newSubName,color:newCat.color,threads:[]};newCat.subcategories.push(newSub);}
-    newSub.threads.push(t);
+    const nc=data.categories[newCatIdx];
+    let ns=nc.subcategories.find(s=>s.name===newSub);
+    if(!ns){ns={name:newSub,color:nc.color,threads:[]};nc.subcategories.push(ns);}
+    ns.threads.push(t);
   }
-  save(); render(); closeModal('edit-modal'); toast('✓ 保存しました');
+  save();render();closeM('em');toast('✓ 保存しました');
+}
+
+// ===== ADD =====
+function openAdd(){fillCatSels();openM('am');}
+function doAdd(){
+  const title=document.getElementById('a-title').value.trim();
+  if(!title){toast('タイトルを入力してください');return;}
+  const catId=document.getElementById('a-cat').value;
+  const subName=document.getElementById('a-sub').value.trim()||'手動追加';
+  const cat=data.categories.find(c=>c.id===catId);
+  let sub=cat.subcategories.find(s=>s.name===subName);
+  if(!sub){sub={name:subName,color:cat.color,threads:[]};cat.subcategories.push(sub);}
+  sub.threads.push({
+    title,url:document.getElementById('a-url').value,
+    score:parseInt(document.getElementById('a-score').value)||5,
+    source:document.getElementById('a-src').value,
+    summary:document.getElementById('a-sum').value,
+    highlights:[],
+    date:new Date().toLocaleDateString('ja-JP')
+  });
+  save();render();closeM('am');toast('✓ 追加しました');
 }
 
 // ===== DELETE =====
 function openDel(e,ci,si,ti){
   e.stopPropagation();
-  const t=data.categories[ci].subcategories[si].threads[ti];
-  document.getElementById('del-msg').textContent=`「${t.title}」を削除しますか？`;
-  pendingDel={ci,si,ti};
-  openModal('del-modal');
+  pendDel={ci,si,ti};
+  document.getElementById('del-msg').textContent=`「${data.categories[ci].subcategories[si].threads[ti].title}」を削除しますか？`;
+  openM('delm');
 }
-
-function confirmDelete(){
-  const{ci,si,ti}=pendingDel;
+function confirmDel(){
+  const{ci,si,ti}=pendDel;
   data.categories[ci].subcategories[si].threads.splice(ti,1);
-  save(); render(); closeModal('del-modal'); toast('🗑 削除しました');
-}
-
-// ===== ADD =====
-function openAddModal(){
-  populateCatSelects();
-  openModal('add-modal');
-}
-
-function doAdd(){
-  const title=document.getElementById('add-title').value.trim();
-  if(!title){toast('タイトルを入力してください');return;}
-  const catId=document.getElementById('add-cat-sel').value;
-  const subName=document.getElementById('add-subcat').value.trim()||'手動追加';
-  const cat=data.categories.find(c=>c.id===catId);
-  let sub=cat.subcategories.find(s=>s.name===subName);
-  if(!sub){sub={name:subName,color:cat.color,threads:[]};cat.subcategories.push(sub);}
-  sub.threads.push({
-    title,url:document.getElementById('add-url').value,
-    importance:document.getElementById('add-imp').value,
-    source:document.getElementById('add-source').value,
-    summary:document.getElementById('add-summary').value,
-    date:new Date().toLocaleDateString('ja-JP')
-  });
-  save();render();closeModal('add-modal');toast('✓ 追加しました');
+  save();render();closeM('delm');toast('🗑 削除しました');
 }
 
 // ===== IMPORT =====
-function openImportModal(){populateCatSelects();openModal('import-modal');}
-function switchImportTab(tab,btn){
-  currentImportTab=tab;
-  document.querySelectorAll('.import-tab').forEach(b=>b.classList.remove('active'));
+function openImport(){fillCatSels();openM('im');}
+function switchTab(tab,btn){
+  curImportTab=tab;
+  document.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.import-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('active'));
   document.getElementById('itab-'+tab).classList.add('active');
 }
-
 function doImport(){
   let items=[];
   try{
-    if(currentImportTab==='chatgpt'){
-      items=JSON.parse(document.getElementById('imp-chatgpt-json').value.trim());
-    } else if(currentImportTab==='nlm'){
-      const t=document.getElementById('nlm-title').value.trim();
+    if(curImportTab==='chatgpt') items=JSON.parse(document.getElementById('cpt-json').value.trim());
+    else if(curImportTab==='nlm'){
+      const t=document.getElementById('nlm-t').value.trim();
       if(!t){toast('タイトルを入力してください');return;}
-      items=[{title:t,url:document.getElementById('nlm-url').value,
-        category:document.getElementById('nlm-cat').value,
-        subcategory:'NotebookLMノート',importance:'mid',
-        summary:document.getElementById('nlm-summary').value,
+      items=[{title:t,url:document.getElementById('nlm-u').value,
+        category:document.getElementById('nlm-c').value,subcategory:'NLMノート',
+        score:5,summary:document.getElementById('nlm-s').value,highlights:[],
         date:new Date().toLocaleDateString('ja-JP'),source:'notebooklm'}];
-    } else {
-      items=JSON.parse(document.getElementById('imp-raw-json').value.trim());
-    }
-  } catch(e){toast('JSONの形式が正しくありません');return;}
+    } else items=JSON.parse(document.getElementById('raw-json').value.trim());
+  }catch(e){toast('JSONの形式が正しくありません');return;}
   if(!Array.isArray(items)||!items.length){toast('データが空です');return;}
   let added=0;
   items.forEach(item=>{
-    const catId=data.categories.find(c=>c.name===item.category||c.id===item.category)?.id||data.categories[0].id;
-    const cat=data.categories.find(c=>c.id===catId);
+    const cat=data.categories.find(c=>c.name===item.category||c.id===item.category)||data.categories[0];
     const subName=item.subcategory||'インポート';
     let sub=cat.subcategories.find(s=>s.name===subName);
     if(!sub){sub={name:subName,color:cat.color,threads:[]};cat.subcategories.push(sub);}
-    sub.threads.push({title:item.title||'無題',url:item.url||'',importance:item.importance||'mid',
-      source:item.source||'manual',summary:item.summary||'',date:item.date||new Date().toLocaleDateString('ja-JP')});
+    sub.threads.push({
+      title:item.title||'無題',url:item.url||'',
+      score:item.score||item.importance==='high'?8:item.importance==='mid'?5:3,
+      source:item.source||'manual',summary:item.summary||'',
+      highlights:item.highlights||[],date:item.date||new Date().toLocaleDateString('ja-JP')
+    });
     added++;
   });
-  save();render();closeModal('import-modal');toast(`✓ ${added}件取り込みました`);
+  save();render();closeM('im');toast(`✓ ${added}件取り込みました`);
 }
 
 // ===== GITHUB =====
-function updateGHStatus(){
-  const el=document.getElementById('gh-status-label');
-  if(ghConfig.token&&ghConfig.repo){el.textContent='GitHub: 接続済み';el.className='gh-status ok';}
-  else{el.textContent='GitHub: 未設定';el.className='gh-status';}
+function updateGHSt(){
+  const el=document.getElementById('gh-st');
+  if(ghConf.token&&ghConf.repo){el.textContent='GitHub: 接続済み';el.className='gh-st ok';}
+  else{el.textContent='GitHub: 未設定';el.className='gh-st';}
 }
-
-function openGHModal(){
-  document.getElementById('gh-token').value=ghConfig.token||'';
-  document.getElementById('gh-repo').value=ghConfig.repo||'Matsu-by-Matsu/knowledge-base';
-  document.getElementById('gh-branch').value=ghConfig.branch||'main';
-  openModal('gh-modal');
+function openGH(){
+  document.getElementById('gh-tok').value=ghConf.token||'';
+  document.getElementById('gh-rep').value=ghConf.repo||'Matsu-by-Matsu/knowledge-base';
+  document.getElementById('gh-br').value=ghConf.branch||'main';
+  openM('ghm');
 }
-
-function saveGHConfig(){
-  ghConfig={
-    token:document.getElementById('gh-token').value.trim(),
-    repo:document.getElementById('gh-repo').value.trim(),
-    branch:document.getElementById('gh-branch').value.trim()||'main'
-  };
-  localStorage.setItem('kb_gh',JSON.stringify(ghConfig));
-  updateGHStatus();closeModal('gh-modal');toast('✓ GitHub設定を保存しました');
+function saveGHConf(){
+  ghConf={token:document.getElementById('gh-tok').value.trim(),repo:document.getElementById('gh-rep').value.trim(),branch:document.getElementById('gh-br').value.trim()||'main'};
+  localStorage.setItem('kb_gh',JSON.stringify(ghConf));
+  updateGHSt();closeM('ghm');toast('✓ GitHub設定を保存しました');
 }
-
 async function testGH(){
-  const token=document.getElementById('gh-token').value.trim();
-  const repo=document.getElementById('gh-repo').value.trim();
-  const res=document.getElementById('gh-test-result');
-  res.textContent='接続テスト中...';res.style.color='var(--muted)';
+  const token=document.getElementById('gh-tok').value.trim();
+  const repo=document.getElementById('gh-rep').value.trim();
+  const res=document.getElementById('gh-test-res');
+  res.textContent='接続テスト中...';res.style.color='var(--t2)';
   try{
     const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{Authorization:`token ${token}`}});
-    if(r.ok){res.textContent='✓ 接続成功！';res.style.color='var(--green)';}
+    if(r.ok){res.textContent='✓ 接続成功！';res.style.color='var(--grn)';}
     else{res.textContent=`✗ エラー: ${r.status}`;res.style.color='var(--red)';}
   }catch(e){res.textContent='✗ 接続失敗';res.style.color='var(--red)';}
 }
-
-async function saveToGitHub(){
-  if(!ghConfig.token||!ghConfig.repo){openGHModal();return;}
-  const content=`window.KB_DATA = ${JSON.stringify(data, null, 2)};`;
+async function saveGH(){
+  if(!ghConf.token||!ghConf.repo){openGH();return;}
+  const content=`window.KB_DATA = ${JSON.stringify(data,null,2)};`;
   const b64=btoa(unescape(encodeURIComponent(content)));
   try{
-    // Get current SHA
-    const getR=await fetch(`https://api.github.com/repos/${ghConfig.repo}/contents/data.js`,
-      {headers:{Authorization:`token ${ghConfig.token}`}});
+    const getR=await fetch(`https://api.github.com/repos/${ghConf.repo}/contents/data.js`,{headers:{Authorization:`token ${ghConf.token}`}});
     let sha='';
     if(getR.ok){const j=await getR.json();sha=j.sha;}
-    // Update file
-    const putR=await fetch(`https://api.github.com/repos/${ghConfig.repo}/contents/data.js`,{
-      method:'PUT',
-      headers:{Authorization:`token ${ghConfig.token}`,'Content-Type':'application/json'},
-      body:JSON.stringify({message:'Update knowledge base',content:b64,sha,branch:ghConfig.branch||'main'})
+    const putR=await fetch(`https://api.github.com/repos/${ghConf.repo}/contents/data.js`,{
+      method:'PUT',headers:{Authorization:`token ${ghConf.token}`,'Content-Type':'application/json'},
+      body:JSON.stringify({message:'Update KB data',content:b64,sha,branch:ghConf.branch||'main'})
     });
-    if(putR.ok){toast('✓ GitHubに保存しました（1〜2分で反映）');}
+    if(putR.ok)toast('✓ GitHubに保存しました（1〜2分で反映）');
     else{const j=await putR.json();toast('✗ 保存失敗: '+j.message);}
   }catch(e){toast('✗ GitHub保存エラー: '+e.message);}
 }
 
 // ===== FILTERS =====
 function setView(v,el){
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('inst-panel').style.display='none';
-  document.getElementById('tree-view').style.display='block';
-  document.getElementById('stats-row').style.display='grid';
-  if(v==='instructions'){
-    document.getElementById('inst-panel').style.display='block';
-    document.getElementById('tree-view').style.display='none';
-    document.getElementById('stats-row').style.display='none';
-    document.getElementById('view-title').textContent='更新手順';return;
+  document.getElementById('inst').style.display='none';
+  document.getElementById('tree').style.display='block';
+  document.getElementById('stats').style.display='grid';
+  if(v==='inst'){
+    document.getElementById('inst').style.display='block';
+    document.getElementById('tree').style.display='none';
+    document.getElementById('stats').style.display='none';
+    document.getElementById('vt').textContent='更新手順';return;
   }
-  if(v==='all'){filter.imp='all';document.getElementById('view-title').textContent='全会話マップ';}
-  else if(v==='high'){filter.imp='high';document.getElementById('view-title').textContent='高重要度スレッド';}
-  else if(v==='mid'){filter.imp='mid';document.getElementById('view-title').textContent='中重要度スレッド';}
+  if(v==='all'){filter.imp='all';document.getElementById('vt').textContent='全会話マップ';}
+  else if(v==='high'){filter.imp='high';document.getElementById('vt').textContent='高スコア(7+)';}
+  else if(v==='mid'){filter.imp='mid';document.getElementById('vt').textContent='中スコア(4-6)';}
   render();
 }
-
 function toggleSrc(src,el){
   filter.src=filter.src===src?null:src;
   document.querySelectorAll('[id^="src-"]').forEach(n=>n.classList.remove('active'));
-  if(filter.src) el.classList.add('active');
+  if(filter.src)el.classList.add('active');
   render();
 }
-
-function filterImp(btn,v){
+function fImp(btn,v){
   document.querySelectorAll('.pills .pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');filter.imp=v;render();
 }
-
 function doSearch(v){filter.search=v;render();}
 
 // ===== UTILS =====
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function copyEl(id){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('📋 コピーしました'));}
-
-// Close overlay on bg click
-document.querySelectorAll('.overlay').forEach(o=>{
-  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
-});
+document.querySelectorAll('.ov').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});});
 </script>
+
 <script>
-// Load data.js from GitHub Pages (runs after main script)
 (function(){
   var s=document.createElement('script');
   s.src='data.js?v='+Date.now();
   s.onload=function(){
     if(window.KB_DATA){
       data=window.KB_DATA;
-      localStorage.setItem('kb_data', JSON.stringify(data));
+      localStorage.setItem('kb_data',JSON.stringify(data));
       if(document.getElementById('app').style.display!=='none'){
-        populateCatSelects();
-        render();
+        fillCatSels();render();
       }
     }
   };
