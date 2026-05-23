@@ -1,5 +1,5 @@
 window.KB_DATA = {
-  "lastUpdated": "2026/05/22",
+  "lastUpdated": "2026/5/23",
   "categories": [
     {
       "id": "realestate",
@@ -96,6 +96,286 @@ window.KB_DATA = {
               "source": "claude",
               "summary": "霞が関キャピタルKPIダッシュボード",
               "date": "2026/04/08"
+            }
+          ]
+        },
+        {
+          "name": "投資委員会・英語メール",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "PJ Apex ICメール調整",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "Steve向けIC関連メール文面を調整",
+              "date": "2026/05/21"
+            }
+          ]
+        },
+        {
+          "name": "市場分析・翻訳",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "東京オフィス市場分析翻訳",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "オフィス市場レポートを和訳・要約",
+              "date": "2026/05/20"
+            }
+          ]
+        },
+        {
+          "name": "PM会社分析",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "PMサービス評価整理",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "帝国不動産PMサービスを分析",
+              "date": "2026/05/20"
+            }
+          ]
+        },
+        {
+          "name": "マクロ市場分析",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "日本市場レポート要約",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "Japan Weekly Takeを簡潔化",
+              "date": "2026/05/19"
+            }
+          ]
+        },
+        {
+          "name": "ブランド設計",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "Synth Xロゴとカラー検討",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "Synth Xのロゴと配色を検討",
+              "date": "2026/05/17"
+            }
+          ]
+        },
+        {
+          "name": "新会社ブランディング",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "IPIファンド名とロゴ案",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "IPI構想の会社名とロゴを検討",
+              "date": "2026/05/18"
+            }
+          ]
+        },
+        {
+          "name": "ファンドブランド設計",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "Shimauma Capital構想",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "島と松の関係性を会社名に反映",
+              "date": "2026/05/17"
+            }
+          ]
+        },
+        {
+          "name": "AIデータ分析",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "ビッグデータ×AI活用整理",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "各分野でのAI分析手法を体系化",
+              "date": "2026/05/14"
+            }
+          ]
+        },
+        {
+          "name": "音声メディア事業",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "ポッドキャスト収益化戦略",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "街・建築雑学Podcastの構想整理",
+              "date": "2026/05/15"
+            }
+          ]
+        },
+        {
+          "name": "報酬・AMスキーム",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "独立後の契約スキーム整理",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "取得支援と成功報酬条件を整理",
+              "date": "2026/05/11"
+            }
+          ]
+        },
+        {
+          "name": "事業整理資料",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "サービス分類1枚紙化",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "サービス分類を整理し図式化",
+              "date": "2026/05/14"
+            }
+          ]
+        },
+        {
+          "name": "権利関係",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "土地共有と敷地権整理",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "共有・敷地権概念を比較整理",
+              "date": "2026/05/15"
+            }
+          ]
+        },
+        {
+          "name": "Windows設定",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "Surface電源設定最適化",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "休止状態とスリープ設定を整理",
+              "date": "2026/05/13"
+            }
+          ]
+        },
+        {
+          "name": "業務効率化",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "PowerShellでCSV一括化",
+              "url": "",
+              "importance": "high",
+              "source": "chatgpt",
+              "summary": "PowerShellでCSV変換を自動化",
+              "date": "2026/05/12"
+            }
+          ]
+        },
+        {
+          "name": "動画文字起こし",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "YouTube字幕取得方法",
+              "url": "",
+              "importance": "low",
+              "source": "chatgpt",
+              "summary": "字幕コピーとTranscript取得を整理",
+              "date": "2026/05/20"
+            }
+          ]
+        },
+        {
+          "name": "英語学習",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "松嶋式で英語解説",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "英語Transcriptを松嶋式で解説",
+              "date": "2026/05/10"
+            }
+          ]
+        },
+        {
+          "name": "筋トレ・格闘技",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "筋肉痛と毎日トレ論",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "下半身筋肉痛と高頻度運動を議論",
+              "date": "2026/05/14"
+            }
+          ]
+        },
+        {
+          "name": "車メンテナンス",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "Range Rover洗車対策",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "雨シミ・ワイパー対策を整理",
+              "date": "2026/05/12"
+            }
+          ]
+        },
+        {
+          "name": "飲食・イベント事業",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "シーシャバー事業構想",
+              "url": "",
+              "importance": "mid",
+              "source": "chatgpt",
+              "summary": "出会いシーシャ業態と法規制を検討",
+              "date": "2026/05/01"
+            }
+          ]
+        },
+        {
+          "name": "趣味・キャリア",
+          "color": "#e05555",
+          "threads": [
+            {
+              "title": "探偵になる方法相談",
+              "url": "",
+              "importance": "low",
+              "source": "chatgpt",
+              "summary": "探偵業への憧れと入り方を相談",
+              "date": "2026/05/21"
             }
           ]
         }
