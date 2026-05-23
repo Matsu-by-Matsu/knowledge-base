@@ -8,7 +8,7 @@
 <style>
 :root{
   --bg:#09090b;--s1:#111113;--s2:#18181b;--s3:#222226;
-  --b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.12);--b3:rgba(255,255,255,0.2);
+  --b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.13);
   --t1:#e4e2dc;--t2:#72706a;--t3:#3a3936;
   --gold:#c8a96e;--gold-d:rgba(200,169,110,0.1);--gold-g:rgba(200,169,110,0.03);
   --red:#e05555;--red-d:rgba(224,85,85,0.08);
@@ -34,7 +34,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 /* LAYOUT */
 .app{display:flex;min-height:100vh;}
 .sb{width:200px;flex-shrink:0;border-right:1px solid var(--b1);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;background:var(--s1);}
-.mn{margin-left:200px;flex:1;display:flex;flex-direction:column;}
+.mn{margin-left:200px;flex:1;display:flex;flex-direction:column;min-width:0;}
 
 /* SIDEBAR */
 .sb-logo{padding:16px 16px 12px;border-bottom:1px solid var(--b1);}
@@ -42,7 +42,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .sb-sub{font-size:10px;color:var(--t3);margin-top:1px;}
 .sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
 .sb-sec{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);padding:8px 14px 3px;font-weight:500;}
-.ni{display:flex;align-items:center;gap:7px;padding:6px 14px;cursor:pointer;border-left:2px solid transparent;font-size:12px;color:var(--t2);transition:all 0.12s;}
+.ni{display:flex;align-items:center;gap:7px;padding:6px 14px;cursor:pointer;border-left:2px solid transparent;font-size:12px;color:var(--t2);transition:all 0.12s;user-select:none;}
 .ni:hover{color:var(--t1);background:var(--gold-g);}
 .ni.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-d);}
 .ni-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
@@ -50,7 +50,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .gh-st{font-size:9px;color:var(--t2);margin-bottom:5px;text-align:center;}
 .gh-st.ok{color:var(--grn);}
 .save-btn{width:100%;padding:7px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.18);border-radius:5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;transition:all 0.2s;}
-.save-btn:hover{background:rgba(200,169,110,0.16);}
+.save-btn:hover{background:rgba(200,169,110,0.2);}
 
 /* TOPBAR */
 .tb{height:44px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(9,9,11,0.95);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10;flex-shrink:0;}
@@ -60,7 +60,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .srch input{background:none;border:none;outline:none;color:var(--t1);font-family:'DM Sans',sans-serif;font-size:12px;width:100%;}
 .srch input::placeholder{color:var(--t2);}
 .pills{display:flex;gap:4px;}
-.pill{padding:3px 9px;border-radius:16px;font-size:10px;border:1px solid var(--b1);cursor:pointer;color:var(--t2);transition:all 0.12s;}
+.pill{padding:3px 9px;border-radius:16px;font-size:10px;border:1px solid var(--b1);cursor:pointer;color:var(--t2);transition:all 0.12s;user-select:none;}
 .pill:hover{border-color:var(--b2);color:var(--t1);}
 .pill.active{background:var(--gold-d);border-color:rgba(200,169,110,0.25);color:var(--gold);}
 
@@ -75,31 +75,40 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .sc-s{font-size:10px;color:var(--t2);margin-top:3px;}
 
 /* CATEGORY */
-.cat{margin-bottom:10px;background:var(--s1);border:1px solid var(--b1);border-radius:9px;overflow:hidden;}
+.cat{margin-bottom:10px;background:var(--s1);border:1px solid var(--b1);border-radius:9px;overflow:hidden;transition:border-color 0.15s;}
 .cat:hover{border-color:var(--b2);}
-.ch{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none;}
-.ch:hover{background:rgba(255,255,255,0.015);}
+.cat.drag-over{border-color:var(--gold);background:var(--gold-g);}
+.cat.dragging{opacity:0.4;}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;}
 .ch-l{display:flex;align-items:center;gap:10px;}
-.ci{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
-.cn{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;}
-.cm{font-size:10px;color:var(--t2);margin-top:1px;}
-.chev{font-size:10px;color:var(--t2);transition:transform 0.18s;}
+.drag-h{cursor:grab;color:var(--t3);font-size:13px;padding:0 4px;user-select:none;flex-shrink:0;}
+.drag-h:hover{color:var(--t2);}
+.ci{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;cursor:pointer;}
+.cn-wrap{display:flex;align-items:center;gap:5px;}
+.cn{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;cursor:pointer;}
+.cn:hover{color:var(--gold);}
+.edit-cat-btn{font-size:9px;padding:1px 5px;border-radius:3px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.12s;}
+.edit-cat-btn:hover{border-color:var(--b2);color:var(--t1);}
+.cn-input{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;background:transparent;border:none;border-bottom:1px solid var(--gold);outline:none;color:var(--t1);width:180px;}
+.cm{font-size:10px;color:var(--t2);margin-top:1px;cursor:pointer;}
+.chev{font-size:11px;color:var(--t2);transition:transform 0.18s;cursor:pointer;padding:4px;}
 .chev.open{transform:rotate(90deg);}
 .cb{border-top:1px solid var(--b1);}
 
 /* SUBCAT */
 .sg{padding:0 14px;}
-.sh{display:flex;align-items:center;gap:6px;padding:7px 0 5px;border-bottom:1px solid var(--b1);cursor:pointer;}
+.sh{display:flex;align-items:center;gap:6px;padding:7px 0 5px;border-bottom:1px solid var(--b1);cursor:pointer;user-select:none;}
 .sh-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
 .sh-name{font-size:10px;font-weight:500;color:var(--t2);text-transform:uppercase;letter-spacing:0.07em;flex:1;}
 .sh-cnt{font-size:9px;color:var(--t3);}
 .sh-chev{font-size:9px;color:var(--t3);transition:transform 0.15s;margin-left:3px;}
 .sh-chev.open{transform:rotate(90deg);}
 
-/* THREADS - dense */
+/* THREADS */
 .tl{padding:2px 0 6px 8px;}
-.tr{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:5px;cursor:pointer;transition:background 0.12s;margin:1px 0;}
+.tr{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:5px;cursor:pointer;transition:background 0.12s;margin:1px 0;position:relative;}
 .tr:hover{background:var(--s2);}
+.tr.drag-over-t{border-top:2px solid var(--gold);}
 .src{font-size:8px;font-weight:700;letter-spacing:0.05em;padding:1px 4px;border-radius:3px;flex-shrink:0;text-transform:uppercase;}
 .src-claude{background:var(--gold-d);color:var(--gold);}
 .src-chatgpt{background:var(--grn-d);color:var(--grn);}
@@ -108,21 +117,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .tc{flex:1;min-width:0;}
 .tt{font-size:12px;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 0.12s;}
 .tr:hover .tt{color:var(--gold);}
-.tm{font-size:10px;color:var(--t2);display:flex;align-items:center;gap:5px;margin-top:1px;}
-.tm-date{color:var(--t3);}
+.tm{font-size:10px;color:var(--t2);display:flex;align-items:center;gap:5px;margin-top:1px;overflow:hidden;}
+.tm-date{color:var(--t3);flex-shrink:0;}
+.tm-sum{opacity:0.6;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 
 /* SCORE */
-.score-wrap{display:flex;align-items:center;gap:3px;flex-shrink:0;}
-.score-num{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;width:16px;text-align:center;}
-.score-btn{width:14px;height:14px;border-radius:3px;border:1px solid var(--b1);background:transparent;cursor:pointer;color:var(--t2);font-size:10px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;line-height:1;}
-.score-btn:hover{border-color:var(--b2);color:var(--t1);}
+.sc-wrap{display:flex;align-items:center;gap:2px;flex-shrink:0;}
+.sc-num{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;width:16px;text-align:center;}
+.sc-btn{width:16px;height:16px;border-radius:3px;border:1px solid var(--b1);background:transparent;cursor:pointer;color:var(--t2);font-size:11px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;line-height:1;flex-shrink:0;}
+.sc-btn:hover{border-color:var(--b2);color:var(--t1);}
+.s10{color:#ff4444;}.s9{color:#ff6644;}.s8{color:#ff8844;}
+.s7{color:#ffaa44;}.s6{color:#ffcc44;}.s5{color:var(--amb);}
+.s4{color:#88aa55;}.s3{color:var(--grn);}.s2{color:var(--blu);}.s1{color:var(--pur);}.s0{color:var(--t3);}
 
-/* score colors */
-.s10{color:#ff4444;} .s9{color:#ff6644;} .s8{color:#ff8844;}
-.s7{color:#ffaa44;} .s6{color:#ffcc44;} .s5{color:#d4903a;}
-.s4{color:#88aa55;} .s3{color:#5a9e6f;} .s2{color:#4a8fc4;} .s1{color:#8b72c8;} .s0{color:var(--t3);}
-
-/* ACTIONS */
+/* THREAD ACTIONS */
 .ta{display:flex;align-items:center;gap:3px;opacity:0;transition:opacity 0.12s;flex-shrink:0;}
 .tr:hover .ta{opacity:1;}
 .tb2{font-size:9px;padding:1px 5px;border-radius:3px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.12s;white-space:nowrap;}
@@ -132,6 +140,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .tb2.ai:hover{background:var(--gold-d);}
 .tr-arr{font-size:10px;color:var(--t3);flex-shrink:0;transition:all 0.12s;}
 .tr:hover .tr-arr{color:var(--gold);transform:translateX(2px);}
+
+/* FLAT VIEW */
+.flat-tr{display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:6px;cursor:pointer;transition:background 0.12s;margin-bottom:3px;background:var(--s1);border:1px solid var(--b1);}
+.flat-tr:hover{border-color:var(--b2);}
+.flat-tr:hover .tt{color:var(--gold);}
+.flat-meta{font-size:10px;color:var(--t3);margin-top:1px;}
 
 /* MODALS */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.18s;}
@@ -148,41 +162,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .fs option{background:var(--s2);}
 .ma{display:flex;gap:7px;justify-content:flex-end;margin-top:16px;}
 .btn-p{padding:7px 16px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.25);border-radius:5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.18s;}
-.btn-p:hover{background:rgba(200,169,110,0.16);}
+.btn-p:hover{background:rgba(200,169,110,0.2);}
 .btn-c{padding:7px 16px;background:transparent;border:1px solid var(--b1);border-radius:5px;color:var(--t2);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.18s;}
 .btn-c:hover{border-color:var(--b2);color:var(--t1);}
 .btn-d{padding:7px 16px;background:var(--red-d);border:1px solid rgba(224,85,85,0.25);border-radius:5px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;}
-.btn-ai{padding:7px 16px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.25);border-radius:5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.btn-ai{padding:7px 16px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.25);border-radius:5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;}
 
 /* DETAIL MODAL */
-.dm-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+.dm-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
 .dm-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;line-height:1.3;flex:1;margin-right:12px;}
-.dm-score{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;}
-.dm-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.dm-score-disp{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;}
+.dm-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
 .dm-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--s2);color:var(--t2);}
-.dm-section{margin-bottom:12px;}
+.sc-editor{display:flex;align-items:center;gap:10px;background:var(--s2);border-radius:6px;padding:10px 14px;margin-bottom:12px;}
+.sc-editor-num{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;width:40px;text-align:center;}
+.sc-bar{flex:1;height:4px;background:var(--b1);border-radius:2px;overflow:hidden;}
+.sc-fill{height:100%;border-radius:2px;background:var(--gold);transition:width 0.2s;}
+.sc-btns{display:flex;flex-direction:column;gap:4px;}
+.seb{width:24px;height:22px;border-radius:4px;border:1px solid var(--b1);background:transparent;cursor:pointer;color:var(--t1);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;}
+.seb:hover{border-color:var(--b2);background:var(--s3);}
 .dm-sec-title{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--t2);margin-bottom:6px;font-weight:500;}
-.dm-body{font-size:12px;color:var(--t2);line-height:1.7;background:var(--s2);border-radius:6px;padding:12px;}
-.dm-highlights{list-style:none;}
+.dm-body{font-size:12px;color:var(--t2);line-height:1.7;background:var(--s2);border-radius:6px;padding:12px;margin-bottom:12px;}
+.dm-hls{list-style:none;margin-bottom:12px;}
 .dm-hl{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--b1);font-size:12px;color:var(--t2);line-height:1.5;}
 .dm-hl:last-child{border-bottom:none;}
 .dm-hl::before{content:'→';color:var(--gold);flex-shrink:0;}
-.ai-loading{text-align:center;padding:20px;color:var(--t2);font-size:12px;}
-.ai-loading::after{content:'';display:inline-block;width:16px;height:16px;border:2px solid var(--b2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin-left:8px;vertical-align:middle;}
+.ai-spin::after{content:'';display:inline-block;width:14px;height:14px;border:2px solid var(--b2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin-left:8px;vertical-align:middle;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .open-link{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:9px;background:var(--gold-d);border:1px solid rgba(200,169,110,0.2);border-radius:6px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.18s;margin-top:4px;}
-.open-link:hover{background:rgba(200,169,110,0.16);}
+.open-link:hover{background:rgba(200,169,110,0.2);}
 
-/* SCORE EDITOR in detail */
-.score-editor{display:flex;align-items:center;gap:10px;background:var(--s2);border-radius:6px;padding:10px 14px;margin-bottom:12px;}
-.score-editor-num{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;width:40px;text-align:center;}
-.score-bar{flex:1;height:4px;background:var(--b1);border-radius:2px;overflow:hidden;}
-.score-fill{height:100%;border-radius:2px;background:var(--gold);transition:width 0.2s;}
-.score-btns{display:flex;flex-direction:column;gap:4px;}
-.seb{width:24px;height:22px;border-radius:4px;border:1px solid var(--b1);background:transparent;cursor:pointer;color:var(--t1);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.12s;}
-.seb:hover{border-color:var(--b2);background:var(--s3);}
-
-/* IMPORT TABS */
+/* IMPORT */
 .itabs{display:flex;border:1px solid var(--b1);border-radius:6px;overflow:hidden;margin-bottom:14px;}
 .itab{flex:1;padding:7px;font-size:11px;cursor:pointer;text-align:center;color:var(--t2);background:transparent;border:none;font-family:'DM Sans',sans-serif;transition:all 0.12s;}
 .itab.active{background:var(--gold-d);color:var(--gold);}
@@ -192,8 +202,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .copy-btn{font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid rgba(90,158,111,0.25);background:var(--grn-d);color:var(--grn);cursor:pointer;font-family:'DM Sans',sans-serif;}
 
 /* GH SETUP */
-.gh-setup{background:var(--s2);border-radius:6px;padding:11px;margin-bottom:12px;font-size:11px;color:var(--t2);line-height:1.6;}
-.gh-setup code{background:var(--s3);border-radius:3px;padding:1px 4px;font-size:10px;color:var(--t1);font-family:monospace;}
+.gh-info{background:var(--s2);border-radius:6px;padding:11px;margin-bottom:12px;font-size:11px;color:var(--t2);line-height:1.6;}
+.gh-info code{background:var(--s3);border-radius:3px;padding:1px 4px;font-size:10px;color:var(--t1);font-family:monospace;}
 
 /* INST */
 .inst-card{background:var(--s1);border:1px solid var(--b1);border-radius:9px;padding:18px;margin-bottom:10px;}
@@ -205,45 +215,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .step code{background:var(--s2);border-radius:3px;padding:1px 4px;font-size:10px;font-family:monospace;}
 
 /* TOAST */
-.toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 14px;font-size:12px;z-index:200;transform:translateY(60px);opacity:0;transition:all 0.25s;}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 14px;font-size:12px;z-index:200;transform:translateY(60px);opacity:0;transition:all 0.25s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
-/* DRAG */
-.cat.dragging{opacity:0.4;border:1px dashed var(--gold);}
-.cat.drag-over{border-color:var(--gold);border-style:solid;background:var(--gold-g);}
-.cat-drag-handle{cursor:grab;color:var(--t3);font-size:12px;padding:0 6px;user-select:none;flex-shrink:0;}
-.cat-drag-handle:hover{color:var(--t2);}
-.cat-edit-btn{font-size:9px;padding:1px 6px;border-radius:3px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.12s;margin-left:4px;}
-.cat-edit-btn:hover{border-color:var(--b2);color:var(--t1);}
-.cat-name-input{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;background:transparent;border:none;border-bottom:1px solid var(--gold);outline:none;color:var(--t1);width:200px;}
-/* FLAT VIEW */
-.flat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.flat-count{font-size:11px;color:var(--t2);}
 /* MOBILE */
 @media(max-width:768px){
   .app{flex-direction:column;}
   .sb{width:100%;height:auto;position:relative;flex-shrink:0;border-right:none;border-bottom:1px solid var(--b1);}
   .sb-logo{padding:10px 14px 8px;}
-  .sb-nav{display:flex;flex-wrap:wrap;padding:5px 10px;gap:3px;overflow-x:auto;}
+  .sb-nav{display:flex;flex-wrap:wrap;padding:5px 10px;gap:3px;}
   .sb-sec{display:none;}
   .ni{padding:3px 9px;font-size:11px;border-left:none;border-radius:14px;border:1px solid var(--b1);white-space:nowrap;flex-shrink:0;}
-  .ni.active{border-color:rgba(200,169,110,0.3);}
   .sb-foot{display:flex;align-items:center;gap:7px;padding:7px 12px;}
   .gh-st{margin:0;white-space:nowrap;}
   .save-btn{width:auto;padding:5px 10px;white-space:nowrap;flex-shrink:0;}
   .mn{margin-left:0;width:100%;}
   .tb{padding:0 12px;height:42px;}
   .srch{width:110px;}
-  .pills{gap:3px;}
-  .pill{padding:2px 6px;font-size:9px;}
-  .ct{padding:10px 12px;}
   .stats{grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px;}
-  .sc{padding:9px 11px;}
-  .sc-v{font-size:18px;}
   .md{width:94vw;padding:16px;max-height:92vh;}
   .md-lg{width:94vw;}
 }
-
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px;}
 </style>
@@ -255,7 +247,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
   <div class="lb">
     <div class="lb-logo">Knowledge Base</div>
     <div class="lb-title">Matsu KB</div>
-    <input class="lb-input" type="password" id="pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <input class="lb-input" type="password" id="pw" placeholder="••••••••">
     <button class="lb-btn" onclick="doLogin()">ログイン</button>
     <div class="lb-err" id="pw-err">パスワードが違います</div>
   </div>
@@ -270,24 +262,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
     </div>
     <nav class="sb-nav">
       <div class="sb-sec">VIEW</div>
-      <div class="ni active" onclick="setView('all',this)"><div class="ni-dot" style="background:var(--gold)"></div>すべて</div>
-      <div class="ni" onclick="setView('high',this)"><div class="ni-dot" style="background:var(--red)"></div>高スコア(7+)</div>
-      <div class="ni" onclick="setView('mid',this)"><div class="ni-dot" style="background:var(--amb)"></div>中スコア(4-6)</div>
+      <div class="ni active" data-view="all" onclick="setView('all',this)"><div class="ni-dot" style="background:var(--gold)"></div>すべて</div>
+      <div class="ni" data-view="high" onclick="setView('high',this)"><div class="ni-dot" style="background:var(--red)"></div>高スコア(7+)</div>
+      <div class="ni" data-view="mid" onclick="setView('mid',this)"><div class="ni-dot" style="background:var(--amb)"></div>中スコア(4-6)</div>
+      <div class="ni" data-view="flat" onclick="setView('flat',this)"><div class="ni-dot" style="background:var(--pur)"></div>📋 スコア順一覧</div>
       <div class="sb-sec">SOURCE</div>
-      <div class="ni" id="src-claude" onclick="toggleSrc('claude',this)"><div class="ni-dot" style="background:var(--gold)"></div>Claude</div>
-      <div class="ni" id="src-chatgpt" onclick="toggleSrc('chatgpt',this)"><div class="ni-dot" style="background:var(--grn)"></div>ChatGPT</div>
-      <div class="ni" id="src-notebooklm" onclick="toggleSrc('notebooklm',this)"><div class="ni-dot" style="background:var(--blu)"></div>NotebookLM</div>
+      <div class="ni" data-src="claude" onclick="toggleSrc('claude',this)"><div class="ni-dot" style="background:var(--gold)"></div>Claude</div>
+      <div class="ni" data-src="chatgpt" onclick="toggleSrc('chatgpt',this)"><div class="ni-dot" style="background:var(--grn)"></div>ChatGPT</div>
+      <div class="ni" data-src="notebooklm" onclick="toggleSrc('notebooklm',this)"><div class="ni-dot" style="background:var(--blu)"></div>NotebookLM</div>
       <div class="sb-sec">MANAGE</div>
-      <div class="ni" onclick="openAddCat()"><div class="ni-dot" style="background:var(--red)"></div>+ カテゴリ追加</div>
-      <div class="ni" onclick="openAdd()"><div class="ni-dot" style="background:var(--pur)"></div>+ スレッド追加</div>
-      <div class="ni" onclick="openImport()"><div class="ni-dot" style="background:var(--grn)"></div>↓ 取込</div>
+      <div class="ni" onclick="openModal('acm')"><div class="ni-dot" style="background:var(--red)"></div>＋ カテゴリ追加</div>
+      <div class="ni" onclick="openAddThread()"><div class="ni-dot" style="background:var(--pur)"></div>＋ スレッド追加</div>
+      <div class="ni" onclick="openModal('im')"><div class="ni-dot" style="background:var(--grn)"></div>↓ 取込</div>
       <div class="ni" onclick="openGH()"><div class="ni-dot" style="background:var(--blu)"></div>⚙ GitHub設定</div>
-      <div class="ni" onclick="setView('flat',this)"><div class="ni-dot" style="background:var(--amb)"></div>📋 スコア順一覧</div>
-      <div class="ni" onclick="setView('inst',this)"><div class="ni-dot" style="background:var(--t3)"></div>更新手順</div>
+      <div class="ni" data-view="inst" onclick="setView('inst',this)"><div class="ni-dot" style="background:var(--t3)"></div>更新手順</div>
     </nav>
     <div class="sb-foot">
       <div class="gh-st" id="gh-st">GitHub: 未設定</div>
-      <button class="save-btn" onclick="saveGH()">↑ 保存</button>
+      <button class="save-btn" onclick="saveToGH()">↑ 保存</button>
     </div>
   </aside>
 
@@ -295,34 +287,33 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
     <div class="tb">
       <div class="tb-title" id="vt">全会話マップ</div>
       <div class="tb-r">
-        <div class="srch"><span style="color:var(--t2)">⌕</span><input placeholder="検索..." oninput="doSearch(this.value)"></div>
+        <div class="srch"><span style="color:var(--t2)">⌕</span><input id="search-inp" placeholder="検索..." oninput="doSearch(this.value)"></div>
         <div class="pills">
-          <div class="pill active" onclick="fImp(this,'all')">All</div>
-          <div class="pill" onclick="fImp(this,'high')">高</div>
-          <div class="pill" onclick="fImp(this,'mid')">中</div>
-          <div class="pill" onclick="fImp(this,'low')">低</div>
+          <div class="pill active" onclick="setPill(this,'all')">All</div>
+          <div class="pill" onclick="setPill(this,'high')">高</div>
+          <div class="pill" onclick="setPill(this,'mid')">中</div>
+          <div class="pill" onclick="setPill(this,'low')">低</div>
         </div>
       </div>
     </div>
-
     <div class="ct">
-      <div class="stats" id="stats">
+      <div class="stats" id="stats-row">
         <div class="sc"><div class="sc-l">Total</div><div class="sc-v" id="s-tot">0</div><div class="sc-s">全スレッド</div></div>
-        <div class="sc"><div class="sc-l">Top Score</div><div class="sc-v s10" id="s-top">0</div><div class="sc-s">最高スコア件数</div></div>
+        <div class="sc"><div class="sc-l">Top Score(8+)</div><div class="sc-v s10" id="s-top">0</div><div class="sc-s">高スコア件数</div></div>
         <div class="sc"><div class="sc-l">Categories</div><div class="sc-v" id="s-cat">0</div><div class="sc-s">カテゴリ数</div></div>
         <div class="sc"><div class="sc-l">Updated</div><div class="sc-v" style="font-size:12px;padding-top:6px" id="s-upd">—</div><div class="sc-s">最終更新</div></div>
       </div>
-      <div id="inst" style="display:none">
+      <div id="inst-panel" style="display:none">
         <div class="inst-card">
           <div class="inst-title">🔄 更新手順</div>
-          <div class="step"><span class="step-n">01</span><span><strong>Claude更新</strong>：「マップ更新して」と送ると最新JSONを出力。「↓ 取込」でペースト。</span></div>
-          <div class="step"><span class="step-n">02</span><span><strong>ChatGPT更新</strong>：「↓ 取込」→ChatGPTタブ→プロンプトをChatGPTに送る→返却JSONをペースト。</span></div>
-          <div class="step"><span class="step-n">03</span><span><strong>自動要約</strong>：各スレッドの「AI要約」ボタンを押すと、Claude APIがsummaryとhighlightsを自動生成。</span></div>
-          <div class="step"><span class="step-n">04</span><span><strong>スコア設定</strong>：スレッド横の±ボタン、またはポップアップ内で0-10点を設定。高スコア順に自動ソート。</span></div>
-          <div class="step"><span class="step-n">05</span><span><strong>GitHub保存</strong>：「⚙ GitHub設定」でToken設定後、「↑ 保存」で全デバイスに同期。</span></div>
+          <div class="step"><span class="step-n">01</span><span><strong>データ永続化の仕組み</strong>：HTMLのDEFAULTデータ（詳細要約入り）が基本。取込・編集後に「↑ 保存」でGitHubのdata.jsに書き込み。次回以降はdata.jsを優先して読み込む。</span></div>
+          <div class="step"><span class="step-n">02</span><span><strong>Claude更新</strong>：このチャットで「マップ更新して」と送る→JSONを出力→「↓ 取込」でペースト→「↑ 保存」。</span></div>
+          <div class="step"><span class="step-n">03</span><span><strong>ChatGPT更新</strong>：「↓ 取込」→ChatGPTタブ→プロンプトをChatGPTに送る→返却JSONをペースト→「↑ 保存」。</span></div>
+          <div class="step"><span class="step-n">04</span><span><strong>AI要約</strong>：スレッドをクリック→「✦ AI要約を生成」。Claude APIキーが必要（⚙ GitHub設定で入力）。</span></div>
+          <div class="step"><span class="step-n">05</span><span><strong>スコア・並び替え</strong>：スレッド横の±ボタンでスコア変更。カテゴリは⠿ハンドルでドラッグ。変更後は「↑ 保存」。</span></div>
         </div>
       </div>
-      <div id="tree"></div>
+      <div id="main-view"></div>
     </div>
   </div>
 </div>
@@ -330,33 +321,31 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 <!-- DETAIL MODAL -->
 <div class="ov" id="dm">
   <div class="md">
-    <div class="dm-header">
+    <div class="dm-hdr">
       <div class="dm-title" id="dm-title"></div>
-      <div class="dm-score" id="dm-score-num"></div>
+      <div class="dm-score-disp" id="dm-score-disp"></div>
     </div>
-    <div class="score-editor">
-      <div class="score-editor-num" id="dm-score-big"></div>
-      <div class="score-bar"><div class="score-fill" id="dm-score-bar"></div></div>
-      <div class="score-btns">
+    <div class="sc-editor">
+      <div class="sc-editor-num" id="dm-score-big"></div>
+      <div class="sc-bar"><div class="sc-fill" id="dm-score-bar"></div></div>
+      <div class="sc-btns">
         <button class="seb" onclick="dmScoreChange(1)">＋</button>
         <button class="seb" onclick="dmScoreChange(-1)">－</button>
       </div>
     </div>
     <div class="dm-meta" id="dm-meta"></div>
-    <div class="dm-section">
-      <div class="dm-sec-title">要約</div>
-      <div class="dm-body" id="dm-body">—</div>
-    </div>
-    <div class="dm-section" id="dm-hl-section" style="display:none">
+    <div class="dm-sec-title">要約</div>
+    <div class="dm-body" id="dm-body"></div>
+    <div id="dm-hl-wrap" style="display:none">
       <div class="dm-sec-title">ハイライト</div>
-      <ul class="dm-highlights" id="dm-hl"></ul>
+      <ul class="dm-hls" id="dm-hls"></ul>
     </div>
     <div style="display:flex;gap:8px;margin-top:8px">
       <button class="btn-ai" onclick="autoSummarize()" id="ai-btn">✦ AI要約を生成</button>
-      <button class="open-link" id="dm-link" style="flex:1">スレッドを開く →</button>
+      <button class="open-link" id="dm-link">スレッドを開く →</button>
     </div>
     <div class="ma" style="margin-top:10px">
-      <button class="btn-c" onclick="closeM('dm')">閉じる</button>
+      <button class="btn-c" onclick="closeModal('dm')">閉じる</button>
       <button class="btn-p" onclick="openEditFromDetail()">編集</button>
     </div>
   </div>
@@ -376,18 +365,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
       <select class="fs" id="e-src"><option value="claude">Claude</option><option value="chatgpt">ChatGPT</option><option value="notebooklm">NotebookLM</option><option value="manual">手動</option></select>
     </div>
     <div class="fg"><label class="fl">要約</label><textarea class="fta" id="e-sum"></textarea></div>
-    <div class="fg"><label class="fl">ハイライト（改行区切り）</label><textarea class="fta" id="e-hl" placeholder="重要ポイント1&#10;重要ポイント2&#10;重要ポイント3"></textarea></div>
-    <div class="ma">
-      <button class="btn-c" onclick="closeM('em')">キャンセル</button>
-      <button class="btn-p" onclick="saveEdit()">保存</button>
-    </div>
+    <div class="fg"><label class="fl">ハイライト（改行区切り）</label><textarea class="fta" id="e-hl" placeholder="重要ポイント1&#10;重要ポイント2"></textarea></div>
+    <div class="ma"><button class="btn-c" onclick="closeModal('em')">キャンセル</button><button class="btn-p" onclick="saveEdit()">保存</button></div>
   </div>
 </div>
 
-<!-- ADD MODAL -->
+<!-- ADD THREAD MODAL -->
 <div class="ov" id="am">
   <div class="md">
-    <div class="md-title">新規追加</div>
+    <div class="md-title">＋ スレッドを追加</div>
     <div class="fg"><label class="fl">タイトル</label><input class="fi" id="a-title" placeholder="会話タイトル..."></div>
     <div class="fg"><label class="fl">URL</label><input class="fi" id="a-url" placeholder="https://claude.ai/chat/..."></div>
     <div class="fg"><label class="fl">カテゴリ</label><select class="fs" id="a-cat"></select></div>
@@ -397,7 +383,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
       <select class="fs" id="a-src"><option value="claude">Claude</option><option value="chatgpt">ChatGPT</option><option value="notebooklm">NotebookLM</option><option value="manual">手動</option></select>
     </div>
     <div class="fg"><label class="fl">要約</label><textarea class="fta" id="a-sum" placeholder="50文字程度..."></textarea></div>
-    <div class="ma"><button class="btn-c" onclick="closeM('am')">キャンセル</button><button class="btn-p" onclick="doAdd()">追加</button></div>
+    <div class="ma"><button class="btn-c" onclick="closeModal('am')">キャンセル</button><button class="btn-p" onclick="doAddThread()">追加</button></div>
+  </div>
+</div>
+
+<!-- ADD CATEGORY MODAL -->
+<div class="ov" id="acm">
+  <div class="md md-sm">
+    <div class="md-title">＋ カテゴリを追加</div>
+    <div class="fg"><label class="fl">カテゴリ名</label><input class="fi" id="ac-name" placeholder="例: マーケティング戦略..."></div>
+    <div class="fg"><label class="fl">アイコン（絵文字）</label><input class="fi" id="ac-icon" placeholder="📁" maxlength="2" value="📁"></div>
+    <div class="fg"><label class="fl">カラー</label>
+      <select class="fs" id="ac-color">
+        <option value="red">🔴 レッド</option>
+        <option value="amber">🟠 オレンジ</option>
+        <option value="green">🟢 グリーン</option>
+        <option value="blue">🔵 ブルー</option>
+        <option value="purple">🟣 パープル</option>
+        <option value="gold">🟡 ゴールド</option>
+      </select>
+    </div>
+    <div class="ma"><button class="btn-c" onclick="closeModal('acm')">キャンセル</button><button class="btn-p" onclick="doAddCat()">追加</button></div>
   </div>
 </div>
 
@@ -406,25 +412,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
   <div class="md md-sm">
     <div class="md-title">削除の確認</div>
     <p style="font-size:12px;color:var(--t2);margin-bottom:16px" id="del-msg"></p>
-    <div class="ma"><button class="btn-c" onclick="closeM('delm')">キャンセル</button><button class="btn-d" onclick="confirmDel()">削除</button></div>
+    <div class="ma"><button class="btn-c" onclick="closeModal('delm')">キャンセル</button><button class="btn-d" onclick="confirmDel()">削除する</button></div>
   </div>
 </div>
 
 <!-- IMPORT MODAL -->
 <div class="ov" id="im">
   <div class="md md-lg">
-    <div class="md-title">データ取込</div>
+    <div class="md-title">↓ データ取込</div>
     <div class="itabs">
-      <button class="itab active" onclick="switchTab('chatgpt',this)">ChatGPT</button>
-      <button class="itab" onclick="switchTab('nlm',this)">NotebookLM</button>
-      <button class="itab" onclick="switchTab('raw',this)">JSON直接</button>
+      <button class="itab active" onclick="switchImportTab('chatgpt',this)">ChatGPT</button>
+      <button class="itab" onclick="switchImportTab('nlm',this)">NotebookLM</button>
+      <button class="itab" onclick="switchImportTab('raw',this)">JSON直接</button>
     </div>
     <div class="ipanel active" id="itab-chatgpt">
-      <p style="font-size:11px;color:var(--t2);margin-bottom:8px;line-height:1.6">①プロンプトをコピー → ChatGPTに送る → ②返答JSONをペースト</p>
-      <div class="code-box" id="cpt-prompt">今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度点数), summary(200文字以内の詳細要約), highlights(重要ポイントの配列、3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。</div>
+      <p style="font-size:11px;color:var(--t2);margin-bottom:8px;line-height:1.6">①プロンプトをコピー → ChatGPTに送る → ②返答JSONをペースト → 取込</p>
+      <div class="code-box" id="cpt-prompt">今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度), summary(200文字以内の詳細要約), highlights(重要ポイントの配列3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。</div>
       <button class="copy-btn" onclick="copyEl('cpt-prompt')" style="margin-bottom:10px">コピー</button>
       <label class="fl">②JSONをペースト</label>
-      <textarea class="fta" id="cpt-json" style="min-height:100px" placeholder='[{"title":"...","score":8,"summary":"詳細な要約...","highlights":["ポイント1","ポイント2"],...}]'></textarea>
+      <textarea class="fta" id="cpt-json" style="min-height:100px" placeholder='[{"title":"...","score":8,"summary":"...","highlights":["..."],...}]'></textarea>
     </div>
     <div class="ipanel" id="itab-nlm">
       <div class="fg"><label class="fl">タイトル</label><input class="fi" id="nlm-t" placeholder="ノートブック名..."></div>
@@ -433,9 +439,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
       <div class="fg"><label class="fl">要約</label><textarea class="fta" id="nlm-s"></textarea></div>
     </div>
     <div class="ipanel" id="itab-raw">
-      <textarea class="fta" id="raw-json" style="min-height:140px" placeholder='[{"title":"...","score":7,"summary":"...","highlights":["..."],...}]'></textarea>
+      <p style="font-size:11px;color:var(--t2);margin-bottom:8px">任意のJSON配列を直接ペースト</p>
+      <textarea class="fta" id="raw-json" style="min-height:140px" placeholder='[{"title":"...","score":7,...}]'></textarea>
     </div>
-    <div class="ma"><button class="btn-c" onclick="closeM('im')">キャンセル</button><button class="btn-p" onclick="doImport()">取込</button></div>
+    <div class="ma"><button class="btn-c" onclick="closeModal('im')">キャンセル</button><button class="btn-p" onclick="doImport()">取込</button></div>
   </div>
 </div>
 
@@ -443,61 +450,29 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 <div class="ov" id="ghm">
   <div class="md">
     <div class="md-title">⚙ GitHub連携設定</div>
-    <div class="gh-setup">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>スコープ: <code>repo</code> にチェック → Generate → コピー</div>
-    <div class="fg"><label class="fl">Claude API Key（AI要約用）</label><input class="fi" id="api-key" type="password" placeholder="sk-ant-xxxxxxxxxxxx"></div>
-    <div style="font-size:10px;color:var(--t2);margin-bottom:10px">取得: console.anthropic.com → API Keys → Create Key（$5クレジット必要）</div>
+    <div class="gh-info">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>スコープ: <code>repo</code> にチェック → Generate → コピー</div>
+    <div class="fg"><label class="fl">Claude API Key（AI要約用）</label><input class="fi" id="gh-api" type="password" placeholder="sk-ant-xxxxxxxxxxxx"></div>
+    <div style="font-size:10px;color:var(--t2);margin-bottom:10px">取得: console.anthropic.com → API Keys → Create Key</div>
     <div class="fg"><label class="fl">GitHub Token</label><input class="fi" id="gh-tok" type="password" placeholder="ghp_xxxxxxxxxxxx"></div>
     <div class="fg"><label class="fl">リポジトリ (owner/repo)</label><input class="fi" id="gh-rep" placeholder="Matsu-by-Matsu/knowledge-base"></div>
     <div class="fg"><label class="fl">ブランチ</label><input class="fi" id="gh-br" value="main"></div>
     <div id="gh-test-res" style="font-size:11px;margin-top:4px"></div>
     <div class="ma">
-      <button class="btn-c" onclick="closeM('ghm')">キャンセル</button>
+      <button class="btn-c" onclick="closeModal('ghm')">キャンセル</button>
       <button class="btn-p" style="background:var(--blu-d);border-color:rgba(74,143,196,0.25);color:var(--blu)" onclick="testGH()">接続テスト</button>
       <button class="btn-p" onclick="saveGHConf()">保存</button>
     </div>
   </div>
 </div>
 
-<!-- ADD CAT MODAL -->
-<div class="ov" id="acm">
-  <div class="md md-sm">
-    <div class="md-title">+ カテゴリを追加</div>
-    <div class="fg"><label class="fl">カテゴリ名</label><input class="fi" id="ac-name" placeholder="例: マーケティング戦略..."></div>
-    <div class="fg"><label class="fl">アイコン（絵文字）</label><input class="fi" id="ac-icon" placeholder="例: 📊" maxlength="2" value="📁"></div>
-    <div class="fg"><label class="fl">カラー</label>
-      <select class="fs" id="ac-color">
-        <option value="#e05555|rgba(224,85,85,0.08)">🔴 レッド</option>
-        <option value="#d4903a|rgba(212,144,58,0.08)">🟠 オレンジ</option>
-        <option value="#5a9e6f|rgba(90,158,111,0.08)">🟢 グリーン</option>
-        <option value="#4a8fc4|rgba(74,143,196,0.08)">🔵 ブルー</option>
-        <option value="#8b72c8|rgba(139,114,200,0.08)">🟣 パープル</option>
-        <option value="#c8a96e|rgba(200,169,110,0.08)">🟡 ゴールド</option>
-      </select>
-    </div>
-    <div class="ma"><button class="btn-c" onclick="closeM('acm')">キャンセル</button><button class="btn-p" onclick="doAddCat()">追加</button></div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== PASSWORD =====
-const PASS='matsu2026';
-function doLogin(){
-  if(document.getElementById('pw').value===PASS){
-    document.getElementById('ls').style.display='none';
-    document.getElementById('app').style.display='flex';
-    init();
-  } else {
-    document.getElementById('pw-err').style.display='block';
-    document.getElementById('pw').value='';
-  }
-}
-document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-
-// ===== DEFAULT DATA =====
-const DEFAULT={
-  lastUpdated:"2026/05/23",
+// ============================================================
+// DATA
+// ============================================================
+const DEFAULT_DATA = {
+  lastUpdated:"2026/05/24",
   categories:[
     {id:"re",name:"不動産ビジネス（本業・高度）",icon:"🏢",color:"#e05555",bg:"rgba(224,85,85,0.08)",subcategories:[
       {name:"ファンド・ディール実務",color:"#e05555",threads:[
@@ -506,731 +481,839 @@ const DEFAULT={
         {title:"LaSalle Japan投資分析（62スライド翻訳）",url:"https://claude.ai/chat/64c1a6aa-7efa-49d4-a063-02aef246a881",score:8,source:"claude",summary:"LaSalle Investment ManagementのJapan市場レポート62スライドを完全翻訳。PPTXのXMLを直接編集するワークフローを確立し、チャートのデータラベルXMLも修正。財務分析（BS・AUM・パフォーマンスフィー構造）も実施した。",highlights:["PPTX XMLワークフローの確立（チャートXML修正含む）","LaSalle Japanのキャップレート・NOIトレンド分析","AUM・パフォーマンスフィー構造の読み解き"],date:"2026/04/08"}
       ]},
       {name:"市場分析・アンダーライティング",color:"#e05555",threads:[
-        {title:"仙台リテール市場（ロードベース分析）",url:"https://claude.ai/chat/5fa041f0-cdaf-41b1-b94c-cb7304118957",score:9,source:"claude",summary:"仙台駅周辺のリテール不動産市場をロードベース（通り別）で精緻分析。クリスロード・一番町・東二番丁・あおば通りを東京の類似商業地（銀座・表参道等）と比較。J-REITデータ（estie・TOREIT推奨）からNOIバックソルブで坪単価を推計。都市型商業不動産の大半がJ-REIT非上場で直接取得データが限られるという構造的制約も整理した。",highlights:["通り別Cap Rate・坪単価・空室リスクの比較表","NOIバックソルブによる坪単価推計手法","J-REIT開示データの限界とestie/TOREITの活用","東京類似商業地（銀座・表参道）との構造比較"],date:"2026/04/16"},
-        {title:"開発単価データベース（地域別）",url:"https://claude.ai/chat/7e4bdc13-6e94-4449-b97b-f5a5efd3f0a0",score:8,source:"claude",summary:"コロナ前（2019年）から2026年までの建築費高騰トレンドをGFA・FAR・NRA別に整理した地域別開発単価データベースを構築。資材費と人件費の両面からの上昇要因と、地域・用途別の単価差を体系化。",highlights:["建築費単価の時系列変化（2019-2026）の整理","GFA/FAR/NRA別単価の概念整理","地域別・用途別（住宅・オフィス・ホテル）の開発単価比較"],date:"2026/04/08"},
-        {title:"空き家・用途規制緩和ファンド戦略",url:"https://claude.ai/chat/bbd6fb8d-2a94-42c4-b6d3-d2c072cc407b",score:7,source:"claude",summary:"増加する空き家・遊休地を活用したファンド戦略の設計。NPL取得・国家戦略特区・都市再生特区を組み合わせた容積率緩和と用途変更による価値創造スキームを検討。",highlights:["国家戦略特区を活用した容積率緩和スキーム","NPL取得から再生・売却までのフロー設計","都市再生特別地区の活用可能性"],date:"2026/04/08"},
-        {title:"GAテクノロジーズ SPC証券買収分析",url:"https://claude.ai/chat/d459ab01-8d36-4b62-810c-ac12391120a8",score:7,source:"claude",summary:"GAテクノロジーズによるSPC証券（TPMから約50.5億円）の買収を分析。第一種・第二種金融商品取引業ライセンスと不動産クラウドファンディングライセンスの獲得が主目的。フロー収益（物件売買）からAUM型フィー収益への転換を狙う。2026年相続税改正（小口不動産の市場価格評価義務化）という逆風の中での戦略的意義を考察した。",highlights:["ライセンス獲得目的の買収（有機的成長より速い）","フロー→AUM型ビジネスモデルへの転換","相続税改正（2027年1月施行）による小口商品の逆風","RENOSY既存63万会員基盤をどう活かすかが成否を分ける"],date:"2026/04/14"}
+        {title:"仙台リテール市場（ロードベース分析）",url:"https://claude.ai/chat/5fa041f0-cdaf-41b1-b94c-cb7304118957",score:9,source:"claude",summary:"仙台駅周辺のリテール不動産市場をロードベース（通り別）で精緻分析。クリスロード・一番町・東二番丁・あおば通りを東京の類似商業地と比較。J-REITデータからNOIバックソルブで坪単価を推計。都市型商業不動産の大半がJ-REIT非上場で直接取得データが限られる構造的制約も整理した。",highlights:["通り別Cap Rate・坪単価・空室リスクの比較表","NOIバックソルブによる坪単価推計手法","J-REIT開示データの限界とestie/TOREITの活用","東京類似商業地との構造比較"],date:"2026/04/16"},
+        {title:"開発単価データベース（地域別）",url:"https://claude.ai/chat/7e4bdc13-6e94-4449-b97b-f5a5efd3f0a0",score:8,source:"claude",summary:"コロナ前（2019年）から2026年までの建築費高騰トレンドをGFA・FAR・NRA別に整理した地域別開発単価データベースを構築。資材費と人件費の両面からの上昇要因と、地域・用途別の単価差を体系化。",highlights:["建築費単価の時系列変化（2019-2026）の整理","地域別・用途別（住宅・オフィス・ホテル）の開発単価比較"],date:"2026/04/08"},
+        {title:"空き家・用途規制緩和ファンド戦略",url:"https://claude.ai/chat/bbd6fb8d-2a94-42c4-b6d3-d2c072cc407b",score:7,source:"claude",summary:"増加する空き家・遊休地を活用したファンド戦略の設計。NPL取得・国家戦略特区・都市再生特区を組み合わせた容積率緩和と用途変更による価値創造スキームを検討。",highlights:["国家戦略特区を活用した容積率緩和スキーム","NPL取得から再生・売却までのフロー設計"],date:"2026/04/08"},
+        {title:"GAテクノロジーズ SPC証券買収分析",url:"https://claude.ai/chat/d459ab01-8d36-4b62-810c-ac12391120a8",score:7,source:"claude",summary:"GAテクノロジーズによるSPC証券（TPMから約50.5億円）の買収を分析。第一種・第二種金融商品取引業ライセンスの獲得が主目的。フロー収益からAUM型フィー収益への転換を狙う。2026年相続税改正（小口不動産の市場価格評価義務化）という逆風の中での戦略的意義を考察した。",highlights:["ライセンス獲得目的の買収（有機的成長より速い）","フロー→AUM型ビジネスモデルへの転換","相続税改正（2027年1月施行）による小口商品の逆風"],date:"2026/04/14"}
       ]},
       {name:"Crest Court浅草（ホテル運営）",color:"#e05555",threads:[
-        {title:"レジ→ホテルコンバージョン 40室分析",url:"https://claude.ai/chat/deeb5cd7-7481-420f-a5e3-77b8442c0649",score:9,source:"claude",summary:"Crest Court浅草柳通りのレジデンス→ホテルコンバージョン案件の収益分析。5タイプ（A:31㎡×14室、B:26㎡×13室、C1:46㎡×6室、C2:50㎡×1室、D:41㎡×6室）の計40室についてADR/㎡・加重平均ADRをY1・Y3シナリオで詳細算出。SQUEEZE（泉勇希担当）のオペレーション前提でダイナミックプライシングを計画。",highlights:["5タイプ別ADR/㎡分析と加重平均ADRの算出","Y1（開業初年度）・Y3（安定期）収支シナリオ","SQUEEZEとの運営委託条件の主要論点","ダイナミックプライシング導入の前提整理"],date:"2026/04/10"},
-        {title:"アパートメントホテル投資ロジック",url:"https://claude.ai/chat/aaf3746e-847c-46df-88cf-c9531b0501d3",score:8,source:"claude",summary:"霞が関キャピタルのKPIダッシュボードを構築してアパートメントホテル投資の論拠を整理。RevPAR・GOP・ADRのトレンド分析と投資リターン試算モデルを設計。競合他社との比較とCrest Court案件への適用を検討した。",highlights:["霞が関キャピタルKPIダッシュボード（RevPAR・GOP・ADR）","アパートメントホテルのRevPAR成長トレンド分析","投資リターン試算モデルの設計"],date:"2026/04/08"}
+        {title:"レジ→ホテルコンバージョン 40室分析",url:"https://claude.ai/chat/deeb5cd7-7481-420f-a5e3-77b8442c0649",score:9,source:"claude",summary:"Crest Court浅草柳通りのレジデンス→ホテルコンバージョン案件の収益分析。5タイプ（A:31㎡×14室、B:26㎡×13室、C1:46㎡×6室、C2:50㎡×1室、D:41㎡×6室）の計40室についてADR/㎡・加重平均ADRをY1・Y3シナリオで詳細算出。SQUEEZE（泉勇希担当）のオペレーション前提でダイナミックプライシングを計画。",highlights:["5タイプ別ADR/㎡分析と加重平均ADRの算出","Y1・Y3収支シナリオ","SQUEEZEとの運営委託条件の主要論点"],date:"2026/04/10"},
+        {title:"アパートメントホテル投資ロジック",url:"https://claude.ai/chat/aaf3746e-847c-46df-88cf-c9531b0501d3",score:8,source:"claude",summary:"霞が関キャピタルのKPIダッシュボードを構築してアパートメントホテル投資の論拠を整理。RevPAR・GOP・ADRのトレンド分析と投資リターン試算モデルを設計。",highlights:["霞が関キャピタルKPIダッシュボード（RevPAR・GOP・ADR）","投資リターン試算モデルの設計"],date:"2026/04/08"}
       ]}
     ]},
     {id:"ct",name:"X/noteコンテンツ事業",icon:"📱",color:"#5a9e6f",bg:"rgba(90,158,111,0.08)",subcategories:[
       {name:"戦略・設計",color:"#5a9e6f",threads:[
-        {title:"Note販売X 引き継ぎ文書・戦略設計",url:"https://claude.ai/chat/cbb4513e-90da-41c1-9028-34f9e055e557",score:8,source:"claude",summary:"@Gaishi_Ura（外資系不動産ファンドプロのペルソナ）のX/note運営戦略を包括的に設計。返信グラインド（手間対効果が悪い）から¥29,800高単価noteへの転換を決定。ピン留め投稿を「685万円」バリュープロポジション＋スレッド誘導型に刷新。X Premium取得・プロフィール改訂・4/22〜4/28の投稿スケジュール（コントラスト型・クリフハンガー型・参加型）を確定。note記事#9〜#15のタイトルも損失回避・好奇心訴求で最適化済み。週1.25万インプレッション→Premium後12.5万に拡大。",highlights:["手動返信グラインドから高単価note（¥29,800）へ転換","ピン留め投稿を「685万円」バリュープロポジション型に刷新","X Premium取得後インプレッションが10倍（1.25万→12.5万）","4/22〜4/28の投稿スケジュールと各ツイートフォーマット","note記事#9〜#15タイトルを損失回避・好奇心訴求で設計"],date:"2026/04/29"},
-        {title:"note運営戦略の初期設計",url:"https://claude.ai/chat/c0b9c76b-5038-42a3-94da-3b0b24fc18a8",score:6,source:"claude",summary:"外資系不動産ファンドプロのペルソナでnoteを運営する初期戦略を設計。無料記事と有料記事の交互投稿モデルを採用し、初期3記事を公開。収益化ロードマップとコンテンツカレンダーを策定した。",highlights:["無料/有料記事交互投稿モデルの設計","初期3記事の公開実績","収益化ロードマップの策定"],date:"2026/04/08"}
+        {title:"Note販売X 引き継ぎ文書・戦略設計",url:"https://claude.ai/chat/cbb4513e-90da-41c1-9028-34f9e055e557",score:8,source:"claude",summary:"@Gaishi_UraのX/note運営戦略を包括的に設計。返信グラインドから¥29,800高単価noteへの転換を決定。ピン留め投稿を「685万円」バリュープロポジション型に刷新。X Premium取得後インプレッションが10倍（1.25万→12.5万）に拡大。4/22〜4/28の投稿スケジュールと各フォーマットを確定。note記事#9〜#15タイトルを損失回避・好奇心訴求で最適化。",highlights:["手動返信グラインドから高単価note（¥29,800）へ転換","ピン留め投稿を「685万円」バリュープロポジション型に刷新","X Premium取得後インプレッション10倍","4/22〜4/28の投稿スケジュールと各ツイートフォーマット"],date:"2026/04/29"},
+        {title:"note運営戦略の初期設計",url:"https://claude.ai/chat/c0b9c76b-5038-42a3-94da-3b0b24fc18a8",score:6,source:"claude",summary:"外資系不動産ファンドプロのペルソナでnoteを運営する初期戦略を設計。無料記事と有料記事の交互投稿モデルを採用し、初期3記事を公開。収益化ロードマップとコンテンツカレンダーを策定した。",highlights:["無料/有料交互投稿モデルの設計","初期3記事の公開実績"],date:"2026/04/08"}
       ]},
       {name:"コンテンツ作成",color:"#5a9e6f",threads:[
-        {title:"note記事：不動産プロの立地判断術",url:"https://claude.ai/chat/94c614d8-f755-429d-9a3e-a77e9724975f",score:6,source:"claude",summary:"Matsuの一次情報・実体験をベースにClaudeが執筆するコクリエーションモデルを確立。外資系不動産プロが実際に行う立地判断プロセスを5ステップで体系化。読者が「自分では気づけなかった視点」を得られる構成に設計。",highlights:["コクリエーション（Matsu一次情報→Claude執筆）ワークフローの確立","立地判断5ステップフレームワークの体系化","「外資プロ視点」という差別化ポイントの言語化"],date:"2026/04/06"},
-        {title:"X性格分析・ビッグデータ収集",url:"https://claude.ai/chat/e9dae11a-fe99-4f4b-87e3-17ae70786e9c",score:5,source:"claude",summary:"X投稿テキストをClaude ProjectsにペーストしてBig5性格モデルで分析するワークフローを確立。@Gaishi_Ura・@sawamura1030等7アカウントのBig5スコア・心理インサイト・MBTI推定を生成。商業化（ターゲティングレポート販売：¥1,000〜¥10万）のフレームを設計。スクロール→Ctrl+Aで投稿テキストを取得するのが最実用的手法と確認。",highlights:["X投稿→Big5分析のノーコードワークフロー確立","7アカウントのBig5・MBTIプロファイル生成","¥1,000〜¥10万のターゲティングレポート商業化設計","Apify+Claude APIで¥100/件以下のコスト構造"],date:"2026/04/20"}
+        {title:"note記事：不動産プロの立地判断術",url:"https://claude.ai/chat/94c614d8-f755-429d-9a3e-a77e9724975f",score:6,source:"claude",summary:"Matsuの一次情報をベースにClaudeが執筆するコクリエーションモデルを確立。外資系不動産プロの立地判断プロセスを5ステップで体系化。",highlights:["コクリエーション（Matsu一次情報→Claude執筆）ワークフローの確立","立地判断5ステップフレームワークの体系化"],date:"2026/04/06"},
+        {title:"X性格分析・ビッグデータ収集",url:"https://claude.ai/chat/e9dae11a-fe99-4f4b-87e3-17ae70786e9c",score:5,source:"claude",summary:"X投稿テキストをClaude ProjectsにペーストしてBig5性格モデルで分析するワークフローを確立。7アカウントのBig5スコア・心理インサイト・MBTI推定を生成。商業化（ターゲティングレポート販売：¥1,000〜¥10万）のフレームを設計。",highlights:["X投稿→Big5分析のノーコードワークフロー確立","7アカウントのBig5・MBTIプロファイル生成","¥1,000〜¥10万のターゲティングレポート商業化設計"],date:"2026/04/20"}
       ]}
     ]},
     {id:"nb",name:"新規ビジネス探索・自動化",icon:"💡",color:"#4a8fc4",bg:"rgba(74,143,196,0.08)",subcategories:[
       {name:"ビジネスモデル・収益化",color:"#4a8fc4",threads:[
-        {title:"稼ぐパターン17分類フレームワーク",url:"https://claude.ai/chat/a07c0d56-e3f3-4c26-b8e2-8933065133ec",score:7,source:"claude",summary:"自作の「稼ぎネタ」分類（17パターン）をClaudeが3軸（モノ・ヒト情報・カネ時間の仲介）に再整理し評価。Matsuの強み（不動産ネットワーク・大型案件クロージング力・富裕層人脈）に照らして実行優先度をマッピング。ブローカレッジ/Exit Advisory・AIプロダクト販売・模倣型ビジネスが最優先と結論。@Gaishi_UraのXアカウントとnote展開への応用提案も実施。",highlights:["17パターンを3軸（モノ/ヒト情報/カネ）に再整理","不動産バックグラウンドとの適合度でランキング","ブローカレッジ/Exit Advisory・AI販売・模倣型が最優先","YouTubeチャンネルM&A（Flippa）への応用も検討"],date:"2026/04/20"},
-        {title:"AI活用 不動産DDレポート販売",url:"https://claude.ai/chat/f34f1c9e-c318-4296-8081-4a1cc2189c8e",score:7,source:"claude",summary:"Matsuの不動産アンダーライティング知識をAI化して¥30,000/件でDD（デューデリジェンス）レポートを自動販売するビジネス設計。Buy-side（買い手側）向けに特化し、オフィス・レジデンシャルのUW力が最大の強み。固定費ほぼゼロ・完全自動化が目標。第一顧客獲得戦略まで設計した。",highlights:["¥30,000/件のAI自動DDレポート販売モデル","Buy-side特化（オフィス・レジデンシャルUW力を活用）","固定費ゼロ・完全自動化の設計","第一顧客獲得のための戦略（人脈起点）"],date:"2026/04/07"},
-        {title:"ビジネスモデル（稼ぎネタ320）",url:"https://claude.ai/chat/82db6c65-7fdd-4ee1-ad07-b41d76c7c159",score:5,source:"claude",summary:"手書きブレインストーミングシート「稼ぎネタ320」から約28アイデアを抽出し優先度分析。Flippa等デジタルアセットM&AプラットフォームのリサーチとYouTubeチャンネルアービトラージ（日本語チャンネルを1.5〜3倍で買い→Flippaで30〜36倍に売る）の詳細フローを設計。インタラクティブなアイデア管理HTMLダッシュボードも作成。",highlights:["28アイデアの優先度ランキングと強みマッピング","Flippaアービトラージ詳細フロー設計","YouTubeチャンネルM&A（日本語→グローバル売却）","アイデア管理HTMLダッシュボードの作成"],date:"2026/04/10"}
+        {title:"稼ぐパターン17分類フレームワーク",url:"https://claude.ai/chat/a07c0d56-e3f3-4c26-b8e2-8933065133ec",score:7,source:"claude",summary:"自作の「稼ぎネタ」分類（17パターン）を3軸（モノ・ヒト情報・カネ時間の仲介）に再整理し評価。Matsuの強みに照らして実行優先度をマッピング。ブローカレッジ/Exit Advisory・AIプロダクト販売・模倣型ビジネスが最優先と結論。",highlights:["17パターンを3軸に再整理","不動産バックグラウンドとの適合度でランキング","ブローカレッジ/Exit Advisory・AI販売が最優先"],date:"2026/04/20"},
+        {title:"AI活用 不動産DDレポート販売",url:"https://claude.ai/chat/f34f1c9e-c318-4296-8081-4a1cc2189c8e",score:7,source:"claude",summary:"Matsuの不動産アンダーライティング知識をAI化して¥30,000/件でDDレポートを自動販売するビジネス設計。Buy-side向けに特化し、オフィス・レジデンシャルのUW力が最大の強み。固定費ほぼゼロ・完全自動化が目標。",highlights:["¥30,000/件のAI自動DDレポート販売モデル","Buy-side特化・固定費ゼロ設計"],date:"2026/04/07"},
+        {title:"ビジネスモデル（稼ぎネタ320）",url:"https://claude.ai/chat/82db6c65-7fdd-4ee1-ad07-b41d76c7c159",score:5,source:"claude",summary:"手書きブレインストーミングシート「稼ぎネタ320」から約28アイデアを抽出し優先度分析。Flippa等デジタルアセットM&AプラットフォームのリサーチとYouTubeチャンネルアービトラージの詳細フローを設計。",highlights:["28アイデアの優先度ランキングと強みマッピング","Flippaアービトラージ詳細フロー設計","YouTubeチャンネルM&A（日本語→グローバル売却）"],date:"2026/04/10"}
       ]},
       {name:"ツール・データ事業",color:"#4a8fc4",threads:[
-        {title:"Apify活用・データパイプライン",url:"https://claude.ai/chat/daacd9fc-988f-42cb-92fa-12d69c27c753",score:6,source:"claude",summary:"Apify（ノーコードWebスクレイピングプラットフォーム）の活用方法を探索。①YouTubeチャンネルM&A候補の自動スクリーニング②Crest Courtのホテル競合OTA価格の自動収集（ダイナミックプライシング支援）③データ分析レポート販売の3用途を検討。Crest Courtの競合ホテル価格収集が最も即効性高いと結論。",highlights:["YouTube M&A候補の自動スクリーニング設計","Crest Court競合OTA価格の自動収集フロー","ダイナミックプライシング支援ツールとしての活用","SQUEEZEとの連携における活用イメージ"],date:"2026/04/20"},
-        {title:"ビッグデータ×AI分析パイプライン",url:"https://claude.ai/chat/1779450633734",score:6,source:"claude",summary:"「ビッグデータ収集→AI大量投入→分析→マネタイズ」のパイプラインをライフスタイル・恋愛・心理分野で構築する戦略。Reddit/Yahoo知恵袋/学術論文をApifyでスクレイピングしClaude Projectsで分析。まず恋愛・回避型アタッチメントパターン100件を収集し、note有料記事（¥1,980×月30部）→サブスク（月¥2,980）へ展開するフェーズ計画を設計。",highlights:["Reddit/知恵袋/論文→Claude分析のノーコードパイプライン","回避型アタッチメントパターン抽出から商品化まで","Phase1（2週間）→Phase2（1ヶ月）→Phase3（3ヶ月）のロードマップ","note有料記事→サブスクへのマネタイズ転換設計"],date:"2026/05/18"},
-        {title:"不動産SaaS市場分析・白地領域",url:"https://claude.ai/chat/ac265ddf-e00c-4593-8a41-3ae9e1ccbbef",score:6,source:"claude",summary:"RENOSY・いえらぶ・ITANDI BB・WealthPark・estie・SQUEEZEなど主要不動産SaaSを4類型（仲介管理型/投資家向け/データ分析型/PM特化型）に整理。外資系AMがリーシング管理に使えるツールが存在しない白地を特定し、SaaSプロダクト構想を検討。",highlights:["不動産SaaS主要プレイヤーの4類型整理","外資系AM向けリーシング管理SaaSの白地特定","RENOSYはiBuyerではなくプロップテック仲介と訂正"],date:"2026/04/09"},
-        {title:"ポッドキャスト企画（岩本さんと）",url:"https://claude.ai/chat/bc6b7b5a-a942-49f9-9c29-def48a0b2f51",score:5,source:"claude",summary:"岩本さん（雑学強者）とMatsuの共同ポッドキャスト「街・駅・建築の成り立ち」企画。岩本さんの雑学＋Matsuの外資ファンド視点という差別化コンテンツ。Spotify for Podcastersで配信→note連携→スポンサー営業→月10〜30万円のロードマップ。初期30本分のネタ案（山手線の歴史・廃線跡・麻布台ヒルズ裏側等）も設計。",highlights:["外資ファンド視点×雑学という差別化コンセプト","Spotify→note→スポンサーの収益化ロードマップ","初期30本分ネタ案（山手線・廃線跡・麻布台ヒルズ等）","@Gaishi_Uraとのクロス導線設計"],date:"2026/05/14"}
+        {title:"Apify活用・データパイプライン",url:"https://claude.ai/chat/daacd9fc-988f-42cb-92fa-12d69c27c753",score:6,source:"claude",summary:"Apify（ノーコードWebスクレイピング）の活用方法を探索。①YouTubeチャンネルM&A候補の自動スクリーニング②Crest Courtのホテル競合OTA価格の自動収集の2用途を検討。競合ホテル価格収集が最も即効性高いと結論。",highlights:["YouTube M&A候補の自動スクリーニング設計","Crest Court競合OTA価格の自動収集フロー"],date:"2026/04/20"},
+        {title:"ビッグデータ×AI分析パイプライン",url:"https://claude.ai/chat/1779450633734",score:6,source:"claude",summary:"「ビッグデータ収集→AI大量投入→分析→マネタイズ」のパイプラインをライフスタイル・恋愛・心理分野で構築する戦略。Reddit/Yahoo知恵袋/学術論文をApifyでスクレイピングしClaude Projectsで分析。note有料記事→サブスクへ展開するフェーズ計画を設計。",highlights:["Reddit/知恵袋/論文→Claude分析のノーコードパイプライン","Phase1→2→3のロードマップ設計"],date:"2026/05/18"},
+        {title:"不動産SaaS市場分析・白地領域",url:"https://claude.ai/chat/ac265ddf-e00c-4593-8a41-3ae9e1ccbbef",score:6,source:"claude",summary:"RENOSY・いえらぶ・ITANDI BB・WealthPark・estie・SQUEEZEなど主要不動産SaaSを4類型に整理。外資系AMがリーシング管理に使えるツールが存在しない白地を特定し、SaaSプロダクト構想を検討。",highlights:["不動産SaaS主要プレイヤーの4類型整理","外資系AM向けリーシング管理SaaSの白地特定"],date:"2026/04/09"},
+        {title:"ポッドキャスト企画（岩本さんと）",url:"https://claude.ai/chat/bc6b7b5a-a942-49f9-9c29-def48a0b2f51",score:5,source:"claude",summary:"岩本さんとMatsuの共同ポッドキャスト「街・駅・建築の成り立ち」企画。岩本さんの雑学＋Matsuの外資ファンド視点という差別化コンテンツ。Spotify配信→note連携→スポンサー営業→月10〜30万円のロードマップ。",highlights:["外資ファンド視点×雑学という差別化コンセプト","Spotify→note→スポンサーの収益化ロードマップ","初期30本分ネタ案（山手線・廃線跡・麻布台ヒルズ等）"],date:"2026/05/14"}
       ]}
     ]},
     {id:"tc",name:"テクノロジー学習",icon:"⚙️",color:"#8b72c8",bg:"rgba(139,114,200,0.08)",subcategories:[
       {name:"開発・ツール",color:"#8b72c8",threads:[
-        {title:"知識ベースURL管理ツール作成",url:"https://claude.ai/chat/current",score:8,source:"claude",summary:"Claude・ChatGPT・NotebookLMの会話履歴を一元管理するGitHub Pagesサイトをゼロから構築。パスワード保護・スコア0〜10点制・高スコア順ソート・カテゴリドラッグ&ドロップ・AI要約（Claude API連携）・GitHub API自動反映・スマホ対応まで実装。Anthropic APIキー設定（$5購入）とGitHub Token設定でフル機能が動作。",highlights:["GitHub Pages + パスワード保護のプライベートKBサイト","0〜10点スコア制と高スコア順自動ソート","Claude API連携によるAI要約自動生成","GitHub API経由のワンクリックデータ同期","ドラッグ&ドロップでのカテゴリ・スレッド並び替え"],date:"2026/05/23"},
-        {title:"Claude Codeインストール・環境構築",url:"https://claude.ai/chat/035a39e0-6d76-4b2d-b063-ef0e00ce084a",score:4,source:"claude",summary:"Claude Codeを使うためにGit・Node.js・PowerShellをWindowsにセットアップ。npm install失敗→wingetでNode.js直接インストールで解決。最終的にブラウザ版Claude Code（claude.ai/code）がPCへのファイル保存不要で使いやすいと判明。PowerShell版との違い（保存場所の違いのみ）を整理した。",highlights:["winget経由でのNode.js直接インストール（npm失敗の解決策）","PowerShell版 vs ブラウザ版Claude Codeの違いの整理","ブラウザ版がUI良好・DL可能で初心者向けと結論"],date:"2026/05/08"},
-        {title:"日本語ファイルの文字化け対策（PPTX）",url:"https://claude.ai/chat/2bf17faa-3101-4661-bf13-d51f08910423",score:4,source:"claude",summary:"PPTXファイルの日本語文字化けをXML直接編集で修正。theme1.xmlに日本語フォント指定（script=Jpan）が欠落していたのが原因。theme2/3のMS Pゴシックを含め全テーマをYu Gothic（游ゴシック）に統一し、クロスプラットフォームで安全なフォント環境を実現。",highlights:["theme1.xmlの日本語フォント欠落が文字化けの原因","全テーマをYu Gothic（游ゴシック）に統一","クロスプラットフォーム（Win/Mac）対応の実現"],date:"2026/05/08"}
+        {title:"知識ベースURL管理ツール作成",url:"https://claude.ai/chat/current",score:8,source:"claude",summary:"Claude・ChatGPT・NotebookLMの会話履歴を一元管理するGitHub Pagesサイトをゼロから構築。パスワード保護・スコア0〜10点制・高スコア順ソート・カテゴリドラッグ&ドロップ・AI要約（Claude API連携）・GitHub API自動反映・スマホ対応まで実装。",highlights:["GitHub Pages + パスワード保護のプライベートKBサイト","0〜10点スコア制と高スコア順自動ソート","Claude API連携によるAI要約自動生成","GitHub API経由のワンクリックデータ同期"],date:"2026/05/24"},
+        {title:"Claude Codeインストール・環境構築",url:"https://claude.ai/chat/035a39e0-6d76-4b2d-b063-ef0e00ce084a",score:4,source:"claude",summary:"Claude Codeを使うためにGit・Node.js・PowerShellをWindowsにセットアップ。npm install失敗→wingetでNode.js直接インストールで解決。最終的にブラウザ版Claude Codeが使いやすいと判明。",highlights:["winget経由でのNode.js直接インストール","PowerShell版 vs ブラウザ版Claude Codeの違いの整理"],date:"2026/05/08"},
+        {title:"日本語ファイルの文字化け対策（PPTX）",url:"https://claude.ai/chat/2bf17faa-3101-4661-bf13-d51f08910423",score:4,source:"claude",summary:"PPTXファイルの日本語文字化けをXML直接編集で修正。theme1.xmlに日本語フォント指定が欠落していたのが原因。全テーマをYu Gothic（游ゴシック）に統一し、クロスプラットフォームで安全なフォント環境を実現。",highlights:["theme1.xmlの日本語フォント欠落が文字化けの原因","全テーマをYu Gothic（游ゴシック）に統一"],date:"2026/05/08"}
       ]}
     ]},
     {id:"ls",name:"ライフスタイル・個人",icon:"🌿",color:"#5a9e6f",bg:"rgba(90,158,111,0.05)",subcategories:[
       {name:"フィットネス",color:"#5a9e6f",threads:[
-        {title:"36歳男性の体組成分析・内臓脂肪対策",url:"https://claude.ai/chat/c0173ae6-b320-4aa6-aed3-c04a2edb2d00",score:4,source:"claude",summary:"177cmのMatsuが週数回キックボクシングを継続しながら体脂肪8〜12%（MMA/ボルダリング選手体型）を目指す計画。現在推定体脂肪19.6%から目標まで5段階の体重・カロリー・トレーニング量の比較表を作成。アルコール（週4〜5日）が肝臓の脂肪代謝を阻害する最大障害と特定。週2回以下への削減が最高インパクトの一手。スパーリングは約750kcal消費（ミット打ち・シャドウより高い）。",highlights:["アルコール週4〜5日→週2回以下が最優先改善策","体脂肪19.6%→8%の5段階目標・カロリー・トレーニング量表","スパーリング≒750kcal消費（公式推計より高い）","訓練日の消費2600kcal vs 摂取2000kcalで自然赤字"],date:"2026/04/28"},
-        {title:"前髪のうねり対策・ヘアケア",url:"https://claude.ai/chat/4b2c1f59-d574-4eed-bd68-83b3454d65fb",score:3,source:"claude",summary:"細め・ふんわり系の髪質のMatsuが前髪うねりを解決するためのヘアケア相談。オイル系（N.ポリッシュオイル等）はべたつき・ぺたんこになるとして明確拒否。Ocean Trico Clayをマット仕上げ・うねり抑制の主要製品として推薦。Air Salt Sprayをより軽いテクスチャーの代替として提案。",highlights:["オイル系製品（N.ポリッシュオイル等）を明確拒否","Ocean Trico Clayがマット仕上げ・うねり抑制に最適","Air Salt Sprayが軽いテクスチャーの代替オプション","縮毛矯正の前髪限定施術のリスクも整理"],date:"2026/04/28"}
+        {title:"36歳男性の体組成分析・内臓脂肪対策",url:"https://claude.ai/chat/c0173ae6-b320-4aa6-aed3-c04a2edb2d00",score:4,source:"claude",summary:"177cmのMatsuが週数回キックボクシングを継続しながら体脂肪8〜12%を目指す計画。アルコール（週4〜5日）が肝臓の脂肪代謝を阻害する最大障害と特定。週2回以下への削減が最高インパクトの一手。スパーリングは約750kcal消費。",highlights:["アルコール週4〜5日→週2回以下が最優先改善策","スパーリング≒750kcal消費"],date:"2026/04/28"},
+        {title:"前髪のうねり対策・ヘアケア",url:"https://claude.ai/chat/4b2c1f59-d574-4eed-bd68-83b3454d65fb",score:3,source:"claude",summary:"細め・ふんわり系の髪質のMatsuが前髪うねりを解決するためのヘアケア相談。オイル系はべたつき・ぺたんこになるとして明確拒否。Ocean Trico Clayをマット仕上げ・うねり抑制の主要製品として推薦。",highlights:["オイル系製品を明確拒否","Ocean Trico Clayがマット仕上げ・うねり抑制に最適"],date:"2026/04/28"}
       ]},
       {name:"雑談・エンタメ",color:"#5a9e6f",threads:[
-        {title:"大喜利セッション（温泉旅館・甲子園）",url:"https://claude.ai/chat/a9fda816-7d0f-4fad-b5d5-9269d24b5b94",score:2,source:"claude",summary:"3題の大喜利セッション。「温泉旅館が怖い理由」「優勝できない甲子園強豪校」「前職ヤバい美容師」をテーマに実施。Matsuが採点（86点・78点・93点）とフィードバックを行い、ClaudeがリアルタイムでUP版を提案。「美容師が自然に逃げ道を確認してくる」が93点の最高評価。",highlights:["「美容師が逃げ道を確認」が93点の最高評価","「スクイズの指示が風になれ」のような具体映像化が重要","余白ある抽象表現 vs セリフの具体化のトレードオフ学習"],date:"2026/05/12"},
-        {title:"本棚から読む性格分析",url:"https://claude.ai/chat/cec3fad7-598f-46d4-9817-9fb932b787c1",score:2,source:"claude",summary:"X知人の本棚画像から性格分析を実施。ミステリ・どんでん返し系が多く、知的好奇心旺盛・感情を内面処理するタイプと分析。その後、そのアカウントからRTオファーがあった際「フォロワーの質が低くアルゴリズム的にもマイナス」としてRT受諾を勧めないと助言。",highlights:["本棚→Big5・読書傾向からの性格推定手法","フォロバ系アカウントからのRTはアルゴリズム的にマイナス","Matsuのコンテンツとの親和性のなさも拒否理由"],date:"2026/04/16"}
+        {title:"大喜利セッション（温泉旅館・甲子園）",url:"https://claude.ai/chat/a9fda816-7d0f-4fad-b5d5-9269d24b5b94",score:2,source:"claude",summary:"3題の大喜利セッション。Matsuが採点（86点・78点・93点）し、「美容師が自然に逃げ道を確認してくる」が93点の最高評価。",highlights:["「美容師が逃げ道を確認」が93点の最高評価"],date:"2026/05/12"},
+        {title:"本棚から読む性格分析",url:"https://claude.ai/chat/cec3fad7-598f-46d4-9817-9fb932b787c1",score:2,source:"claude",summary:"X知人の本棚画像から性格分析を実施。ミステリ・どんでん返し系が多く、知的好奇心旺盛・感情を内面処理するタイプと分析。RTオファーは「フォロワー質が低くアルゴリズム的にもマイナス」として断るよう助言。",highlights:["本棚→Big5・読書傾向からの性格推定手法","フォロバ系アカウントからのRTはアルゴリズム的にマイナス"],date:"2026/04/16"}
       ]}
     ]}
   ]
 };
 
-// ===== STATE =====
-// ===== STATE =====
-let data=null, filter={imp:'all',src:null,search:''};
-let openCats={}, openSubs={};
-let pendDel=null, dmRef=null;
-let ghConf=JSON.parse(localStorage.getItem('kb_gh')||'{}');
-let curImportTab='chatgpt';
+// ============================================================
+// STATE - single source of truth
+// ============================================================
+let data = null;          // active data (DEFAULT or from GitHub)
+let dmRef = null;         // {ci, si, ti} for detail modal
+let pendDel = null;       // {ci, si, ti} for delete confirm
+let curImportTab = 'chatgpt';
+let ghConf = JSON.parse(localStorage.getItem('kb_gh') || '{}');
 
-// ===== INIT =====
-function init(){
-  // Priority: data.js (GitHub) > DEFAULT
-  // localStorage is never used - GitHub is single source of truth
-  if(window.KB_DATA && window.KB_DATA !== null){
-    data=window.KB_DATA;
+// Filter state
+let filterImp = 'all';    // 'all' | 'high' | 'mid' | 'low'
+let filterSrc = null;     // null | 'claude' | 'chatgpt' | 'notebooklm'
+let filterSearch = '';
+let currentView = 'all';  // 'all' | 'high' | 'mid' | 'flat' | 'inst'
+
+// Category open state
+let openCats = {};   // catId -> true(open) | false(closed) | undefined(closed)
+let openSubs = {};   // key -> true|false|undefined
+
+// Drag state
+let dragCatId = null;
+let dragThread = null; // {ci, si, ti}
+
+// ============================================================
+// PASSWORD
+// ============================================================
+const PASS = 'matsu2026';
+document.getElementById('pw').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+function doLogin() {
+  if(document.getElementById('pw').value === PASS) {
+    document.getElementById('ls').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    init();
   } else {
-    data=JSON.parse(JSON.stringify(DEFAULT)); // deep copy
+    document.getElementById('pw-err').style.display = 'block';
+    document.getElementById('pw').value = '';
   }
-  updateGHSt();
-  fillCatSels();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  // Start with DEFAULT always (deep copy to avoid mutations)
+  data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  updateGHStatus();
+  fillCatSelects();
   render();
+  // Load data.js in background - if it has real data, use it
+  loadDataJS();
 }
 
-function fillCatSels(){
-  ['e-cat','a-cat','nlm-c'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    el.innerHTML=data.categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-  });
+function loadDataJS() {
+  const s = document.createElement('script');
+  s.src = 'data.js?v=' + Date.now();
+  s.onload = () => {
+    if(window.KB_DATA && window.KB_DATA !== null) {
+      data = window.KB_DATA;
+      fillCatSelects();
+      render();
+    }
+    // KB_DATA is null: keep using DEFAULT
+  };
+  s.onerror = () => {}; // fail silently
+  document.head.appendChild(s);
 }
 
-function save(){
-  data.lastUpdated=new Date().toLocaleDateString('ja-JP');
-  // Memory only - call saveGH() to persist to GitHub
-  updateStats();
-}
+// ============================================================
+// HELPERS
+// ============================================================
+function scClass(n) { return 's' + Math.min(10, Math.max(0, n)); }
+function srcLabel(s) { return {claude:'CLD',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[s] || 'CLD'; }
+function srcClass(s) { return 'src-' + (s || 'claude'); }
 
-// ===== RENDER =====
-function render(){
-  updateStats();
-  const c=document.getElementById('tree');
-  c.innerHTML='';
-  // Sort categories, sort threads by score desc
-  data.categories.forEach((cat,ci)=>{
-    let hasMatch=false;
-    cat.subcategories.forEach(sub=>sub.threads.forEach(t=>{if(matchT(t))hasMatch=true;}));
-    if(!hasMatch)return;
-    const isOpen=openCats[cat.id]===true;
-    const div=document.createElement('div');
-    div.className='cat';
-    div.draggable=true;
-    div.dataset.catId=cat.id;
-    div.addEventListener('dragstart',onDragStart);
-    div.addEventListener('dragover',onDragOver);
-    div.addEventListener('drop',onDrop);
-    div.addEventListener('dragend',onDragEnd);
-    div.innerHTML=`
-      <div class="ch">
-        <div class="ch-l">
-          <span class="cat-drag-handle" title="ドラッグで並び替え">⠿</span>
-          <div class="ci" style="background:${cat.bg}" onclick="togCat('${cat.id}')" title="クリックで開閉">${cat.icon}</div>
-          <div>
-            <div style="display:flex;align-items:center;gap:4px">
-              <span class="cn" id="cn-${cat.id}" onclick="togCat('${cat.id}')" style="cursor:pointer">${cat.name}</span>
-              <button class="cat-edit-btn" onclick="startEditCat(event,'${cat.id}')">✎</button>
-            </div>
-            <div class="cm" onclick="togCat('${cat.id}')" style="cursor:pointer">${cntCat(cat)}件</div>
-          </div>
-        </div>
-        <span class="chev ${isOpen?'open':''}" id="chev-${cat.id}" onclick="togCat('${cat.id}')">›</span>
-      </div>
-      <div class="cb" id="catb-${cat.id}" style="${isOpen?'':'display:none'}">${renderSubs(cat,ci)}</div>`;
-    c.appendChild(div);
-  });
-}
-
-function renderSubs(cat,ci){
-  return cat.subcategories.map((sub,si)=>{
-    const mt=sub.threads.filter(t=>matchT(t));
-    if(!mt.length)return'';
-    // Sort by score desc
-    const sorted=[...mt].sort((a,b)=>(b.score||0)-(a.score||0));
-    const key=`${cat.id}_${si}`;
-    const isOpen=openSubs[key]===true;
-    const threads=sorted.map(t=>{
-      const realTi=sub.threads.indexOf(t);
-      const sc=t.score||0;
-      const scCls=`s${Math.min(10,sc)}`;
-      return `<div class="tr" draggable="true" ondragstart="onThreadDragStart(event,${ci},${si},${realTi})" ondragover="onThreadDragOver(event)" ondrop="onThreadDrop(event,${ci},${si},${realTi})" ondragend="onThreadDragEnd(event)" onclick="openDetail(${ci},${si},${realTi})">
-        <span class="cat-drag-handle" style="font-size:10px;cursor:grab" onclick="event.stopPropagation()">⠿</span>
-        <span class="src src-${t.source||'claude'}">${{claude:'CLD',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[t.source||'claude']}</span>
-        <div class="tc">
-          <div class="tt">${t.title}</div>
-          <div class="tm"><span class="tm-date">${t.date||''}</span><span style="opacity:0.6;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:200px">${(t.summary||'').substring(0,40)}${(t.summary||'').length>40?'...':''}</span></div>
-        </div>
-        <div class="score-wrap">
-          <button class="score-btn" onclick="scChange(event,${ci},${si},${realTi},-1)">－</button>
-          <span class="score-num ${scCls}">${sc}</span>
-          <button class="score-btn" onclick="scChange(event,${ci},${si},${realTi},1)">＋</button>
-        </div>
-        <div class="ta">
-          <button class="tb2 ai" onclick="openDetailAI(event,${ci},${si},${realTi})">AI要約</button>
-          <button class="tb2" onclick="openEdit(event,${ci},${si},${realTi})">編集</button>
-          <button class="tb2 del" onclick="openDel(event,${ci},${si},${realTi})">削除</button>
-        </div>
-        <span class="tr-arr">→</span>
-      </div>`;
-    }).join('');
-    return `<div class="sg">
-      <div class="sh" onclick="togSub('${key}')">
-        <div class="sh-dot" style="background:${sub.color}"></div>
-        <span class="sh-name">${sub.name}</span>
-        <span class="sh-cnt">${mt.length}件</span>
-        <span class="sh-chev ${isOpen?'open':''}" id="subchev-${key}">›</span>
-      </div>
-      <div class="tl" id="subb-${key}" style="${isOpen?'':'display:none'}">${threads}</div>
-    </div>`;
-  }).join('');
-}
-
-function matchT(t){
-  const sc=t.score||0;
-  if(filter.imp==='high'&&sc<7)return false;
-  if(filter.imp==='mid'&&(sc<4||sc>=7))return false;
-  if(filter.imp==='low'&&sc>=4)return false;
-  if(filter.src&&t.source!==filter.src)return false;
-  if(filter.search){
-    const q=filter.search.toLowerCase();
-    if(!t.title.toLowerCase().includes(q)&&!(t.summary||'').toLowerCase().includes(q))return false;
+function matchThread(t) {
+  const sc = t.score || 0;
+  if(filterImp === 'high' && sc < 7) return false;
+  if(filterImp === 'mid' && (sc < 4 || sc >= 7)) return false;
+  if(filterImp === 'low' && sc >= 4) return false;
+  if(filterSrc && t.source !== filterSrc) return false;
+  if(filterSearch) {
+    const q = filterSearch.toLowerCase();
+    if(!t.title.toLowerCase().includes(q) && !(t.summary||'').toLowerCase().includes(q)) return false;
   }
   return true;
 }
 
-function cntCat(cat){let n=0;cat.subcategories.forEach(s=>s.threads.forEach(t=>{if(matchT(t))n++;}));return n;}
-
-function updateStats(){
-  let all=[];data.categories.forEach(c=>c.subcategories.forEach(s=>s.threads.forEach(t=>all.push(t))));
-  document.getElementById('s-tot').textContent=all.length;
-  document.getElementById('s-top').textContent=all.filter(t=>(t.score||0)>=8).length;
-  document.getElementById('s-cat').textContent=data.categories.length;
-  document.getElementById('s-upd').textContent=data.lastUpdated||'—';
-}
-
-function togCat(id){
-  // default is closed (undefined=closed), open=true
-  openCats[id]=openCats[id]===true?false:true;
-  const b=document.getElementById('catb-'+id),c=document.getElementById('chev-'+id);
-  if(b)b.style.display=openCats[id]===true?'':'none';
-  if(c)c.classList.toggle('open',openCats[id]===true);
-}
-function togSub(key){
-  openSubs[key]=openSubs[key]===true?false:true;
-  const b=document.getElementById('subb-'+key),c=document.getElementById('subchev-'+key);
-  if(b)b.style.display=openSubs[key]===true?'':'none';
-  if(c)c.classList.toggle('open',openSubs[key]===true);
-}
-
-// ===== SCORE =====
-function scChange(e,ci,si,ti,d){
-  e.stopPropagation();
-  const t=data.categories[ci].subcategories[si].threads[ti];
-  t.score=Math.max(0,Math.min(10,(t.score||0)+d));
-  save();render();
-}
-
-// ===== DETAIL =====
-function openDetail(ci,si,ti){
-  dmRef={ci,si,ti};
-  const t=data.categories[ci].subcategories[si].threads[ti];
-  showDetail(t,ci,si);
-  openM('dm');
-}
-
-function openDetailAI(e,ci,si,ti){
-  e.stopPropagation();
-  dmRef={ci,si,ti};
-  const t=data.categories[ci].subcategories[si].threads[ti];
-  showDetail(t,ci,si);
-  openM('dm');
-  autoSummarize();
-}
-
-function showDetail(t,ci,si){
-  const sc=t.score||0;
-  const scCls=`s${Math.min(10,sc)}`;
-  document.getElementById('dm-title').textContent=t.title;
-  document.getElementById('dm-score-num').className=`dm-score ${scCls}`;
-  document.getElementById('dm-score-num').textContent=sc;
-  document.getElementById('dm-score-big').className=`score-editor-num ${scCls}`;
-  document.getElementById('dm-score-big').textContent=sc;
-  document.getElementById('dm-score-bar').style.width=(sc*10)+'%';
-  // meta tags
-  const srcL={claude:'Claude',chatgpt:'ChatGPT',notebooklm:'NotebookLM',manual:'手動'}[t.source||'claude'];
-  const tags=[srcL,t.date||'',data.categories[ci].name,data.categories[ci].subcategories[si].name];
-  document.getElementById('dm-meta').innerHTML=tags.map(tg=>`<span class="dm-tag">${tg}</span>`).join('');
-  // summary
-  document.getElementById('dm-body').textContent=t.summary||'要約なし。「AI要約を生成」ボタンで自動生成できます。';
-  // highlights
-  const hls=t.highlights||[];
-  const hlSec=document.getElementById('dm-hl-section');
-  if(hls.length){
-    hlSec.style.display='block';
-    document.getElementById('dm-hl').innerHTML=hls.map(h=>`<li class="dm-hl">${h}</li>`).join('');
-  } else {
-    hlSec.style.display='none';
-  }
-  // link
-  const lb=document.getElementById('dm-link');
-  if(t.url&&t.url!=='#'&&t.url!==''){
-    lb.onclick=()=>window.open(t.url,'_blank');
-    lb.style.display='flex';
-  } else {lb.style.display='none';}
-}
-
-function dmScoreChange(d){
-  if(!dmRef)return;
-  const t=data.categories[dmRef.ci].subcategories[dmRef.si].threads[dmRef.ti];
-  t.score=Math.max(0,Math.min(10,(t.score||0)+d));
-  const sc=t.score;
-  const scCls=`s${Math.min(10,sc)}`;
-  document.getElementById('dm-score-num').className=`dm-score ${scCls}`;
-  document.getElementById('dm-score-num').textContent=sc;
-  document.getElementById('dm-score-big').className=`score-editor-num ${scCls}`;
-  document.getElementById('dm-score-big').textContent=sc;
-  document.getElementById('dm-score-bar').style.width=(sc*10)+'%';
-  save();render();
-}
-
-// ===== AI SUMMARIZE =====
-async function autoSummarize(){
-  if(!dmRef)return;
-  const t=data.categories[dmRef.ci].subcategories[dmRef.si].threads[dmRef.ti];
-  const btn=document.getElementById('ai-btn');
-  const body=document.getElementById('dm-body');
-  btn.disabled=true;
-  body.innerHTML='<div class="ai-loading">Claude AIが要約を生成中</div>';
-  document.getElementById('dm-hl-section').style.display='none';
-  try{
-    const prompt=`以下の会話スレッドについて、詳細な要約とハイライトを生成してください。
-
-スレッドタイトル: ${t.title}
-カテゴリ: ${data.categories[dmRef.ci].name}
-現在の要約: ${t.summary||'なし'}
-日付: ${t.date||'不明'}
-
-以下のJSON形式のみで回答してください（前後の説明不要）:
-{
-  "summary": "200-300文字の詳細要約。具体的な内容、決定事項、数値があれば含める",
-  "highlights": ["重要ポイント1", "重要ポイント2", "重要ポイント3", "重要ポイント4", "重要ポイント5"]
-}`;
-
-    const apiKey=localStorage.getItem('kb_api');
-    if(!apiKey){body.textContent='APIキーが設定されていません。「⚙ GitHub設定」からClaude API Keyを入力してください。';btn.disabled=false;return;}
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-5',
-        max_tokens:1000,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const json=await resp.json();
-    if(json.error){throw new Error(json.error.message||JSON.stringify(json.error));}
-    const text=json.content?.[0]?.text||'';
-    if(!text){throw new Error('APIから空のレスポンス');}
-    // Try to parse JSON, fallback to using text directly as summary
-    let result={};
-    try{
-      const clean=text.replace(/```json|```/g,'').trim();
-      result=JSON.parse(clean);
-    }catch(e){
-      // If not valid JSON, use the text as summary directly
-      result={summary:text,highlights:[]};
-    }
-    t.summary=result.summary||text;
-    t.highlights=Array.isArray(result.highlights)?result.highlights:[];
-    save();
-    // Force DOM update
-    document.getElementById('dm-body').textContent=t.summary;
-    const hls=t.highlights;
-    const hlSec=document.getElementById('dm-hl-section');
-    if(hls.length){
-      hlSec.style.display='block';
-      document.getElementById('dm-hl').innerHTML=hls.map(h=>`<li class="dm-hl">${h}</li>`).join('');
-    } else {
-      hlSec.style.display='none';
-    }
-    toast('✦ AI要約を生成しました');
-  }catch(err){
-    body.textContent='エラー: '+err.message;
-    toast('✗ 生成エラー: '+err.message);
-  }
-  btn.disabled=false;
-}
-
-function openEditFromDetail(){
-  if(!dmRef)return;
-  closeM('dm');
-  openEdit(null,dmRef.ci,dmRef.si,dmRef.ti);
-}
-
-// ===== EDIT =====
-function openEdit(e,ci,si,ti){
-  if(e)e.stopPropagation();
-  const t=data.categories[ci].subcategories[si].threads[ti];
-  document.getElementById('e-ci').value=ci;
-  document.getElementById('e-si').value=si;
-  document.getElementById('e-ti').value=ti;
-  document.getElementById('e-title').value=t.title;
-  document.getElementById('e-url').value=t.url||'';
-  document.getElementById('e-sub').value=data.categories[ci].subcategories[si].name;
-  document.getElementById('e-score').value=t.score||0;
-  document.getElementById('e-src').value=t.source||'claude';
-  document.getElementById('e-sum').value=t.summary||'';
-  document.getElementById('e-hl').value=(t.highlights||[]).join('\n');
-  document.getElementById('e-cat').value=data.categories[ci].id;
-  openM('em');
-}
-
-function saveEdit(){
-  const ci=parseInt(document.getElementById('e-ci').value);
-  const si=parseInt(document.getElementById('e-si').value);
-  const ti=parseInt(document.getElementById('e-ti').value);
-  const t=data.categories[ci].subcategories[si].threads[ti];
-  const newCatId=document.getElementById('e-cat').value;
-  const newSub=document.getElementById('e-sub').value.trim();
-  t.title=document.getElementById('e-title').value;
-  t.url=document.getElementById('e-url').value;
-  t.score=parseInt(document.getElementById('e-score').value)||0;
-  t.source=document.getElementById('e-src').value;
-  t.summary=document.getElementById('e-sum').value;
-  t.highlights=document.getElementById('e-hl').value.split('\n').filter(h=>h.trim());
-  // Move cat/sub if changed
-  const newCatIdx=data.categories.findIndex(c=>c.id===newCatId);
-  if(newCatIdx!==ci||newSub!==data.categories[ci].subcategories[si].name){
-    data.categories[ci].subcategories[si].threads.splice(ti,1);
-    const nc=data.categories[newCatIdx];
-    let ns=nc.subcategories.find(s=>s.name===newSub);
-    if(!ns){ns={name:newSub,color:nc.color,threads:[]};nc.subcategories.push(ns);}
-    ns.threads.push(t);
-  }
-  save();render();closeM('em');toast('✓ 保存しました');
-}
-
-// ===== ADD =====
-function openAdd(){fillCatSels();openM('am');}
-function doAdd(){
-  const title=document.getElementById('a-title').value.trim();
-  if(!title){toast('タイトルを入力してください');return;}
-  const catId=document.getElementById('a-cat').value;
-  const subName=document.getElementById('a-sub').value.trim()||'手動追加';
-  const cat=data.categories.find(c=>c.id===catId);
-  let sub=cat.subcategories.find(s=>s.name===subName);
-  if(!sub){sub={name:subName,color:cat.color,threads:[]};cat.subcategories.push(sub);}
-  sub.threads.push({
-    title,url:document.getElementById('a-url').value,
-    score:parseInt(document.getElementById('a-score').value)||5,
-    source:document.getElementById('a-src').value,
-    summary:document.getElementById('a-sum').value,
-    highlights:[],
-    date:new Date().toLocaleDateString('ja-JP')
-  });
-  save();render();closeM('am');toast('✓ 追加しました');
-}
-
-// ===== DELETE =====
-function openDel(e,ci,si,ti){
-  e.stopPropagation();
-  pendDel={ci,si,ti};
-  document.getElementById('del-msg').textContent=`「${data.categories[ci].subcategories[si].threads[ti].title}」を削除しますか？`;
-  openM('delm');
-}
-function confirmDel(){
-  const{ci,si,ti}=pendDel;
-  data.categories[ci].subcategories[si].threads.splice(ti,1);
-  save();render();closeM('delm');toast('🗑 削除しました');
-}
-
-// ===== IMPORT =====
-function openImport(){fillCatSels();openM('im');}
-function switchTab(tab,btn){
-  curImportTab=tab;
-  document.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('itab-'+tab).classList.add('active');
-}
-function doImport(){
-  let items=[];
-  try{
-    if(curImportTab==='chatgpt') items=JSON.parse(document.getElementById('cpt-json').value.trim());
-    else if(curImportTab==='nlm'){
-      const t=document.getElementById('nlm-t').value.trim();
-      if(!t){toast('タイトルを入力してください');return;}
-      items=[{title:t,url:document.getElementById('nlm-u').value,
-        category:document.getElementById('nlm-c').value,subcategory:'NLMノート',
-        score:5,summary:document.getElementById('nlm-s').value,highlights:[],
-        date:new Date().toLocaleDateString('ja-JP'),source:'notebooklm'}];
-    } else items=JSON.parse(document.getElementById('raw-json').value.trim());
-  }catch(e){toast('JSONの形式が正しくありません');return;}
-  if(!Array.isArray(items)||!items.length){toast('データが空です');return;}
-  let added=0;
-  items.forEach(item=>{
-    const cat=data.categories.find(c=>c.name===item.category||c.id===item.category)||data.categories[0];
-    const subName=item.subcategory||'インポート';
-    let sub=cat.subcategories.find(s=>s.name===subName);
-    if(!sub){sub={name:subName,color:cat.color,threads:[]};cat.subcategories.push(sub);}
-    sub.threads.push({
-      title:item.title||'無題',url:item.url||'',
-      score:item.score||item.importance==='high'?8:item.importance==='mid'?5:3,
-      source:item.source||'manual',summary:item.summary||'',
-      highlights:item.highlights||[],date:item.date||new Date().toLocaleDateString('ja-JP')
-    });
-    added++;
-  });
-  save();render();closeM('im');toast(`✓ ${added}件取り込みました`);
-}
-
-// ===== GITHUB =====
-function updateGHSt(){
-  const el=document.getElementById('gh-st');
-  if(ghConf.token&&ghConf.repo){el.textContent='GitHub: 接続済み';el.className='gh-st ok';}
-  else{el.textContent='GitHub: 未設定';el.className='gh-st';}
-}
-function openGH(){
-  document.getElementById('api-key').value=localStorage.getItem('kb_api')||'';
-  document.getElementById('gh-tok').value=ghConf.token||'';
-  document.getElementById('gh-rep').value=ghConf.repo||'Matsu-by-Matsu/knowledge-base';
-  document.getElementById('gh-br').value=ghConf.branch||'main';
-  openM('ghm');
-}
-function saveGHConf(){
-  ghConf={token:document.getElementById('gh-tok').value.trim(),repo:document.getElementById('gh-rep').value.trim(),branch:document.getElementById('gh-br').value.trim()||'main'};
-  const apiKey=document.getElementById('api-key').value.trim();
-  if(apiKey) localStorage.setItem('kb_api',apiKey);
-  localStorage.setItem('kb_gh',JSON.stringify(ghConf));
-  updateGHSt();closeM('ghm');toast('✓ GitHub設定を保存しました');
-}
-async function testGH(){
-  const token=document.getElementById('gh-tok').value.trim();
-  const repo=document.getElementById('gh-rep').value.trim();
-  const res=document.getElementById('gh-test-res');
-  res.textContent='接続テスト中...';res.style.color='var(--t2)';
-  try{
-    const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{Authorization:`token ${token}`}});
-    if(r.ok){res.textContent='✓ 接続成功！';res.style.color='var(--grn)';}
-    else{res.textContent=`✗ エラー: ${r.status}`;res.style.color='var(--red)';}
-  }catch(e){res.textContent='✗ 接続失敗';res.style.color='var(--red)';}
-}
-async function saveGH(){
-  if(!ghConf.token||!ghConf.repo){openGH();return;}
-  const content=`window.KB_DATA = ${JSON.stringify(data,null,2)};`;
-  const b64=btoa(unescape(encodeURIComponent(content)));
-  try{
-    const getR=await fetch(`https://api.github.com/repos/${ghConf.repo}/contents/data.js`,{headers:{Authorization:`token ${ghConf.token}`}});
-    let sha='';
-    if(getR.ok){const j=await getR.json();sha=j.sha;}
-    const putR=await fetch(`https://api.github.com/repos/${ghConf.repo}/contents/data.js`,{
-      method:'PUT',headers:{Authorization:`token ${ghConf.token}`,'Content-Type':'application/json'},
-      body:JSON.stringify({message:'Update KB data',content:b64,sha,branch:ghConf.branch||'main'})
-    });
-    if(putR.ok)toast('✓ GitHubに保存しました（1〜2分で反映）');
-    else{const j=await putR.json();toast('✗ 保存失敗: '+j.message);}
-  }catch(e){toast('✗ GitHub保存エラー: '+e.message);}
-}
-
-// ===== THREAD DRAG =====
-let threadDragSrc=null;
-function onThreadDragStart(e,ci,si,ti){
-  e.stopPropagation();
-  threadDragSrc={ci,si,ti};
-  e.dataTransfer.effectAllowed='move';
-  e.currentTarget.style.opacity='0.4';
-}
-function onThreadDragOver(e){
-  e.preventDefault();e.stopPropagation();
-  e.dataTransfer.dropEffect='move';
-}
-function onThreadDrop(e,tci,tsi,tti){
-  e.preventDefault();e.stopPropagation();
-  if(!threadDragSrc)return;
-  const{ci,si,ti}=threadDragSrc;
-  if(ci===tci&&si===tsi&&ti===tti)return;
-  const thread=data.categories[ci].subcategories[si].threads.splice(ti,1)[0];
-  // Drop into target subcat
-  data.categories[tci].subcategories[tsi].threads.splice(tti,0,thread);
-  threadDragSrc=null;
-  save();render();toast('✓ 移動しました');
-}
-function onThreadDragEnd(e){
-  e.currentTarget.style.opacity='1';
-  threadDragSrc=null;
-}
-
-// ===== FLAT VIEW =====
-function renderFlat(){
-  const c=document.getElementById('tree');
-  c.innerHTML='';
-  let all=[];
-  data.categories.forEach((cat,ci)=>{
-    cat.subcategories.forEach((sub,si)=>{
-      sub.threads.forEach((t,ti)=>{
-        if(matchT(t)) all.push({t,ci,si,ti,catName:cat.name,subName:sub.name});
+function getAllThreads() {
+  const all = [];
+  data.categories.forEach((cat, ci) => {
+    cat.subcategories.forEach((sub, si) => {
+      sub.threads.forEach((t, ti) => {
+        all.push({t, ci, si, ti, catName: cat.name, subName: sub.name});
       });
     });
   });
-  all.sort((a,b)=>(b.t.score||0)-(a.t.score||0));
-  const header=document.createElement('div');
-  header.className='flat-header';
-  header.innerHTML=`<div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">スコア順一覧</div><div class="flat-count">${all.length}件</div>`;
-  c.appendChild(header);
-  all.forEach(({t,ci,si,ti})=>{
-    const sc=t.score||0;
-    const scCls=`s${Math.min(10,sc)}`;
-    const div=document.createElement('div');
-    div.className='tr';
-    div.style.cssText='background:var(--s1);border:1px solid var(--b1);border-radius:6px;margin-bottom:4px;padding:7px 12px;';
-    div.onclick=()=>openDetail(ci,si,ti);
-    div.innerHTML=`
-      <span class="src src-${t.source||'claude'}">${{claude:'CLD',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[t.source||'claude']}</span>
+  return all;
+}
+
+function updateStats() {
+  const all = getAllThreads();
+  document.getElementById('s-tot').textContent = all.length;
+  document.getElementById('s-top').textContent = all.filter(x => (x.t.score||0) >= 8).length;
+  document.getElementById('s-cat').textContent = data.categories.length;
+  document.getElementById('s-upd').textContent = data.lastUpdated || '—';
+}
+
+function fillCatSelects() {
+  ['e-cat', 'a-cat', 'nlm-c'].forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = data.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+  });
+}
+
+function markUpdated() {
+  data.lastUpdated = new Date().toLocaleDateString('ja-JP');
+  updateStats();
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  updateStats();
+  const view = document.getElementById('main-view');
+
+  // Show/hide inst panel
+  document.getElementById('inst-panel').style.display = currentView === 'inst' ? 'block' : 'none';
+  document.getElementById('stats-row').style.display = currentView === 'inst' ? 'none' : 'grid';
+  view.style.display = currentView === 'inst' ? 'none' : 'block';
+
+  if(currentView === 'inst') return;
+  if(currentView === 'flat') { renderFlat(); return; }
+  renderTree();
+}
+
+function renderTree() {
+  const view = document.getElementById('main-view');
+  view.innerHTML = '';
+
+  data.categories.forEach((cat, ci) => {
+    // Check if cat has any matching threads
+    let hasMatch = false;
+    cat.subcategories.forEach(sub => sub.threads.forEach(t => { if(matchThread(t)) hasMatch = true; }));
+    if(!hasMatch) return;
+
+    const isOpen = openCats[cat.id] === true;
+    const div = document.createElement('div');
+    div.className = 'cat';
+    div.dataset.catId = cat.id;
+
+    div.innerHTML = `
+      <div class="ch">
+        <div class="ch-l">
+          <span class="drag-h" draggable="true" title="ドラッグで並び替え">⠿</span>
+          <div class="ci" style="background:${cat.bg}" onclick="toggleCat('${cat.id}')">${cat.icon}</div>
+          <div>
+            <div class="cn-wrap">
+              <span class="cn" id="cn-${cat.id}" onclick="toggleCat('${cat.id}')">${cat.name}</span>
+              <button class="edit-cat-btn" onclick="startEditCatName(event,'${cat.id}')">✎</button>
+            </div>
+            <div class="cm" onclick="toggleCat('${cat.id}')">${countCat(cat)}件</div>
+          </div>
+        </div>
+        <span class="chev ${isOpen?'open':''}" id="chev-${cat.id}" onclick="toggleCat('${cat.id}')">›</span>
+      </div>
+      <div class="cb" id="catb-${cat.id}" style="${isOpen?'':'display:none'}">${renderSubs(cat, ci)}</div>`;
+
+    // Category drag events
+    const handle = div.querySelector('.drag-h');
+    handle.addEventListener('dragstart', e => { e.stopPropagation(); dragCatId = cat.id; div.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+    div.addEventListener('dragover', e => { if(dragCatId) { e.preventDefault(); e.stopPropagation(); div.classList.add('drag-over'); }});
+    div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+    div.addEventListener('drop', e => {
+      e.preventDefault(); e.stopPropagation();
+      div.classList.remove('drag-over');
+      if(dragCatId && dragCatId !== cat.id) {
+        const si = data.categories.findIndex(c => c.id === dragCatId);
+        const ti = data.categories.findIndex(c => c.id === cat.id);
+        const [moved] = data.categories.splice(si, 1);
+        data.categories.splice(ti, 0, moved);
+        dragCatId = null;
+        markUpdated(); render();
+      }
+    });
+    div.addEventListener('dragend', () => { div.classList.remove('dragging'); dragCatId = null; document.querySelectorAll('.cat').forEach(c=>c.classList.remove('drag-over')); });
+
+    view.appendChild(div);
+  });
+}
+
+function renderSubs(cat, ci) {
+  return cat.subcategories.map((sub, si) => {
+    const matching = sub.threads.filter(t => matchThread(t));
+    if(!matching.length) return '';
+    const sorted = [...matching].sort((a,b) => (b.score||0) - (a.score||0));
+    const key = `${cat.id}_${si}`;
+    const isOpen = openSubs[key] === true;
+
+    const threadsHTML = sorted.map(t => {
+      const realTi = sub.threads.indexOf(t);
+      const sc = t.score || 0;
+      return `<div class="tr"
+        draggable="true"
+        onclick="openDetail(${ci},${si},${realTi})"
+        ondragstart="onThreadDragStart(event,${ci},${si},${realTi})"
+        ondragover="onThreadDragOver(event)"
+        ondrop="onThreadDrop(event,${ci},${si},${realTi})"
+        ondragend="onThreadDragEnd(event)">
+        <span class="drag-h" style="font-size:10px" onclick="event.stopPropagation()">⠿</span>
+        <span class="src ${srcClass(t.source)}">${srcLabel(t.source)}</span>
+        <div class="tc">
+          <div class="tt">${t.title}</div>
+          <div class="tm"><span class="tm-date">${t.date||''}</span><span class="tm-sum">${(t.summary||'').substring(0,50)}${(t.summary||'').length>50?'...':''}</span></div>
+        </div>
+        <div class="sc-wrap">
+          <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${realTi},-1)">－</button>
+          <span class="sc-num ${scClass(sc)}">${sc}</span>
+          <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${realTi},1)">＋</button>
+        </div>
+        <div class="ta">
+          <button class="tb2 ai" onclick="event.stopPropagation();openDetailWithAI(${ci},${si},${realTi})">AI要約</button>
+          <button class="tb2" onclick="event.stopPropagation();openEdit(${ci},${si},${realTi})">編集</button>
+          <button class="tb2 del" onclick="event.stopPropagation();openDel(${ci},${si},${realTi})">削除</button>
+        </div>
+        <span class="tr-arr">→</span>
+      </div>`;
+    }).join('');
+
+    return `<div class="sg">
+      <div class="sh" onclick="toggleSub('${key}')">
+        <div class="sh-dot" style="background:${sub.color}"></div>
+        <span class="sh-name">${sub.name}</span>
+        <span class="sh-cnt">${matching.length}件</span>
+        <span class="sh-chev ${isOpen?'open':''}" id="subchev-${key}">›</span>
+      </div>
+      <div class="tl" id="subb-${key}" style="${isOpen?'':'display:none'}">${threadsHTML}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderFlat() {
+  const view = document.getElementById('main-view');
+  view.innerHTML = '';
+
+  const all = getAllThreads().filter(x => matchThread(x.t));
+  all.sort((a,b) => (b.t.score||0) - (a.t.score||0));
+
+  const hdr = document.createElement('div');
+  hdr.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;';
+  hdr.innerHTML = `<div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">スコア順一覧</div><div style="font-size:11px;color:var(--t2)">${all.length}件</div>`;
+  view.appendChild(hdr);
+
+  all.forEach(({t, ci, si, ti}) => {
+    const sc = t.score || 0;
+    const div = document.createElement('div');
+    div.className = 'flat-tr';
+    div.onclick = () => openDetail(ci, si, ti);
+    div.innerHTML = `
+      <span class="src ${srcClass(t.source)}">${srcLabel(t.source)}</span>
       <div class="tc">
         <div class="tt">${t.title}</div>
-        <div class="tm"><span class="tm-date">${t.date||''}</span><span style="opacity:0.5;margin-left:4px">${data.categories[ci].name} · ${data.categories[ci].subcategories[si].name}</span></div>
+        <div class="flat-meta">${data.categories[ci].name} · ${data.categories[ci].subcategories[si].name}</div>
       </div>
-      <div class="score-wrap">
-        <button class="score-btn" onclick="event.stopPropagation();scChange(event,${ci},${si},${ti},-1)">－</button>
-        <span class="score-num ${scCls}">${sc}</span>
-        <button class="score-btn" onclick="event.stopPropagation();scChange(event,${ci},${si},${ti},1)">＋</button>
+      <div class="sc-wrap">
+        <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${ti},-1);renderFlat()">－</button>
+        <span class="sc-num ${scClass(sc)}">${sc}</span>
+        <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${ti},1);renderFlat()">＋</button>
       </div>
       <span class="tr-arr">→</span>`;
-    c.appendChild(div);
+    view.appendChild(div);
   });
 }
 
-// ===== DRAG & DROP =====
-let dragSrcId=null;
-function onDragStart(e){
-  dragSrcId=this.dataset.catId;
-  this.classList.add('dragging');
-  e.dataTransfer.effectAllowed='move';
-}
-function onDragOver(e){
-  e.preventDefault();
-  e.dataTransfer.dropEffect='move';
-  document.querySelectorAll('.cat').forEach(el=>el.classList.remove('drag-over'));
-  this.classList.add('drag-over');
-}
-function onDrop(e){
-  e.stopPropagation();
-  const targetId=this.dataset.catId;
-  if(dragSrcId&&dragSrcId!==targetId){
-    const srcIdx=data.categories.findIndex(c=>c.id===dragSrcId);
-    const tgtIdx=data.categories.findIndex(c=>c.id===targetId);
-    const [moved]=data.categories.splice(srcIdx,1);
-    data.categories.splice(tgtIdx,0,moved);
-    save();render();
-  }
-  document.querySelectorAll('.cat').forEach(el=>el.classList.remove('drag-over'));
-}
-function onDragEnd(){
-  this.classList.remove('dragging');
-  document.querySelectorAll('.cat').forEach(el=>el.classList.remove('drag-over'));
+function countCat(cat) {
+  let n = 0;
+  cat.subcategories.forEach(s => s.threads.forEach(t => { if(matchThread(t)) n++; }));
+  return n;
 }
 
-// ===== CAT NAME EDIT =====
-function startEditCat(e,catId){
-  e.stopPropagation();
-  const el=document.getElementById('cn-'+catId);
-  if(!el)return;
-  const oldName=el.textContent;
-  el.innerHTML=`<input class="cat-name-input" value="${oldName}" onblur="saveCatName(this,'${catId}')" onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape')cancelCatName(this,'${catId}','${oldName}')">`;
-  el.querySelector('input').focus();
-  el.querySelector('input').select();
-}
-function saveCatName(input,catId){
-  const newName=input.value.trim();
-  if(newName){
-    const cat=data.categories.find(c=>c.id===catId);
-    if(cat){cat.name=newName;save();render();}
-  }
-}
-function cancelCatName(input,catId,oldName){
-  const el=document.getElementById('cn-'+catId);
-  if(el)el.textContent=oldName;
+// ============================================================
+// TOGGLE OPEN/CLOSE
+// ============================================================
+function toggleCat(id) {
+  openCats[id] = !openCats[id]; // undefined->false via !undefined=true... wait
+  // undefined treated as false(closed), so first click opens
+  if(openCats[id] === undefined) openCats[id] = true;
+  else openCats[id] = !openCats[id];
+  // fix: just toggle
+  const b = document.getElementById('catb-'+id);
+  const c = document.getElementById('chev-'+id);
+  if(b) { const nowOpen = b.style.display === 'none'; b.style.display = nowOpen ? '' : 'none'; c.classList.toggle('open', nowOpen); openCats[id] = nowOpen; }
 }
 
-// ===== CAT ADD =====
-function openAddCat(){openM('acm');}
-function doAddCat(){
-  const name=document.getElementById('ac-name').value.trim();
-  if(!name){toast('カテゴリ名を入力してください');return;}
-  const icon=document.getElementById('ac-icon').value||'📁';
-  const colorVal=document.getElementById('ac-color').value.split('|');
-  const id='cat_'+Date.now();
-  data.categories.push({
-    id,name,icon,
-    color:colorVal[0],
-    bg:colorVal[1],
-    subcategories:[{name:'未分類',color:colorVal[0],threads:[]}]
+function toggleSub(key) {
+  const b = document.getElementById('subb-'+key);
+  const c = document.getElementById('subchev-'+key);
+  if(b) { const nowOpen = b.style.display === 'none'; b.style.display = nowOpen ? '' : 'none'; c.classList.toggle('open', nowOpen); openSubs[key] = nowOpen; }
+}
+
+// ============================================================
+// SCORE
+// ============================================================
+function changeScore(ci, si, ti, delta) {
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  t.score = Math.max(0, Math.min(10, (t.score||0) + delta));
+  markUpdated();
+  // Re-render only if not in flat view (flat view handles its own re-render)
+  if(currentView !== 'flat') render();
+}
+
+// ============================================================
+// DETAIL MODAL
+// ============================================================
+function openDetail(ci, si, ti) {
+  dmRef = {ci, si, ti};
+  showDetailModal();
+  openModal('dm');
+}
+
+function openDetailWithAI(ci, si, ti) {
+  dmRef = {ci, si, ti};
+  showDetailModal();
+  openModal('dm');
+  autoSummarize();
+}
+
+function showDetailModal() {
+  const {ci, si, ti} = dmRef;
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  const sc = t.score || 0;
+  const cls = scClass(sc);
+
+  document.getElementById('dm-title').textContent = t.title;
+  document.getElementById('dm-score-disp').className = 'dm-score-disp ' + cls;
+  document.getElementById('dm-score-disp').textContent = sc;
+  document.getElementById('dm-score-big').className = 'sc-editor-num ' + cls;
+  document.getElementById('dm-score-big').textContent = sc;
+  document.getElementById('dm-score-bar').style.width = (sc * 10) + '%';
+
+  const srcL = {claude:'Claude',chatgpt:'ChatGPT',notebooklm:'NotebookLM',manual:'手動'}[t.source||'claude'];
+  document.getElementById('dm-meta').innerHTML = [srcL, t.date||'', data.categories[ci].name, data.categories[ci].subcategories[si].name]
+    .map(tag => `<span class="dm-tag">${tag}</span>`).join('');
+
+  document.getElementById('dm-body').textContent = t.summary || '要約なし。「AI要約を生成」で自動生成できます。';
+
+  const hls = t.highlights || [];
+  const hlWrap = document.getElementById('dm-hl-wrap');
+  if(hls.length) {
+    hlWrap.style.display = 'block';
+    document.getElementById('dm-hls').innerHTML = hls.map(h => `<li class="dm-hl">${h}</li>`).join('');
+  } else {
+    hlWrap.style.display = 'none';
+  }
+
+  const lb = document.getElementById('dm-link');
+  if(t.url && t.url !== '' && t.url !== '#') {
+    lb.onclick = () => window.open(t.url, '_blank');
+    lb.style.display = 'flex';
+  } else {
+    lb.style.display = 'none';
+  }
+}
+
+function dmScoreChange(delta) {
+  if(!dmRef) return;
+  const t = data.categories[dmRef.ci].subcategories[dmRef.si].threads[dmRef.ti];
+  t.score = Math.max(0, Math.min(10, (t.score||0) + delta));
+  markUpdated();
+  showDetailModal(); // refresh modal display
+  if(currentView !== 'flat') render();
+}
+
+// ============================================================
+// AI SUMMARIZE
+// ============================================================
+async function autoSummarize() {
+  if(!dmRef) return;
+  const {ci, si, ti} = dmRef;
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  const btn = document.getElementById('ai-btn');
+  const body = document.getElementById('dm-body');
+
+  const apiKey = localStorage.getItem('kb_api');
+  if(!apiKey) { body.textContent = 'APIキーが未設定です。「⚙ GitHub設定」からClaude API Keyを入力してください。'; return; }
+
+  btn.disabled = true;
+  body.innerHTML = '<span class="ai-spin">Claude AIが要約を生成中</span>';
+  document.getElementById('dm-hl-wrap').style.display = 'none';
+
+  try {
+    const prompt = `以下の会話スレッドについて詳細な要約とハイライトをJSON形式で生成してください。
+
+スレッドタイトル: ${t.title}
+カテゴリ: ${data.categories[ci].name} > ${data.categories[ci].subcategories[si].name}
+現在の要約: ${t.summary || 'なし'}
+日付: ${t.date || '不明'}
+
+以下のJSON形式のみで回答（前後の説明不要）:
+{"summary":"200-300文字の詳細要約。具体的な内容・決定事項・数値を含める","highlights":["重要ポイント1","重要ポイント2","重要ポイント3","重要ポイント4","重要ポイント5"]}`;
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        messages: [{role:'user', content: prompt}]
+      })
+    });
+
+    const json = await resp.json();
+    if(json.error) throw new Error(json.error.message || JSON.stringify(json.error));
+    const text = json.content?.[0]?.text || '';
+    if(!text) throw new Error('空のレスポンス');
+
+    let result = {};
+    try { result = JSON.parse(text.replace(/```json|```/g,'').trim()); }
+    catch { result = {summary: text, highlights: []}; }
+
+    t.summary = result.summary || text;
+    t.highlights = Array.isArray(result.highlights) ? result.highlights : [];
+    markUpdated();
+    showDetailModal();
+    toast('✦ AI要約を生成しました');
+  } catch(err) {
+    body.textContent = 'エラー: ' + err.message;
+    toast('✗ 生成エラー: ' + err.message);
+  }
+  btn.disabled = false;
+}
+
+// ============================================================
+// EDIT
+// ============================================================
+function openEditFromDetail() {
+  if(!dmRef) return;
+  closeModal('dm');
+  openEdit(dmRef.ci, dmRef.si, dmRef.ti);
+}
+
+function openEdit(ci, si, ti) {
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  document.getElementById('e-ci').value = ci;
+  document.getElementById('e-si').value = si;
+  document.getElementById('e-ti').value = ti;
+  document.getElementById('e-title').value = t.title;
+  document.getElementById('e-url').value = t.url || '';
+  document.getElementById('e-sub').value = data.categories[ci].subcategories[si].name;
+  document.getElementById('e-score').value = t.score || 0;
+  document.getElementById('e-src').value = t.source || 'claude';
+  document.getElementById('e-sum').value = t.summary || '';
+  document.getElementById('e-hl').value = (t.highlights||[]).join('\n');
+  document.getElementById('e-cat').value = data.categories[ci].id;
+  openModal('em');
+}
+
+function saveEdit() {
+  const ci = parseInt(document.getElementById('e-ci').value);
+  const si = parseInt(document.getElementById('e-si').value);
+  const ti = parseInt(document.getElementById('e-ti').value);
+  const t = data.categories[ci].subcategories[si].threads[ti];
+
+  t.title = document.getElementById('e-title').value;
+  t.url = document.getElementById('e-url').value;
+  t.score = parseInt(document.getElementById('e-score').value) || 0;
+  t.source = document.getElementById('e-src').value;
+  t.summary = document.getElementById('e-sum').value;
+  t.highlights = document.getElementById('e-hl').value.split('\n').filter(h => h.trim());
+
+  const newCatId = document.getElementById('e-cat').value;
+  const newSubName = document.getElementById('e-sub').value.trim();
+  const newCatIdx = data.categories.findIndex(c => c.id === newCatId);
+
+  // Move to different cat/sub if changed
+  if(newCatIdx !== ci || newSubName !== data.categories[ci].subcategories[si].name) {
+    data.categories[ci].subcategories[si].threads.splice(ti, 1);
+    const nc = data.categories[newCatIdx];
+    let ns = nc.subcategories.find(s => s.name === newSubName);
+    if(!ns) { ns = {name: newSubName, color: nc.color, threads: []}; nc.subcategories.push(ns); }
+    ns.threads.push(t);
+  }
+
+  markUpdated(); fillCatSelects(); render(); closeModal('em'); toast('✓ 保存しました');
+}
+
+// ============================================================
+// ADD THREAD
+// ============================================================
+function openAddThread() { fillCatSelects(); openModal('am'); }
+
+function doAddThread() {
+  const title = document.getElementById('a-title').value.trim();
+  if(!title) { toast('タイトルを入力してください'); return; }
+  const catId = document.getElementById('a-cat').value;
+  const subName = document.getElementById('a-sub').value.trim() || '手動追加';
+  const cat = data.categories.find(c => c.id === catId);
+  let sub = cat.subcategories.find(s => s.name === subName);
+  if(!sub) { sub = {name: subName, color: cat.color, threads: []}; cat.subcategories.push(sub); }
+  sub.threads.push({
+    title, url: document.getElementById('a-url').value,
+    score: parseInt(document.getElementById('a-score').value) || 5,
+    source: document.getElementById('a-src').value,
+    summary: document.getElementById('a-sum').value,
+    highlights: [],
+    date: new Date().toLocaleDateString('ja-JP')
   });
-  fillCatSels();
-  save();render();closeM('acm');
-  document.getElementById('ac-name').value='';
+  markUpdated(); fillCatSelects(); render(); closeModal('am'); toast('✓ 追加しました');
+}
+
+// ============================================================
+// ADD CATEGORY
+// ============================================================
+function doAddCat() {
+  const name = document.getElementById('ac-name').value.trim();
+  if(!name) { toast('カテゴリ名を入力してください'); return; }
+  const icon = document.getElementById('ac-icon').value || '📁';
+  const colorMap = {
+    red:['#e05555','rgba(224,85,85,0.08)'], amber:['#d4903a','rgba(212,144,58,0.08)'],
+    green:['#5a9e6f','rgba(90,158,111,0.08)'], blue:['#4a8fc4','rgba(74,143,196,0.08)'],
+    purple:['#8b72c8','rgba(139,114,200,0.08)'], gold:['#c8a96e','rgba(200,169,110,0.08)']
+  };
+  const [color, bg] = colorMap[document.getElementById('ac-color').value] || colorMap.blue;
+  data.categories.push({id:'cat_'+Date.now(), name, icon, color, bg, subcategories:[{name:'未分類', color, threads:[]}]});
+  markUpdated(); fillCatSelects(); render(); closeModal('acm');
+  document.getElementById('ac-name').value = '';
   toast('✓ カテゴリを追加しました');
 }
 
-// ===== FILTERS =====
-function setView(v,el){
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  el.classList.add('active');
-  // Always reset source filter when switching views
-  filter.src=null;
-  document.querySelectorAll('[id^="src-"]').forEach(n=>n.classList.remove('active'));
-  document.getElementById('inst').style.display='none';
-  document.getElementById('tree').style.display='block';
-  document.getElementById('stats').style.display='grid';
-  if(v==='inst'){
-    document.getElementById('inst').style.display='block';
-    document.getElementById('tree').style.display='none';
-    document.getElementById('stats').style.display='none';
-    document.getElementById('vt').textContent='更新手順';return;
-  }
-  if(v==='flat'){
-    document.getElementById('vt').textContent='スコア順一覧';
-    filter.imp='all';renderFlat();return;
-  }
-  if(v==='all'){filter.imp='all';document.getElementById('vt').textContent='全会話マップ';}
-  else if(v==='high'){filter.imp='high';document.getElementById('vt').textContent='高スコア(7+)';}
-  else if(v==='mid'){filter.imp='mid';document.getElementById('vt').textContent='中スコア(4-6)';}
-  render();
+// ============================================================
+// CAT NAME EDIT
+// ============================================================
+function startEditCatName(e, catId) {
+  e.stopPropagation();
+  const el = document.getElementById('cn-'+catId);
+  if(!el) return;
+  const oldName = el.textContent;
+  el.outerHTML = `<input class="cn-input" id="cn-${catId}" value="${oldName}" onblur="saveCatName(this,'${catId}')" onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape'){document.getElementById('cn-${catId}').value='${oldName}';this.blur();}">`;
+  document.getElementById('cn-'+catId).focus();
 }
-function toggleSrc(src,el){
-  filter.src=filter.src===src?null:src;
-  document.querySelectorAll('[id^="src-"]').forEach(n=>n.classList.remove('active'));
-  if(filter.src)el.classList.add('active');
-  render();
+
+function saveCatName(input, catId) {
+  const newName = input.value.trim();
+  if(newName) {
+    const cat = data.categories.find(c => c.id === catId);
+    if(cat) { cat.name = newName; markUpdated(); fillCatSelects(); render(); }
+  }
 }
-function fImp(btn,v){
-  document.querySelectorAll('.pills .pill').forEach(p=>p.classList.remove('active'));
+
+// ============================================================
+// DELETE
+// ============================================================
+function openDel(ci, si, ti) {
+  pendDel = {ci, si, ti};
+  document.getElementById('del-msg').textContent = `「${data.categories[ci].subcategories[si].threads[ti].title}」を削除しますか？`;
+  openModal('delm');
+}
+
+function confirmDel() {
+  const {ci, si, ti} = pendDel;
+  data.categories[ci].subcategories[si].threads.splice(ti, 1);
+  markUpdated(); render(); closeModal('delm'); toast('🗑 削除しました');
+}
+
+// ============================================================
+// THREAD DRAG
+// ============================================================
+function onThreadDragStart(e, ci, si, ti) {
+  e.stopPropagation();
+  dragThread = {ci, si, ti};
+  e.dataTransfer.effectAllowed = 'move';
+  e.currentTarget.style.opacity = '0.4';
+}
+function onThreadDragOver(e) { if(dragThread) { e.preventDefault(); e.stopPropagation(); }}
+function onThreadDrop(e, tci, tsi, tti) {
+  e.preventDefault(); e.stopPropagation();
+  if(!dragThread) return;
+  const {ci, si, ti} = dragThread;
+  const thread = data.categories[ci].subcategories[si].threads.splice(ti, 1)[0];
+  data.categories[tci].subcategories[tsi].threads.splice(tti, 0, thread);
+  dragThread = null;
+  markUpdated(); render(); toast('✓ 移動しました');
+}
+function onThreadDragEnd(e) { e.currentTarget.style.opacity = '1'; dragThread = null; }
+
+// ============================================================
+// IMPORT
+// ============================================================
+function switchImportTab(tab, btn) {
+  curImportTab = tab;
+  document.querySelectorAll('.itab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  filter.imp=v;
-  // Reset source filter when using pill buttons
-  filter.src=null;
-  document.querySelectorAll('[id^="src-"]').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.ipanel').forEach(p => p.classList.remove('active'));
+  document.getElementById('itab-'+tab).classList.add('active');
+}
+
+function doImport() {
+  let items = [];
+  try {
+    if(curImportTab === 'chatgpt') items = JSON.parse(document.getElementById('cpt-json').value.trim());
+    else if(curImportTab === 'nlm') {
+      const t = document.getElementById('nlm-t').value.trim();
+      if(!t) { toast('タイトルを入力してください'); return; }
+      items = [{title:t, url:document.getElementById('nlm-u').value,
+        category:document.getElementById('nlm-c').value, subcategory:'NLMノート',
+        score:5, summary:document.getElementById('nlm-s').value, highlights:[],
+        date:new Date().toLocaleDateString('ja-JP'), source:'notebooklm'}];
+    } else items = JSON.parse(document.getElementById('raw-json').value.trim());
+  } catch { toast('JSONの形式が正しくありません'); return; }
+
+  if(!Array.isArray(items) || !items.length) { toast('データが空です'); return; }
+
+  let added = 0;
+  items.forEach(item => {
+    const cat = data.categories.find(c => c.name === item.category || c.id === item.category) || data.categories[0];
+    const subName = item.subcategory || 'インポート';
+    let sub = cat.subcategories.find(s => s.name === subName);
+    if(!sub) { sub = {name: subName, color: cat.color, threads: []}; cat.subcategories.push(sub); }
+    // Convert importance to score if needed
+    const score = item.score !== undefined ? item.score : (item.importance === 'high' ? 8 : item.importance === 'mid' ? 5 : 3);
+    sub.threads.push({
+      title: item.title || '無題', url: item.url || '',
+      score, source: item.source || 'manual',
+      summary: item.summary || '', highlights: item.highlights || [],
+      date: item.date || new Date().toLocaleDateString('ja-JP')
+    });
+    added++;
+  });
+
+  markUpdated(); fillCatSelects(); render(); closeModal('im'); toast(`✓ ${added}件取り込みました`);
+}
+
+// ============================================================
+// GITHUB
+// ============================================================
+function updateGHStatus() {
+  const el = document.getElementById('gh-st');
+  if(ghConf.token && ghConf.repo) { el.textContent = 'GitHub: 接続済み'; el.className = 'gh-st ok'; }
+  else { el.textContent = 'GitHub: 未設定'; el.className = 'gh-st'; }
+}
+
+function openGH() {
+  document.getElementById('gh-api').value = localStorage.getItem('kb_api') || '';
+  document.getElementById('gh-tok').value = ghConf.token || '';
+  document.getElementById('gh-rep').value = ghConf.repo || 'Matsu-by-Matsu/knowledge-base';
+  document.getElementById('gh-br').value = ghConf.branch || 'main';
+  openModal('ghm');
+}
+
+function saveGHConf() {
+  const apiKey = document.getElementById('gh-api').value.trim();
+  if(apiKey) localStorage.setItem('kb_api', apiKey);
+  ghConf = {
+    token: document.getElementById('gh-tok').value.trim(),
+    repo: document.getElementById('gh-rep').value.trim(),
+    branch: document.getElementById('gh-br').value.trim() || 'main'
+  };
+  localStorage.setItem('kb_gh', JSON.stringify(ghConf));
+  updateGHStatus(); closeModal('ghm'); toast('✓ 設定を保存しました');
+}
+
+async function testGH() {
+  const token = document.getElementById('gh-tok').value.trim();
+  const repo = document.getElementById('gh-rep').value.trim();
+  const res = document.getElementById('gh-test-res');
+  res.textContent = '接続テスト中...'; res.style.color = 'var(--t2)';
+  try {
+    const r = await fetch(`https://api.github.com/repos/${repo}`, {headers:{Authorization:`token ${token}`}});
+    if(r.ok) { res.textContent = '✓ 接続成功！'; res.style.color = 'var(--grn)'; }
+    else { res.textContent = `✗ エラー: ${r.status}`; res.style.color = 'var(--red)'; }
+  } catch { res.textContent = '✗ 接続失敗'; res.style.color = 'var(--red)'; }
+}
+
+async function saveToGH() {
+  if(!ghConf.token || !ghConf.repo) { openGH(); return; }
+  markUpdated();
+  const content = `window.KB_DATA = ${JSON.stringify(data, null, 2)};`;
+  const b64 = btoa(unescape(encodeURIComponent(content)));
+  try {
+    const getR = await fetch(`https://api.github.com/repos/${ghConf.repo}/contents/data.js`, {headers:{Authorization:`token ${ghConf.token}`}});
+    let sha = '';
+    if(getR.ok) { const j = await getR.json(); sha = j.sha; }
+    const putR = await fetch(`https://api.github.com/repos/${ghConf.repo}/contents/data.js`, {
+      method: 'PUT',
+      headers: {Authorization:`token ${ghConf.token}`, 'Content-Type':'application/json'},
+      body: JSON.stringify({message:'Update KB data', content:b64, sha, branch:ghConf.branch||'main'})
+    });
+    if(putR.ok) toast('✓ GitHubに保存しました（1〜2分で全デバイスに反映）');
+    else { const j = await putR.json(); toast('✗ 保存失敗: ' + j.message); }
+  } catch(err) { toast('✗ GitHub保存エラー: ' + err.message); }
+}
+
+// ============================================================
+// FILTERS & VIEWS
+// ============================================================
+function setView(viewName, el) {
+  currentView = viewName;
+  // Reset source filter when switching view
+  filterSrc = null;
+  // Update nav active state
+  document.querySelectorAll('.ni[data-view]').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.ni[data-src]').forEach(n => n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  // Update title
+  const titles = {all:'全会話マップ', high:'高スコア(7+)', mid:'中スコア(4-6)', flat:'スコア順一覧', inst:'更新手順'};
+  document.getElementById('vt').textContent = titles[viewName] || '全会話マップ';
+  // Update imp filter
+  if(viewName === 'high') filterImp = 'high';
+  else if(viewName === 'mid') filterImp = 'mid';
+  else if(viewName !== 'inst') filterImp = 'all';
+  // Sync pills to 'all' when view changes (unless mid/high)
+  document.querySelectorAll('.pills .pill').forEach(p => p.classList.remove('active'));
+  if(viewName === 'high') document.querySelector('.pill[onclick*="high"]')?.classList.add('active');
+  else if(viewName === 'mid') document.querySelector('.pill[onclick*="mid"]')?.classList.add('active');
+  else document.querySelector('.pill[onclick*="all"]')?.classList.add('active');
+
   render();
 }
-function doSearch(v){filter.search=v;render();}
 
-// ===== UTILS =====
-function openM(id){document.getElementById(id).classList.add('open');}
-function closeM(id){document.getElementById(id).classList.remove('open');}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-function copyEl(id){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('📋 コピーしました'));}
-document.querySelectorAll('.ov').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});});
-</script>
+function toggleSrc(src, el) {
+  if(filterSrc === src) {
+    // Deselect - show all
+    filterSrc = null;
+    el.classList.remove('active');
+  } else {
+    filterSrc = src;
+    document.querySelectorAll('.ni[data-src]').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+  render();
+}
 
-<script>
-(function(){
-  var s=document.createElement('script');
-  s.src='data.js?v='+Date.now();
-  s.onload=function(){
-    if(window.KB_DATA && window.KB_DATA !== null){
-      // data.js has saved data - use it (contains DEFAULT + ChatGPT + edits)
-      data=window.KB_DATA;
-      if(document.getElementById('app').style.display!=='none'){
-        fillCatSels();render();
-      }
-    }
-    // KB_DATA is null: keep using DEFAULT deep copy from init()
-  };
-  document.head.appendChild(s);
-})();
+function setPill(btn, imp) {
+  filterImp = imp;
+  filterSrc = null; // reset source filter
+  document.querySelectorAll('.ni[data-src]').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.pills .pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  // Sync view
+  if(imp === 'all') { currentView = 'all'; document.getElementById('vt').textContent = '全会話マップ'; }
+  else if(imp === 'high') { currentView = 'high'; document.getElementById('vt').textContent = '高スコア(7+)'; }
+  else if(imp === 'mid') { currentView = 'mid'; document.getElementById('vt').textContent = '中スコア(4-6)'; }
+  else { currentView = 'all'; document.getElementById('vt').textContent = '低スコア'; }
+  document.querySelectorAll('.ni[data-view]').forEach(n => n.classList.remove('active'));
+  render();
+}
+
+function doSearch(val) {
+  filterSearch = val;
+  render();
+}
+
+// ============================================================
+// MODAL UTILS
+// ============================================================
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close on backdrop click
+document.querySelectorAll('.ov').forEach(o => {
+  o.addEventListener('click', e => { if(e.target === o) o.classList.remove('open'); });
+});
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function copyEl(id) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => toast('📋 コピーしました'));
+}
 </script>
 </body>
 </html>
