@@ -569,12 +569,12 @@ let curImportTab='chatgpt';
 
 // ===== INIT =====
 function init(){
-  // Always start fresh from DEFAULT or GitHub data
-  // Never use localStorage as primary source (causes stale data issues)
+  // Priority: data.js (GitHub) > DEFAULT
+  // localStorage is never used - GitHub is single source of truth
   if(window.KB_DATA && window.KB_DATA !== null){
     data=window.KB_DATA;
   } else {
-    data=DEFAULT;
+    data=JSON.parse(JSON.stringify(DEFAULT)); // deep copy
   }
   updateGHSt();
   fillCatSels();
@@ -591,7 +591,7 @@ function fillCatSels(){
 
 function save(){
   data.lastUpdated=new Date().toLocaleDateString('ja-JP');
-  // Don't save to localStorage - use GitHub as single source of truth
+  // Memory only - call saveGH() to persist to GitHub
   updateStats();
 }
 
@@ -1213,12 +1213,13 @@ document.querySelectorAll('.ov').forEach(o=>{o.addEventListener('click',e=>{if(e
   s.src='data.js?v='+Date.now();
   s.onload=function(){
     if(window.KB_DATA && window.KB_DATA !== null){
+      // data.js has saved data - use it (contains DEFAULT + ChatGPT + edits)
       data=window.KB_DATA;
       if(document.getElementById('app').style.display!=='none'){
         fillCatSels();render();
       }
     }
-    // If KB_DATA is null, keep using DEFAULT (already loaded)
+    // KB_DATA is null: keep using DEFAULT deep copy from init()
   };
   document.head.appendChild(s);
 })();
