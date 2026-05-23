@@ -794,16 +794,34 @@ async function autoSummarize(){
       })
     });
     const json=await resp.json();
-    const text=json.content?.[0]?.text||'{}';
-    const clean=text.replace(/```json|```/g,'').trim();
-    const result=JSON.parse(clean);
-    t.summary=result.summary||t.summary;
-    t.highlights=result.highlights||[];
+    if(json.error){throw new Error(json.error.message||JSON.stringify(json.error));}
+    const text=json.content?.[0]?.text||'';
+    if(!text){throw new Error('APIから空のレスポンス');}
+    // Try to parse JSON, fallback to using text directly as summary
+    let result={};
+    try{
+      const clean=text.replace(/```json|```/g,'').trim();
+      result=JSON.parse(clean);
+    }catch(e){
+      // If not valid JSON, use the text as summary directly
+      result={summary:text,highlights:[]};
+    }
+    t.summary=result.summary||text;
+    t.highlights=Array.isArray(result.highlights)?result.highlights:[];
     save();
-    showDetail(t,dmRef.ci,dmRef.si);
+    // Force DOM update
+    document.getElementById('dm-body').textContent=t.summary;
+    const hls=t.highlights;
+    const hlSec=document.getElementById('dm-hl-section');
+    if(hls.length){
+      hlSec.style.display='block';
+      document.getElementById('dm-hl').innerHTML=hls.map(h=>`<li class="dm-hl">${h}</li>`).join('');
+    } else {
+      hlSec.style.display='none';
+    }
     toast('✦ AI要約を生成しました');
   }catch(err){
-    body.textContent=t.summary||'生成に失敗しました。手動で要約を入力してください。';
+    body.textContent='エラー: '+err.message;
     toast('✗ 生成エラー: '+err.message);
   }
   btn.disabled=false;
