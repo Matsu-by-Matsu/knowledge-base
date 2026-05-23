@@ -556,7 +556,14 @@ let currentImportTab = 'chatgpt';
 let ghConfig = JSON.parse(localStorage.getItem('kb_gh')||'{}');
 
 function init(){
-  data = JSON.parse(localStorage.getItem('kb_data')||'null') || DEFAULT;
+  // Always prefer KB_DATA from data.js (GitHub) over localStorage
+  if(window.KB_DATA){
+    data = window.KB_DATA;
+    // Sync to localStorage so edits work
+    localStorage.setItem('kb_data', JSON.stringify(data));
+  } else {
+    data = JSON.parse(localStorage.getItem('kb_data')||'null') || DEFAULT;
+  }
   updateGHStatus();
   populateCatSelects();
   render();
@@ -953,10 +960,13 @@ document.querySelectorAll('.overlay').forEach(o=>{
   var s=document.createElement('script');
   s.src='data.js?v='+Date.now();
   s.onload=function(){
-    if(window.KB_DATA && document.getElementById('app').style.display!=='none'){
+    if(window.KB_DATA){
       data=window.KB_DATA;
-      populateCatSelects();
-      render();
+      localStorage.setItem('kb_data', JSON.stringify(data));
+      if(document.getElementById('app').style.display!=='none'){
+        populateCatSelects();
+        render();
+      }
     }
   };
   document.head.appendChild(s);
