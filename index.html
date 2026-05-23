@@ -1169,6 +1169,9 @@ function doAddCat(){
 function setView(v,el){
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
+  // Always reset source filter when switching views
+  filter.src=null;
+  document.querySelectorAll('[id^="src-"]').forEach(n=>n.classList.remove('active'));
   document.getElementById('inst').style.display='none';
   document.getElementById('tree').style.display='block';
   document.getElementById('stats').style.display='grid';
@@ -1195,7 +1198,12 @@ function toggleSrc(src,el){
 }
 function fImp(btn,v){
   document.querySelectorAll('.pills .pill').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');filter.imp=v;render();
+  btn.classList.add('active');
+  filter.imp=v;
+  // Reset source filter when using pill buttons
+  filter.src=null;
+  document.querySelectorAll('[id^="src-"]').forEach(n=>n.classList.remove('active'));
+  render();
 }
 function doSearch(v){filter.search=v;render();}
 
