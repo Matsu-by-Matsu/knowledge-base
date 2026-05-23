@@ -569,11 +569,12 @@ let curImportTab='chatgpt';
 
 // ===== INIT =====
 function init(){
-  if(window.KB_DATA){
+  // Always start fresh from DEFAULT or GitHub data
+  // Never use localStorage as primary source (causes stale data issues)
+  if(window.KB_DATA && window.KB_DATA !== null){
     data=window.KB_DATA;
-    localStorage.setItem('kb_data',JSON.stringify(data));
   } else {
-    data=JSON.parse(localStorage.getItem('kb_data')||'null')||DEFAULT;
+    data=DEFAULT;
   }
   updateGHSt();
   fillCatSels();
@@ -590,7 +591,7 @@ function fillCatSels(){
 
 function save(){
   data.lastUpdated=new Date().toLocaleDateString('ja-JP');
-  localStorage.setItem('kb_data',JSON.stringify(data));
+  // Don't save to localStorage - use GitHub as single source of truth
   updateStats();
 }
 
@@ -1211,13 +1212,13 @@ document.querySelectorAll('.ov').forEach(o=>{o.addEventListener('click',e=>{if(e
   var s=document.createElement('script');
   s.src='data.js?v='+Date.now();
   s.onload=function(){
-    if(window.KB_DATA){
+    if(window.KB_DATA && window.KB_DATA !== null){
       data=window.KB_DATA;
-      localStorage.setItem('kb_data',JSON.stringify(data));
       if(document.getElementById('app').style.display!=='none'){
         fillCatSels();render();
       }
     }
+    // If KB_DATA is null, keep using DEFAULT (already loaded)
   };
   document.head.appendChild(s);
 })();
