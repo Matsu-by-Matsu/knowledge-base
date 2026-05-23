@@ -576,7 +576,7 @@ function render(){
     let hasMatch=false;
     cat.subcategories.forEach(sub=>sub.threads.forEach(t=>{if(matchT(t))hasMatch=true;}));
     if(!hasMatch)return;
-    const isOpen=openCats[cat.id]!==false;
+    const isOpen=openCats[cat.id]===true;
     const div=document.createElement('div');
     div.className='cat';
     div.draggable=true;
@@ -589,13 +589,13 @@ function render(){
       <div class="ch">
         <div class="ch-l">
           <span class="cat-drag-handle" title="ドラッグで並び替え">⠿</span>
-          <div class="ci" style="background:${cat.bg}">${cat.icon}</div>
+          <div class="ci" style="background:${cat.bg}" onclick="togCat('${cat.id}')" title="クリックで開閉">${cat.icon}</div>
           <div>
             <div style="display:flex;align-items:center;gap:4px">
-              <span class="cn" id="cn-${cat.id}">${cat.name}</span>
+              <span class="cn" id="cn-${cat.id}" onclick="togCat('${cat.id}')" style="cursor:pointer">${cat.name}</span>
               <button class="cat-edit-btn" onclick="startEditCat(event,'${cat.id}')">✎</button>
             </div>
-            <div class="cm">${cntCat(cat)}件</div>
+            <div class="cm" onclick="togCat('${cat.id}')" style="cursor:pointer">${cntCat(cat)}件</div>
           </div>
         </div>
         <span class="chev ${isOpen?'open':''}" id="chev-${cat.id}" onclick="togCat('${cat.id}')">›</span>
@@ -612,12 +612,13 @@ function renderSubs(cat,ci){
     // Sort by score desc
     const sorted=[...mt].sort((a,b)=>(b.score||0)-(a.score||0));
     const key=`${cat.id}_${si}`;
-    const isOpen=openSubs[key]!==false;
+    const isOpen=openSubs[key]===true;
     const threads=sorted.map(t=>{
       const realTi=sub.threads.indexOf(t);
       const sc=t.score||0;
       const scCls=`s${Math.min(10,sc)}`;
-      return `<div class="tr" onclick="openDetail(${ci},${si},${realTi})">
+      return `<div class="tr" draggable="true" ondragstart="onThreadDragStart(event,${ci},${si},${realTi})" ondragover="onThreadDragOver(event)" ondrop="onThreadDrop(event,${ci},${si},${realTi})" ondragend="onThreadDragEnd(event)" onclick="openDetail(${ci},${si},${realTi})">
+        <span class="cat-drag-handle" style="font-size:10px;cursor:grab" onclick="event.stopPropagation()">⠿</span>
         <span class="src src-${t.source||'claude'}">${{claude:'CLD',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[t.source||'claude']}</span>
         <div class="tc">
           <div class="tt">${t.title}</div>
@@ -672,16 +673,17 @@ function updateStats(){
 }
 
 function togCat(id){
-  openCats[id]=openCats[id]===false?true:false;
+  // default is closed (undefined=closed), open=true
+  openCats[id]=openCats[id]===true?false:true;
   const b=document.getElementById('catb-'+id),c=document.getElementById('chev-'+id);
-  if(b)b.style.display=openCats[id]===false?'none':'';
-  if(c)c.classList.toggle('open',openCats[id]!==false);
+  if(b)b.style.display=openCats[id]===true?'':'none';
+  if(c)c.classList.toggle('open',openCats[id]===true);
 }
 function togSub(key){
-  openSubs[key]=openSubs[key]===false?true:false;
+  openSubs[key]=openSubs[key]===true?false:true;
   const b=document.getElementById('subb-'+key),c=document.getElementById('subchev-'+key);
-  if(b)b.style.display=openSubs[key]===false?'none':'';
-  if(c)c.classList.toggle('open',openSubs[key]!==false);
+  if(b)b.style.display=openSubs[key]===true?'':'none';
+  if(c)c.classList.toggle('open',openSubs[key]===true);
 }
 
 // ===== SCORE =====
@@ -969,6 +971,34 @@ async function saveGH(){
     if(putR.ok)toast('✓ GitHubに保存しました（1〜2分で反映）');
     else{const j=await putR.json();toast('✗ 保存失敗: '+j.message);}
   }catch(e){toast('✗ GitHub保存エラー: '+e.message);}
+}
+
+// ===== THREAD DRAG =====
+let threadDragSrc=null;
+function onThreadDragStart(e,ci,si,ti){
+  e.stopPropagation();
+  threadDragSrc={ci,si,ti};
+  e.dataTransfer.effectAllowed='move';
+  e.currentTarget.style.opacity='0.4';
+}
+function onThreadDragOver(e){
+  e.preventDefault();e.stopPropagation();
+  e.dataTransfer.dropEffect='move';
+}
+function onThreadDrop(e,tci,tsi,tti){
+  e.preventDefault();e.stopPropagation();
+  if(!threadDragSrc)return;
+  const{ci,si,ti}=threadDragSrc;
+  if(ci===tci&&si===tsi&&ti===tti)return;
+  const thread=data.categories[ci].subcategories[si].threads.splice(ti,1)[0];
+  // Drop into target subcat
+  data.categories[tci].subcategories[tsi].threads.splice(tti,0,thread);
+  threadDragSrc=null;
+  save();render();toast('✓ 移動しました');
+}
+function onThreadDragEnd(e){
+  e.currentTarget.style.opacity='1';
+  threadDragSrc=null;
 }
 
 // ===== FLAT VIEW =====
