@@ -208,6 +208,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 14px;font-size:12px;z-index:200;transform:translateY(60px);opacity:0;transition:all 0.25s;}
 .toast.show{transform:translateY(0);opacity:1;}
 
+/* DRAG */
+.cat.dragging{opacity:0.4;border:1px dashed var(--gold);}
+.cat.drag-over{border-color:var(--gold);border-style:solid;background:var(--gold-g);}
+.cat-drag-handle{cursor:grab;color:var(--t3);font-size:12px;padding:0 6px;user-select:none;flex-shrink:0;}
+.cat-drag-handle:hover{color:var(--t2);}
+.cat-edit-btn{font-size:9px;padding:1px 6px;border-radius:3px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.12s;margin-left:4px;}
+.cat-edit-btn:hover{border-color:var(--b2);color:var(--t1);}
+.cat-name-input{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;background:transparent;border:none;border-bottom:1px solid var(--gold);outline:none;color:var(--t1);width:200px;}
+/* FLAT VIEW */
+.flat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.flat-count{font-size:11px;color:var(--t2);}
 /* MOBILE */
 @media(max-width:768px){
   .app{flex-direction:column;}
@@ -270,6 +281,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
       <div class="ni" onclick="openAdd()"><div class="ni-dot" style="background:var(--pur)"></div>+ 新規追加</div>
       <div class="ni" onclick="openImport()"><div class="ni-dot" style="background:var(--grn)"></div>↓ 取込</div>
       <div class="ni" onclick="openGH()"><div class="ni-dot" style="background:var(--blu)"></div>⚙ GitHub設定</div>
+      <div class="ni" onclick="setView('flat',this)"><div class="ni-dot" style="background:var(--amb)"></div>📋 スコア順一覧</div>
       <div class="ni" onclick="setView('inst',this)"><div class="ni-dot" style="background:var(--t3)"></div>更新手順</div>
     </nav>
     <div class="sb-foot">
@@ -946,6 +958,98 @@ async function saveGH(){
   }catch(e){toast('✗ GitHub保存エラー: '+e.message);}
 }
 
+// ===== FLAT VIEW =====
+function renderFlat(){
+  const c=document.getElementById('tree');
+  c.innerHTML='';
+  let all=[];
+  data.categories.forEach((cat,ci)=>{
+    cat.subcategories.forEach((sub,si)=>{
+      sub.threads.forEach((t,ti)=>{
+        if(matchT(t)) all.push({t,ci,si,ti,catName:cat.name,subName:sub.name});
+      });
+    });
+  });
+  all.sort((a,b)=>(b.t.score||0)-(a.t.score||0));
+  const header=document.createElement('div');
+  header.className='flat-header';
+  header.innerHTML=`<div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">スコア順一覧</div><div class="flat-count">${all.length}件</div>`;
+  c.appendChild(header);
+  all.forEach(({t,ci,si,ti})=>{
+    const sc=t.score||0;
+    const scCls=`s${Math.min(10,sc)}`;
+    const div=document.createElement('div');
+    div.className='tr';
+    div.style.cssText='background:var(--s1);border:1px solid var(--b1);border-radius:6px;margin-bottom:4px;padding:7px 12px;';
+    div.onclick=()=>openDetail(ci,si,ti);
+    div.innerHTML=`
+      <span class="src src-${t.source||'claude'}">${{claude:'CLD',chatgpt:'GPT',notebooklm:'NLM',manual:'手動'}[t.source||'claude']}</span>
+      <div class="tc">
+        <div class="tt">${t.title}</div>
+        <div class="tm"><span class="tm-date">${t.date||''}</span><span style="opacity:0.5;margin-left:4px">${data.categories[ci].name} · ${data.categories[ci].subcategories[si].name}</span></div>
+      </div>
+      <div class="score-wrap">
+        <button class="score-btn" onclick="event.stopPropagation();scChange(event,${ci},${si},${ti},-1)">－</button>
+        <span class="score-num ${scCls}">${sc}</span>
+        <button class="score-btn" onclick="event.stopPropagation();scChange(event,${ci},${si},${ti},1)">＋</button>
+      </div>
+      <span class="tr-arr">→</span>`;
+    c.appendChild(div);
+  });
+}
+
+// ===== DRAG & DROP =====
+let dragSrcId=null;
+function onDragStart(e){
+  dragSrcId=this.dataset.catId;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed='move';
+}
+function onDragOver(e){
+  e.preventDefault();
+  e.dataTransfer.dropEffect='move';
+  document.querySelectorAll('.cat').forEach(el=>el.classList.remove('drag-over'));
+  this.classList.add('drag-over');
+}
+function onDrop(e){
+  e.stopPropagation();
+  const targetId=this.dataset.catId;
+  if(dragSrcId&&dragSrcId!==targetId){
+    const srcIdx=data.categories.findIndex(c=>c.id===dragSrcId);
+    const tgtIdx=data.categories.findIndex(c=>c.id===targetId);
+    const [moved]=data.categories.splice(srcIdx,1);
+    data.categories.splice(tgtIdx,0,moved);
+    save();render();
+  }
+  document.querySelectorAll('.cat').forEach(el=>el.classList.remove('drag-over'));
+}
+function onDragEnd(){
+  this.classList.remove('dragging');
+  document.querySelectorAll('.cat').forEach(el=>el.classList.remove('drag-over'));
+}
+
+// ===== CAT NAME EDIT =====
+function startEditCat(e,catId){
+  e.stopPropagation();
+  const el=document.getElementById('cn-'+catId);
+  if(!el)return;
+  const oldName=el.textContent;
+  el.innerHTML=`<input class="cat-name-input" value="${oldName}" onblur="saveCatName(this,'${catId}')" onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape')cancelCatName(this,'${catId}','${oldName}')">`;
+  el.querySelector('input').focus();
+  el.querySelector('input').select();
+}
+function saveCatName(input,catId){
+  const newName=input.value.trim();
+  if(newName){
+    const cat=data.categories.find(c=>c.id===catId);
+    if(cat){cat.name=newName;save();render();}
+  }
+}
+function cancelCatName(input,catId,oldName){
+  const el=document.getElementById('cn-'+catId);
+  if(el)el.textContent=oldName;
+}
+
 // ===== FILTERS =====
 function setView(v,el){
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
@@ -958,6 +1062,10 @@ function setView(v,el){
     document.getElementById('tree').style.display='none';
     document.getElementById('stats').style.display='none';
     document.getElementById('vt').textContent='更新手順';return;
+  }
+  if(v==='flat'){
+    document.getElementById('vt').textContent='スコア順一覧';
+    filter.imp='all';renderFlat();return;
   }
   if(v==='all'){filter.imp='all';document.getElementById('vt').textContent='全会話マップ';}
   else if(v==='high'){filter.imp='high';document.getElementById('vt').textContent='高スコア(7+)';}
