@@ -579,13 +579,26 @@ function render(){
     const isOpen=openCats[cat.id]!==false;
     const div=document.createElement('div');
     div.className='cat';
+    div.draggable=true;
+    div.dataset.catId=cat.id;
+    div.addEventListener('dragstart',onDragStart);
+    div.addEventListener('dragover',onDragOver);
+    div.addEventListener('drop',onDrop);
+    div.addEventListener('dragend',onDragEnd);
     div.innerHTML=`
-      <div class="ch" onclick="togCat('${cat.id}')">
+      <div class="ch">
         <div class="ch-l">
+          <span class="cat-drag-handle" title="ドラッグで並び替え">⠿</span>
           <div class="ci" style="background:${cat.bg}">${cat.icon}</div>
-          <div><div class="cn">${cat.name}</div><div class="cm">${cntCat(cat)}件</div></div>
+          <div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <span class="cn" id="cn-${cat.id}">${cat.name}</span>
+              <button class="cat-edit-btn" onclick="startEditCat(event,'${cat.id}')">✎</button>
+            </div>
+            <div class="cm">${cntCat(cat)}件</div>
+          </div>
         </div>
-        <span class="chev ${isOpen?'open':''}" id="chev-${cat.id}">›</span>
+        <span class="chev ${isOpen?'open':''}" id="chev-${cat.id}" onclick="togCat('${cat.id}')">›</span>
       </div>
       <div class="cb" id="catb-${cat.id}" style="${isOpen?'':'display:none'}">${renderSubs(cat,ci)}</div>`;
     c.appendChild(div);
