@@ -1,5 +1,5 @@
 window.KB_DATA = {
-  "lastUpdated": "2026/5/23",
+  "lastUpdated": "2026/5/24",
   "categories": [
     {
       "id": "re",
@@ -77,7 +77,7 @@ window.KB_DATA = {
             {
               "title": "開発単価データベース（地域別）",
               "url": "https://claude.ai/chat/7e4bdc13-6e94-4449-b97b-f5a5efd3f0a0",
-              "score": 8,
+              "score": 7,
               "source": "claude",
               "summary": "コロナ前（2019年）から2026年までの建築費高騰トレンドをGFA・FAR・NRA別に整理した地域別開発単価データベースを構築。資材費と人件費の両面からの上昇要因と、地域・用途別の単価差を体系化。",
               "highlights": [
@@ -137,7 +137,7 @@ window.KB_DATA = {
             {
               "title": "アパートメントホテル投資ロジック",
               "url": "https://claude.ai/chat/aaf3746e-847c-46df-88cf-c9531b0501d3",
-              "score": 8,
+              "score": 7,
               "source": "claude",
               "summary": "霞が関キャピタルのKPIダッシュボードを構築してアパートメントホテル投資の論拠を整理。RevPAR・GOP・ADRのトレンド分析と投資リターン試算モデルを設計。競合他社との比較とCrest Court案件への適用を検討した。",
               "highlights": [
@@ -156,7 +156,7 @@ window.KB_DATA = {
             {
               "title": "PJ Apex ICメール調整",
               "url": "",
-              "score": 8,
+              "score": 7,
               "source": "chatgpt",
               "summary": "Steve向けIC関連メール文面を調整",
               "highlights": [],
@@ -246,7 +246,7 @@ window.KB_DATA = {
             {
               "title": "Shimauma Capital構想",
               "url": "",
-              "score": 8,
+              "score": 7,
               "source": "chatgpt",
               "summary": "島と松の関係性を会社名に反映",
               "highlights": [],
@@ -762,7 +762,7 @@ window.KB_DATA = {
             {
               "title": "本棚から読む性格分析",
               "url": "https://claude.ai/chat/cec3fad7-598f-46d4-9817-9fb932b787c1",
-              "score": 2,
+              "score": 0,
               "source": "claude",
               "summary": "X知人の本棚画像から性格分析を実施。ミステリ・どんでん返し系が多く、知的好奇心旺盛・感情を内面処理するタイプと分析。その後、そのアカウントからRTオファーがあった際「フォロワーの質が低くアルゴリズム的にもマイナス」としてRT受諾を勧めないと助言。",
               "highlights": [
