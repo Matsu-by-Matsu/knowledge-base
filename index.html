@@ -443,6 +443,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
   <div class="md">
     <div class="md-title">⚙ GitHub連携設定</div>
     <div class="gh-setup">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>スコープ: <code>repo</code> にチェック → Generate → コピー</div>
+    <div class="fg"><label class="fl">Claude API Key（AI要約用）</label><input class="fi" id="api-key" type="password" placeholder="sk-ant-xxxxxxxxxxxx"></div>
+    <div style="font-size:10px;color:var(--t2);margin-bottom:10px">取得: console.anthropic.com → API Keys → Create Key（$5クレジット必要）</div>
     <div class="fg"><label class="fl">GitHub Token</label><input class="fi" id="gh-tok" type="password" placeholder="ghp_xxxxxxxxxxxx"></div>
     <div class="fg"><label class="fl">リポジトリ (owner/repo)</label><input class="fi" id="gh-rep" placeholder="Matsu-by-Matsu/knowledge-base"></div>
     <div class="fg"><label class="fl">ブランチ</label><input class="fi" id="gh-br" value="main"></div>
@@ -780,9 +782,11 @@ async function autoSummarize(){
   "highlights": ["重要ポイント1", "重要ポイント2", "重要ポイント3", "重要ポイント4", "重要ポイント5"]
 }`;
 
+    const apiKey=localStorage.getItem('kb_api');
+    if(!apiKey){body.textContent='APIキーが設定されていません。「⚙ GitHub設定」からClaude API Keyを入力してください。';btn.disabled=false;return;}
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:1000,
@@ -935,6 +939,7 @@ function updateGHSt(){
   else{el.textContent='GitHub: 未設定';el.className='gh-st';}
 }
 function openGH(){
+  document.getElementById('api-key').value=localStorage.getItem('kb_api')||'';
   document.getElementById('gh-tok').value=ghConf.token||'';
   document.getElementById('gh-rep').value=ghConf.repo||'Matsu-by-Matsu/knowledge-base';
   document.getElementById('gh-br').value=ghConf.branch||'main';
@@ -942,6 +947,8 @@ function openGH(){
 }
 function saveGHConf(){
   ghConf={token:document.getElementById('gh-tok').value.trim(),repo:document.getElementById('gh-rep').value.trim(),branch:document.getElementById('gh-br').value.trim()||'main'};
+  const apiKey=document.getElementById('api-key').value.trim();
+  if(apiKey) localStorage.setItem('kb_api',apiKey);
   localStorage.setItem('kb_gh',JSON.stringify(ghConf));
   updateGHSt();closeM('ghm');toast('✓ GitHub設定を保存しました');
 }
