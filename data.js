@@ -145,7 +145,7 @@ window.KB_DATA = {
             {
               "title": "土地共有と敷地権整理",
               "url": "",
-              "score": 0,
+              "score": 2,
               "source": "chatgpt",
               "summary": "土地共有・敷地権・建物区分所有の関係性について、REIT実務やオフィス事例を踏まえて整理。『建物共有時は土地共有か』『敷地権は区分所有時のみか』などの疑問を比較表ベースで検証した。",
               "highlights": [
@@ -312,7 +312,7 @@ window.KB_DATA = {
             {
               "title": "シーシャバー事業構想",
               "url": "",
-              "score": 0,
+              "score": 3,
               "source": "chatgpt",
               "summary": "男女の出会い導線を意識したシーシャバー事業を検討。マッチング・イベント・空間演出を組み合わせた業態設計や、風営法・酒販・イベント運営との関係など、実務的観点も含めて議論した。",
               "highlights": [
@@ -342,7 +342,7 @@ window.KB_DATA = {
             {
               "title": "稼ぐパターン17分類フレームワーク",
               "url": "https://claude.ai/chat/a07c0d56-e3f3-4c26-b8e2-8933065133ec",
-              "score": 0,
+              "score": 6,
               "source": "claude",
               "summary": "自作の「稼ぎネタ」分類（17パターン）をClaudeが3軸（モノ・ヒト情報・カネ時間の仲介）に再整理し評価。Matsuの強み（不動産ネットワーク・大型案件クロージング力・富裕層人脈）に照らして実行優先度をマッピング。ブローカレッジ/Exit Advisory・AIプロダクト販売・模倣型ビジネスが最優先と結論。@Gaishi_UraのXアカウントとnote展開への応用提案も実施。",
               "highlights": [
@@ -356,7 +356,7 @@ window.KB_DATA = {
             {
               "title": "AI活用 不動産DDレポート販売",
               "url": "https://claude.ai/chat/f34f1c9e-c318-4296-8081-4a1cc2189c8e",
-              "score": 0,
+              "score": 1,
               "source": "claude",
               "summary": "Matsuの不動産アンダーライティング知識をAI化して¥30,000/件でDD（デューデリジェンス）レポートを自動販売するビジネス設計。Buy-side（買い手側）向けに特化し、オフィス・レジデンシャルのUW力が最大の強み。固定費ほぼゼロ・完全自動化が目標。第一顧客獲得戦略まで設計した。",
               "highlights": [
@@ -370,7 +370,7 @@ window.KB_DATA = {
             {
               "title": "ビジネスモデル（稼ぎネタ320）",
               "url": "https://claude.ai/chat/82db6c65-7fdd-4ee1-ad07-b41d76c7c159",
-              "score": 0,
+              "score": 9,
               "source": "claude",
               "summary": "手書きブレインストーミングシート「稼ぎネタ320」から約28アイデアを抽出し優先度分析。Flippa等デジタルアセットM&AプラットフォームのリサーチとYouTubeチャンネルアービトラージ（日本語チャンネルを1.5〜3倍で買い→Flippaで30〜36倍に売る）の詳細フローを設計。インタラクティブなアイデア管理HTMLダッシュボードも作成。",
               "highlights": [
@@ -384,7 +384,7 @@ window.KB_DATA = {
             {
               "title": "Apify活用・データパイプライン",
               "url": "https://claude.ai/chat/daacd9fc-988f-42cb-92fa-12d69c27c753",
-              "score": 0,
+              "score": 9,
               "source": "claude",
               "summary": "Apify（ノーコードWebスクレイピングプラットフォーム）の活用方法を探索。①YouTubeチャンネルM&A候補の自動スクリーニング②Crest Courtのホテル競合OTA価格の自動収集（ダイナミックプライシング支援）③データ分析レポート販売の3用途を検討。Crest Courtの競合ホテル価格収集が最も即効性高いと結論。",
               "highlights": [
@@ -398,7 +398,7 @@ window.KB_DATA = {
             {
               "title": "ビッグデータ×AI分析パイプライン",
               "url": "https://claude.ai/chat/1779450633734",
-              "score": 0,
+              "score": 4,
               "source": "claude",
               "summary": "「ビッグデータ収集→AI大量投入→分析→マネタイズ」のパイプラインをライフスタイル・恋愛・心理分野で構築する戦略。Reddit/Yahoo知恵袋/学術論文をApifyでスクレイピングしClaude Projectsで分析。まず恋愛・回避型アタッチメントパターン100件を収集し、note有料記事（¥1,980×月30部）→サブスク（月¥2,980）へ展開するフェーズ計画を設計。",
               "highlights": [
@@ -412,7 +412,7 @@ window.KB_DATA = {
             {
               "title": "不動産SaaS市場分析・白地領域",
               "url": "https://claude.ai/chat/ac265ddf-e00c-4593-8a41-3ae9e1ccbbef",
-              "score": 0,
+              "score": 3,
               "source": "claude",
               "summary": "RENOSY・いえらぶ・ITANDI BB・WealthPark・estie・SQUEEZEなど主要不動産SaaSを4類型（仲介管理型/投資家向け/データ分析型/PM特化型）に整理。外資系AMがリーシング管理に使えるツールが存在しない白地を特定し、SaaSプロダクト構想を検討。",
               "highlights": [
@@ -431,7 +431,7 @@ window.KB_DATA = {
             {
               "title": "サービス分類1枚紙化",
               "url": "",
-              "score": 0,
+              "score": 3,
               "source": "chatgpt",
               "summary": "サービス分類を整理し図式化",
               "highlights": [],
@@ -446,7 +446,7 @@ window.KB_DATA = {
             {
               "title": "Note販売X 引き継ぎ文書・戦略設計",
               "url": "https://claude.ai/chat/cbb4513e-90da-41c1-9028-34f9e055e557",
-              "score": 0,
+              "score": 3,
               "source": "claude",
               "summary": "@Gaishi_Ura（外資系不動産ファンドプロのペルソナ）のX/note運営戦略を包括的に設計。返信グラインド（手間対効果が悪い）から¥29,800高単価noteへの転換を決定。ピン留め投稿を「685万円」バリュープロポジション＋スレッド誘導型に刷新。X Premium取得・プロフィール改訂・4/22〜4/28の投稿スケジュール（コントラスト型・クリフハンガー型・参加型）を確定。note記事#9〜#15のタイトルも損失回避・好奇心訴求で最適化済み。週1.25万インプレッション→Premium後12.5万に拡大。",
               "highlights": [
@@ -461,7 +461,7 @@ window.KB_DATA = {
             {
               "title": "note運営戦略の初期設計",
               "url": "https://claude.ai/chat/c0b9c76b-5038-42a3-94da-3b0b24fc18a8",
-              "score": 0,
+              "score": 2,
               "source": "claude",
               "summary": "外資系不動産ファンドプロのペルソナでnoteを運営する初期戦略を設計。無料記事と有料記事の交互投稿モデルを採用し、初期3記事を公開。収益化ロードマップとコンテンツカレンダーを策定した。",
               "highlights": [
@@ -474,7 +474,7 @@ window.KB_DATA = {
             {
               "title": "note記事：不動産プロの立地判断術",
               "url": "https://claude.ai/chat/94c614d8-f755-429d-9a3e-a77e9724975f",
-              "score": 0,
+              "score": 2,
               "source": "claude",
               "summary": "Matsuの一次情報・実体験をベースにClaudeが執筆するコクリエーションモデルを確立。外資系不動産プロが実際に行う立地判断プロセスを5ステップで体系化。読者が「自分では気づけなかった視点」を得られる構成に設計。",
               "highlights": [
@@ -487,7 +487,7 @@ window.KB_DATA = {
             {
               "title": "X性格分析・ビッグデータ収集",
               "url": "https://claude.ai/chat/e9dae11a-fe99-4f4b-87e3-17ae70786e9c",
-              "score": 0,
+              "score": 6,
               "source": "claude",
               "summary": "X投稿テキストをClaude ProjectsにペーストしてBig5性格モデルで分析するワークフローを確立。@Gaishi_Ura・@sawamura1030等7アカウントのBig5スコア・心理インサイト・MBTI推定を生成。商業化（ターゲティングレポート販売：¥1,000〜¥10万）のフレームを設計。スクロール→Ctrl+Aで投稿テキストを取得するのが最実用的手法と確認。",
               "highlights": [
@@ -717,7 +717,7 @@ window.KB_DATA = {
             {
               "title": "ポッドキャスト企画（岩本さんと）",
               "url": "https://claude.ai/chat/bc6b7b5a-a942-49f9-9c29-def48a0b2f51",
-              "score": 0,
+              "score": 2,
               "source": "claude",
               "summary": "岩本さん（雑学強者）とMatsuの共同ポッドキャスト「街・駅・建築の成り立ち」企画。岩本さんの雑学＋Matsuの外資ファンド視点という差別化コンテンツ。Spotify for Podcastersで配信→note連携→スポンサー営業→月10〜30万円のロードマップ。初期30本分のネタ案（山手線の歴史・廃線跡・麻布台ヒルズ裏側等）も設計。",
               "highlights": [
@@ -737,7 +737,7 @@ window.KB_DATA = {
             {
               "title": "知識ベースURL管理ツール作成",
               "url": "https://claude.ai/chat/current",
-              "score": 0,
+              "score": 9,
               "source": "claude",
               "summary": "Claude・ChatGPT・NotebookLMの会話履歴を一元管理するGitHub Pagesサイトをゼロから構築。パスワード保護・スコア0〜10点制・高スコア順ソート・カテゴリドラッグ&ドロップ・AI要約（Claude API連携）・GitHub API自動反映・スマホ対応まで実装。Anthropic APIキー設定（$5購入）とGitHub Token設定でフル機能が動作。",
               "highlights": [
@@ -778,7 +778,7 @@ window.KB_DATA = {
             {
               "title": "Surface電源設定最適化",
               "url": "",
-              "score": 0,
+              "score": 1,
               "source": "chatgpt",
               "summary": "Surface Pro運用におけるスリープ・休止状態・カバークローズ時動作を整理。『会議室移動時はそのまま』『帰宅時は休止状態』など、Excel作業継続性を最優先にした実践的設定を議論。スリープと休止状態の概念差も整理した。",
               "highlights": [
@@ -793,7 +793,7 @@ window.KB_DATA = {
             {
               "title": "PowerShellでCSV一括化",
               "url": "",
-              "score": 0,
+              "score": 1,
               "source": "chatgpt",
               "summary": "PowerShellでCSV変換を自動化",
               "highlights": [],
@@ -802,7 +802,7 @@ window.KB_DATA = {
             {
               "title": "YouTube字幕取得方法",
               "url": "",
-              "score": 0,
+              "score": 1,
               "source": "chatgpt",
               "summary": "YouTube側ブロック発生時のTranscript取得方法や字幕コピー方法を整理。Chrome拡張やTranscript表示からの手動コピー方法も具体的に確認した。",
               "highlights": [
@@ -817,7 +817,7 @@ window.KB_DATA = {
             {
               "title": "PowerShell業務効率化",
               "url": "",
-              "score": 0,
+              "score": 1,
               "source": "chatgpt",
               "summary": "PowerShellを使ったCSV一括変換やWindowsファイル操作を実践。管理者権限、Explorerとの違い、PC全体制御可能性などを学び、『PowerShellって最強じゃん』という感覚から、業務効率化ツールとしての活用可能性を深掘りした。",
               "highlights": [
@@ -838,7 +838,7 @@ window.KB_DATA = {
             {
               "title": "松嶋式で英語解説",
               "url": "",
-              "score": 0,
+              "score": 9,
               "source": "chatgpt",
               "summary": "英語Transcriptを松嶋式で解説",
               "highlights": [],
@@ -847,7 +847,7 @@ window.KB_DATA = {
             {
               "title": "英語Transcript松嶋式解説",
               "url": "",
-              "score": 0,
+              "score": 9,
               "source": "chatgpt",
               "summary": "YouTube英語Transcriptを『松嶋式』で逐次解説。構文・語感・慣用句・つまずき度などを整理し、音読教材として使いやすい形で整形した。",
               "highlights": [
@@ -892,7 +892,7 @@ window.KB_DATA = {
             {
               "title": "筋肉痛と毎日トレ論",
               "url": "",
-              "score": 0,
+              "score": 1,
               "source": "chatgpt",
               "summary": "下半身筋肉痛と高頻度運動を議論",
               "highlights": [],
@@ -901,7 +901,7 @@ window.KB_DATA = {
             {
               "title": "筋肉痛と高頻度トレ議論",
               "url": "",
-              "score": 0,
+              "score": 1,
               "source": "chatgpt",
               "summary": "ジャンピングスクワット・シコ・ランジなど25分超の下半身トレ後の強烈な筋肉痛を前提に、『毎日中強度で回す方が良いのか』を議論。177cm77kg体脂肪19.5%、MMA・キック趣味を踏まえた階段トレも設計した。",
               "highlights": [
@@ -916,7 +916,7 @@ window.KB_DATA = {
             {
               "title": "36歳男性の体組成分析・内臓脂肪対策",
               "url": "https://claude.ai/chat/c0173ae6-b320-4aa6-aed3-c04a2edb2d00",
-              "score": 0,
+              "score": 1,
               "source": "claude",
               "summary": "177cmのMatsuが週数回キックボクシングを継続しながら体脂肪8〜12%（MMA/ボルダリング選手体型）を目指す計画。現在推定体脂肪19.6%から目標まで5段階の体重・カロリー・トレーニング量の比較表を作成。アルコール（週4〜5日）が肝臓の脂肪代謝を阻害する最大障害と特定。週2回以下への削減が最高インパクトの一手。スパーリングは約750kcal消費（ミット打ち・シャドウより高い）。",
               "highlights": [
@@ -936,7 +936,7 @@ window.KB_DATA = {
             {
               "title": "Range Rover洗車対策",
               "url": "",
-              "score": 0,
+              "score": 1,
               "source": "chatgpt",
               "summary": "雨シミ・ワイパー対策を整理",
               "highlights": [],
@@ -981,7 +981,7 @@ window.KB_DATA = {
             {
               "title": "大喜利セッション（温泉旅館・甲子園）",
               "url": "https://claude.ai/chat/a9fda816-7d0f-4fad-b5d5-9269d24b5b94",
-              "score": 0,
+              "score": 1,
               "source": "claude",
               "summary": "3題の大喜利セッション。「温泉旅館が怖い理由」「優勝できない甲子園強豪校」「前職ヤバい美容師」をテーマに実施。Matsuが採点（86点・78点・93点）とフィードバックを行い、ClaudeがリアルタイムでUP版を提案。「美容師が自然に逃げ道を確認してくる」が93点の最高評価。",
               "highlights": [
@@ -994,7 +994,7 @@ window.KB_DATA = {
             {
               "title": "本棚から読む性格分析",
               "url": "https://claude.ai/chat/cec3fad7-598f-46d4-9817-9fb932b787c1",
-              "score": 0,
+              "score": 1,
               "source": "claude",
               "summary": "X知人の本棚画像から性格分析を実施。ミステリ・どんでん返し系が多く、知的好奇心旺盛・感情を内面処理するタイプと分析。その後、そのアカウントからRTオファーがあった際「フォロワーの質が低くアルゴリズム的にもマイナス」としてRT受諾を勧めないと助言。",
               "highlights": [
@@ -1013,7 +1013,7 @@ window.KB_DATA = {
             {
               "title": "前髪のうねり対策・ヘアケア",
               "url": "https://claude.ai/chat/4b2c1f59-d574-4eed-bd68-83b3454d65fb",
-              "score": 0,
+              "score": 1,
               "source": "claude",
               "summary": "細め・ふんわり系の髪質のMatsuが前髪うねりを解決するためのヘアケア相談。オイル系（N.ポリッシュオイル等）はべたつき・ぺたんこになるとして明確拒否。Ocean Trico Clayをマット仕上げ・うねり抑制の主要製品として推薦。Air Salt Sprayをより軽いテクスチャーの代替として提案。",
               "highlights": [
