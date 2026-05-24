@@ -15,7 +15,7 @@ window.KB_DATA = {
             {
               "title": "不動産転売ファンドの立ち上げ",
               "url": "https://claude.ai/chat/0e4a1488-4a4f-4e73-b91a-5a8b9c285dcc",
-              "score": 0,
+              "score": 5,
               "source": "claude",
               "summary": "外資系不動産ファンドプロが新たな投資アドバイザリー会社を設立するための全体構造を設計。同日売買（PSA締結後に即転売）の実績をベースに、ディール特化型SPC＋AM会社（知人運営）＋自社アドバイザリー報酬（利益の約80%）という三層構造を確立。LP投資家はSPC証券が募集し、ファイナンスはノンリコースシニア＋メザニンの二層。架構設計・第二種金融商品取引業の要否・建築容積計算を行う外部フリーランスの採用・業務委託契約書作成まで包括的に設計した。",
               "highlights": [
@@ -30,7 +30,7 @@ window.KB_DATA = {
             {
               "title": "普通借地の解体・底地人の同意",
               "url": "https://claude.ai/chat/3fc223ef-784a-4db3-86ee-be37bf0927c4",
-              "score": 0,
+              "score": 1,
               "source": "claude",
               "summary": "普通借地権が設定された土地の解体行為に底地人の同意が必要かという法的論点を整理。分筆済みの土地（65%自己所有・35%底地人所有）という具体案件で、当初共有土地と誤解したClaudeをMatsuが即座に訂正。分筆済みであれば自己所有地上の建築に底地人承諾は不要と結論。接道義務・既存建物越境・借地権消滅リスク（借地借家法8条）などの実務確認事項を整理した。",
               "highlights": [
@@ -77,7 +77,7 @@ window.KB_DATA = {
             {
               "title": "開発単価データベース（地域別）",
               "url": "https://claude.ai/chat/7e4bdc13-6e94-4449-b97b-f5a5efd3f0a0",
-              "score": 0,
+              "score": 3,
               "source": "claude",
               "summary": "コロナ前（2019年）から2026年までの建築費高騰トレンドをGFA・FAR・NRA別に整理した地域別開発単価データベースを構築。資材費と人件費の両面からの上昇要因と、地域・用途別の単価差を体系化。",
               "highlights": [
@@ -90,7 +90,7 @@ window.KB_DATA = {
             {
               "title": "空き家・用途規制緩和ファンド戦略",
               "url": "https://claude.ai/chat/bbd6fb8d-2a94-42c4-b6d3-d2c072cc407b",
-              "score": 0,
+              "score": 1,
               "source": "claude",
               "summary": "増加する空き家・遊休地を活用したファンド戦略の設計。NPL取得・国家戦略特区・都市再生特区を組み合わせた容積率緩和と用途変更による価値創造スキームを検討。",
               "highlights": [
@@ -234,7 +234,7 @@ window.KB_DATA = {
             {
               "title": "Synth Xロゴとカラー検討",
               "url": "",
-              "score": 0,
+              "score": 5,
               "source": "chatgpt",
               "summary": "Synth Xのロゴと配色を検討",
               "highlights": [],
@@ -243,7 +243,7 @@ window.KB_DATA = {
             {
               "title": "Synth Xブランド設計",
               "url": "",
-              "score": 0,
+              "score": 5,
               "source": "chatgpt",
               "summary": "『新結合』をテーマにした新会社名・ブランドを検討。Structure X、Forge AI、Synth Xなどを比較し、混ぜる・結合する・未知を掛け合わせる思想を反映したネーミングやロゴカラーを議論した。",
               "highlights": [
@@ -264,7 +264,7 @@ window.KB_DATA = {
             {
               "title": "IPIファンド名とロゴ案",
               "url": "",
-              "score": 0,
+              "score": 5,
               "source": "chatgpt",
               "summary": "IPI構想の会社名とロゴを検討",
               "highlights": [],
@@ -273,7 +273,7 @@ window.KB_DATA = {
             {
               "title": "IPIファンド会社構想",
               "url": "",
-              "score": 0,
+              "score": 5,
               "source": "chatgpt",
               "summary": "奥村氏・島田氏・福井氏らとの新ファンド会社構想を整理。IPIやShimauma Capitalなどの社名案、役割分担、ロゴ、代表肩書きまで含めてブランディング全体を議論した。",
               "highlights": [
@@ -294,7 +294,7 @@ window.KB_DATA = {
             {
               "title": "Shimauma Capital構想",
               "url": "",
-              "score": 0,
+              "score": 5,
               "source": "chatgpt",
               "summary": "島と松の関係性を会社名に反映",
               "highlights": [],
@@ -309,7 +309,7 @@ window.KB_DATA = {
             {
               "title": "ビッグデータ×AI活用整理",
               "url": "",
-              "score": 0,
+              "score": 4,
               "source": "chatgpt",
               "summary": "各分野でのAI分析手法を体系化",
               "highlights": [],
@@ -318,7 +318,7 @@ window.KB_DATA = {
             {
               "title": "AI大量投入プロセス整理",
               "url": "",
-              "score": 0,
+              "score": 4,
               "source": "chatgpt",
               "summary": "『ビッグデータ→AI大量投入→AI分析』という独自フレームを、株式・不動産・建築・恋愛・消費行動など横断的に整理。具体的なデータ取得サイト、AI活用法、マネタイズ方法まで体系化した。",
               "highlights": [
@@ -339,7 +339,7 @@ window.KB_DATA = {
             {
               "title": "ポッドキャスト収益化戦略",
               "url": "",
-              "score": 0,
+              "score": 3,
               "source": "chatgpt",
               "summary": "街・建築雑学Podcastの構想整理",
               "highlights": [],
@@ -348,7 +348,7 @@ window.KB_DATA = {
             {
               "title": "Podcast収益化構想",
               "url": "",
-              "score": 0,
+              "score": 3,
               "source": "chatgpt",
               "summary": "街・駅・建築歴史雑学をテーマにしたPodcast事業を企画。知人の岩本氏との掛け合いを前提に、収益化までのステップやネタ出し方法を具体化した。",
               "highlights": [
@@ -369,7 +369,7 @@ window.KB_DATA = {
             {
               "title": "独立後の契約スキーム整理",
               "url": "",
-              "score": 0,
+              "score": 4,
               "source": "chatgpt",
               "summary": "取得支援と成功報酬条件を整理",
               "highlights": [],
@@ -378,7 +378,7 @@ window.KB_DATA = {
             {
               "title": "独立後契約スキーム整理",
               "url": "",
-              "score": 0,
+              "score": 4,
               "source": "chatgpt",
               "summary": "桜十字系との協業前提で、取得支援・UW・ソーシングの役割と報酬体系を整理。AM人員を持たずに取得・目利き部分で価値を出す戦略や、取得会議参加案まで具体化した。",
               "highlights": [
