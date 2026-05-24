@@ -1217,7 +1217,8 @@ function doImport() {
 
   items.forEach(item => {
     const title = item.title || '無題';
-    const score = item.score !== undefined ? item.score : (item.importance === 'high' ? 8 : item.importance === 'mid' ? 5 : 3);
+    // New threads always start at 10 - user can manually adjust down
+    const score = 10;
     const newThread = {
       title, url: item.url || '', score,
       source: item.source || 'manual',
