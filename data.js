@@ -1,5 +1,5 @@
 window.KB_DATA = {
-  "lastUpdated": "2026/5/24",
+  "lastUpdated": "2026/5/25",
   "categories": [
     {
       "id": "re",
@@ -156,10 +156,16 @@ window.KB_DATA = {
             {
               "title": "PJ Apex ICメール調整",
               "url": "",
-              "score": 7,
+              "score": 9,
               "source": "chatgpt",
-              "summary": "Steve向けIC関連メール文面を調整",
-              "highlights": [],
+              "summary": "PJ ApexのFIC・IC関連で、Steve向け英語メールやICメンバー向け送付文面を調整。『relatively affordable』より強い表現や、2021年当時の想定NOIニュアンスなど、不動産ファンド実務で使う細かい英語表現も詰めた。",
+              "highlights": [
+                "Steve向け返信メールの簡潔化",
+                "FIC 5/26予定を自然に文中へ反映",
+                "2021年時点の想定NOI表現を調整",
+                "IC向け送付メールのトーン整理",
+                "不動産実務英語の言い回し検討"
+              ],
               "date": "2026/05/21"
             }
           ]
@@ -173,8 +179,14 @@ window.KB_DATA = {
               "url": "",
               "score": 8,
               "source": "chatgpt",
-              "summary": "オフィス市場レポートを和訳・要約",
-              "highlights": [],
+              "summary": "東京オフィス市場関連PDFを全文和訳・要約。『オフィスファンダは過去最強級』のような強気表現の有無や、需給・資金流入・金利感応度など、マクロ視点を含めた不動産市場分析を行った。",
+              "highlights": [
+                "PDF全文翻訳",
+                "エグゼクティブサマリー作成",
+                "強気表現の有無を確認",
+                "オフィス市場需給を分析",
+                "投資家資金流入の整理"
+              ],
               "date": "2026/05/20"
             }
           ]
@@ -186,10 +198,16 @@ window.KB_DATA = {
             {
               "title": "PMサービス評価整理",
               "url": "",
-              "score": 5,
+              "score": 7,
               "source": "chatgpt",
-              "summary": "帝国不動産PMサービスを分析",
-              "highlights": [],
+              "summary": "帝国不動産のPMサービス提案資料をレビュー。平均空室日数22.2日や原状回復期間6.9日などのKPIに着目し、1〜2物件から試験導入する現実的な運用案を整理した。",
+              "highlights": [
+                "KPI運用体制を分析",
+                "平均空室22.2日に注目",
+                "原状回復6.9日の速さ評価",
+                "PMチーム300名体制を確認",
+                "小規模導入案を検討"
+              ],
               "date": "2026/05/20"
             }
           ]
@@ -221,6 +239,21 @@ window.KB_DATA = {
               "summary": "Synth Xのロゴと配色を検討",
               "highlights": [],
               "date": "2026/05/17"
+            },
+            {
+              "title": "Synth Xブランド設計",
+              "url": "",
+              "score": 9,
+              "source": "chatgpt",
+              "summary": "『新結合』をテーマにした新会社名・ブランドを検討。Structure X、Forge AI、Synth Xなどを比較し、混ぜる・結合する・未知を掛け合わせる思想を反映したネーミングやロゴカラーを議論した。",
+              "highlights": [
+                "Synth X案を高評価",
+                "新結合コンセプト整理",
+                "ドイツ語系候補も検討",
+                "ロゴカラー方針作成",
+                "ブランド世界観を整理"
+              ],
+              "date": "2026/05/17"
             }
           ]
         },
@@ -235,6 +268,21 @@ window.KB_DATA = {
               "source": "chatgpt",
               "summary": "IPI構想の会社名とロゴを検討",
               "highlights": [],
+              "date": "2026/05/18"
+            },
+            {
+              "title": "IPIファンド会社構想",
+              "url": "",
+              "score": 10,
+              "source": "chatgpt",
+              "summary": "奥村氏・島田氏・福井氏らとの新ファンド会社構想を整理。IPIやShimauma Capitalなどの社名案、役割分担、ロゴ、代表肩書きまで含めてブランディング全体を議論した。",
+              "highlights": [
+                "IPI名称案を検討",
+                "Shimauma Capital発案",
+                "島田×松嶋の役割整理",
+                "右京×亀山的関係性を表現",
+                "ロゴ・配色案を複数作成"
+              ],
               "date": "2026/05/18"
             }
           ]
@@ -266,6 +314,21 @@ window.KB_DATA = {
               "summary": "各分野でのAI分析手法を体系化",
               "highlights": [],
               "date": "2026/05/14"
+            },
+            {
+              "title": "AI大量投入プロセス整理",
+              "url": "",
+              "score": 10,
+              "source": "chatgpt",
+              "summary": "『ビッグデータ→AI大量投入→AI分析』という独自フレームを、株式・不動産・建築・恋愛・消費行動など横断的に整理。具体的なデータ取得サイト、AI活用法、マネタイズ方法まで体系化した。",
+              "highlights": [
+                "分野別AI活用を整理",
+                "取得サイト一覧化",
+                "分析→収益化導線を設計",
+                "レシート・広告分析まで拡張",
+                "投入AI選定も検討"
+              ],
+              "date": "2026/05/14"
             }
           ]
         },
@@ -281,6 +344,21 @@ window.KB_DATA = {
               "summary": "街・建築雑学Podcastの構想整理",
               "highlights": [],
               "date": "2026/05/15"
+            },
+            {
+              "title": "Podcast収益化構想",
+              "url": "",
+              "score": 7,
+              "source": "chatgpt",
+              "summary": "街・駅・建築歴史雑学をテーマにしたPodcast事業を企画。知人の岩本氏との掛け合いを前提に、収益化までのステップやネタ出し方法を具体化した。",
+              "highlights": [
+                "建築・街雑学に特化",
+                "相方との役割整理",
+                "収益化導線を設計",
+                "Podcast運営フロー整理",
+                "ネタソース案を列挙"
+              ],
+              "date": "2026/05/15"
             }
           ]
         },
@@ -295,6 +373,21 @@ window.KB_DATA = {
               "source": "chatgpt",
               "summary": "取得支援と成功報酬条件を整理",
               "highlights": [],
+              "date": "2026/05/11"
+            },
+            {
+              "title": "独立後契約スキーム整理",
+              "url": "",
+              "score": 9,
+              "source": "chatgpt",
+              "summary": "桜十字系との協業前提で、取得支援・UW・ソーシングの役割と報酬体系を整理。AM人員を持たずに取得・目利き部分で価値を出す戦略や、取得会議参加案まで具体化した。",
+              "highlights": [
+                "Yu案件と自前案件を分離",
+                "成功報酬条件を整理",
+                "AM非保有前提を整理",
+                "取得会議参加案を検討",
+                "取得加速の価値を明文化"
+              ],
               "date": "2026/05/11"
             }
           ]
@@ -321,10 +414,16 @@ window.KB_DATA = {
             {
               "title": "土地共有と敷地権整理",
               "url": "",
-              "score": 5,
+              "score": 7,
               "source": "chatgpt",
-              "summary": "共有・敷地権概念を比較整理",
-              "highlights": [],
+              "summary": "共有・敷地権・建物区分所有の関係を整理。REIT事例や建物共有時の土地扱いなど、実務寄りの視点で比較表形式にまとめた。",
+              "highlights": [
+                "敷地権概念を整理",
+                "土地共有との違い確認",
+                "REIT事例を追加",
+                "建物共有ケースを分析",
+                "比較表を再構築"
+              ],
               "date": "2026/05/15"
             }
           ]
@@ -340,6 +439,21 @@ window.KB_DATA = {
               "source": "chatgpt",
               "summary": "下半身筋肉痛と高頻度運動を議論",
               "highlights": [],
+              "date": "2026/05/14"
+            },
+            {
+              "title": "筋肉痛と高頻度トレ議論",
+              "url": "",
+              "score": 6,
+              "source": "chatgpt",
+              "summary": "下半身トレ後の激しい筋肉痛を踏まえ、中強度を毎日回す方がよいのか議論。MMA・キック趣味や体脂肪率前提で、階段でできる短時間メニューも整理した。",
+              "highlights": [
+                "ジャンプ系下半身メニュー共有",
+                "筋肉痛と頻度を議論",
+                "テストステロン感を重視",
+                "階段トレを設計",
+                "自重中心メニュー化"
+              ],
               "date": "2026/05/14"
             }
           ]
@@ -646,10 +760,16 @@ window.KB_DATA = {
             {
               "title": "Surface電源設定最適化",
               "url": "",
-              "score": 5,
+              "score": 6,
               "source": "chatgpt",
-              "summary": "休止状態とスリープ設定を整理",
-              "highlights": [],
+              "summary": "Surfaceのスリープ・休止状態・カバークローズ時挙動を最適化。会議室移動時は維持、帰宅時のみ休止状態にするなど、Excel作業継続性を重視した設定を整理した。",
+              "highlights": [
+                "休止状態の理解",
+                "スリープとの違い整理",
+                "カバー動作を最適化",
+                "Excel保持前提で設計",
+                "移動時運用を整理"
+              ],
               "date": "2026/05/13"
             }
           ]
@@ -676,10 +796,16 @@ window.KB_DATA = {
             {
               "title": "YouTube字幕取得方法",
               "url": "",
-              "score": 3,
+              "score": 5,
               "source": "chatgpt",
-              "summary": "字幕コピーとTranscript取得を整理",
-              "highlights": [],
+              "summary": "YouTube側ブロック発生時のTranscript取得方法や字幕コピー方法を整理。Chrome拡張やTranscript表示からの手動コピー方法も具体的に確認した。",
+              "highlights": [
+                "YouTubeブロック発生",
+                "Transcript表示方法確認",
+                "字幕コピー方法整理",
+                "Chrome活用案を検討",
+                "英語学習用途を想定"
+              ],
               "date": "2026/05/20"
             }
           ]
@@ -696,6 +822,42 @@ window.KB_DATA = {
               "summary": "英語Transcriptを松嶋式で解説",
               "highlights": [],
               "date": "2026/05/10"
+            },
+            {
+              "title": "英語Transcript松嶋式解説",
+              "url": "",
+              "score": 7,
+              "source": "chatgpt",
+              "summary": "YouTube英語Transcriptを『松嶋式』で逐次解説。構文・語感・慣用句・つまずき度などを整理し、音読教材として使いやすい形で整形した。",
+              "highlights": [
+                "松嶋式フォーマット定着",
+                "逐次和訳を実施",
+                "つまずき度を数値化",
+                "構文解説を強化",
+                "音読前提で整形"
+              ],
+              "date": "2026/05/10"
+            }
+          ]
+        },
+        {
+          "name": "Windows自動化",
+          "color": "#8b72c8",
+          "threads": [
+            {
+              "title": "PowerShell業務効率化",
+              "url": "",
+              "score": 8,
+              "source": "chatgpt",
+              "summary": "PowerShellを用いたCSV一括変換やファイル操作を実践。PowerShellがエクスプローラーを超えてPC全体を制御可能な点や、業務効率化ツールとしての強みを学習した。",
+              "highlights": [
+                "CSV一括変換を実施",
+                "管理者権限周りを確認",
+                "PowerShell概念を理解",
+                "Windows全体制御を学習",
+                "業務自動化に興味拡大"
+              ],
+              "date": "2026/05/12"
             }
           ]
         }
