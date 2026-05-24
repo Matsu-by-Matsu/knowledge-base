@@ -218,6 +218,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 14px;font-size:12px;z-index:200;transform:translateY(60px);opacity:0;transition:all 0.25s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
+/* SCORE SLIDER */
+.sc-slider{-webkit-appearance:none;appearance:none;width:80px;height:3px;border-radius:2px;background:var(--b2);outline:none;cursor:pointer;flex-shrink:0;}
+.sc-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:12px;height:12px;border-radius:50%;background:var(--gold);cursor:pointer;}
+.sc-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--gold);cursor:pointer;border:none;}
+
+/* CHECKBOX TAGS */
+.cb-tags{display:flex;align-items:center;gap:3px;flex-shrink:0;}
+.cb-tag{display:flex;align-items:center;gap:2px;padding:1px 5px;border-radius:10px;font-size:9px;font-weight:600;cursor:pointer;border:1px solid var(--b1);color:var(--t3);background:transparent;transition:all 0.12s;user-select:none;white-space:nowrap;}
+.cb-tag:hover{border-color:var(--b2);color:var(--t2);}
+.cb-tag.active-work{background:rgba(224,85,85,0.15);border-color:var(--red);color:var(--red);}
+.cb-tag.active-top{background:rgba(200,169,110,0.15);border-color:var(--gold);color:var(--gold);}
+.cb-tag.active-routine{background:rgba(74,143,196,0.15);border-color:var(--blu);color:var(--blu);}
+
 /* SCORE 0 GRAYOUT */
 .tr.score-zero { opacity: 0.35; }
 .tr.score-zero .tt { color: var(--t3); }
@@ -799,10 +812,14 @@ function renderSubs(cat, ci) {
             <span class="tm-sum">${(t.summary||'').substring(0,40)}${(t.summary||'').length>40?'...':''}</span>
           </div>
         </div>
+        <div class="cb-tags" onclick="event.stopPropagation()">
+          <span class="cb-tag ${(t.tags||[]).includes('work')?'active-work':''}" onclick="toggleTag(${ci},${si},${realTi},'work')">要作業</span>
+          <span class="cb-tag ${(t.tags||[]).includes('top')?'active-top':''}" onclick="toggleTag(${ci},${si},${realTi},'top')">最重要</span>
+          <span class="cb-tag ${(t.tags||[]).includes('routine')?'active-routine':''}" onclick="toggleTag(${ci},${si},${realTi},'routine')">ルーティン</span>
+        </div>
         <div class="sc-wrap">
-          <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${realTi},-1)">－</button>
-          <span class="sc-num ${scClass(sc)}">${sc}</span>
-          <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${realTi},1)">＋</button>
+          <input class="sc-slider" type="range" min="0" max="10" value="${sc}" onclick="event.stopPropagation()" oninput="event.stopPropagation();sliderScore(event,${ci},${si},${realTi})">
+          <span class="sc-num ${scClass(sc)}" id="scn-${ci}-${si}-${realTi}">${sc}</span>
         </div>
         <div class="ta">
           <button class="tb2 ai" onclick="event.stopPropagation();openDetailWithAI(${ci},${si},${realTi})">AI要約</button>
@@ -854,9 +871,8 @@ function renderFlat() {
         </div>
       </div>
       <div class="sc-wrap">
-        <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${ti},-1);renderFlat()">－</button>
-        <span class="sc-num ${scClass(sc)}">${sc}</span>
-        <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${ti},1);renderFlat()">＋</button>
+        <input class="sc-slider" type="range" min="0" max="10" value="${sc}" onclick="event.stopPropagation()" oninput="event.stopPropagation();sliderScoreFlat(event,${ci},${si},${ti},this)">
+        <span class="sc-num ${scClass(sc)}" id="scnf-${ci}-${si}-${ti}">${sc}</span>
       </div>
       <span class="tr-arr">→</span>`;
     view.appendChild(div);
@@ -873,14 +889,26 @@ function countCat(cat) {
 // TOGGLE OPEN/CLOSE
 // ============================================================
 function toggleCat(id) {
-  openCats[id] = !openCats[id]; // undefined->false via !undefined=true... wait
-  // undefined treated as false(closed), so first click opens
-  if(openCats[id] === undefined) openCats[id] = true;
-  else openCats[id] = !openCats[id];
-  // fix: just toggle
   const b = document.getElementById('catb-'+id);
   const c = document.getElementById('chev-'+id);
-  if(b) { const nowOpen = b.style.display === 'none'; b.style.display = nowOpen ? '' : 'none'; c.classList.toggle('open', nowOpen); openCats[id] = nowOpen; }
+  if(!b) return;
+  const nowOpen = b.style.display === 'none';
+  b.style.display = nowOpen ? '' : 'none';
+  c.classList.toggle('open', nowOpen);
+  openCats[id] = nowOpen;
+  // When opening: also open all subcategories at once
+  if(nowOpen) {
+    const cat = data.categories.find(ct => ct.id === id);
+    if(cat) {
+      cat.subcategories.forEach((sub, si) => {
+        const key = `${id}_${si}`;
+        const sb = document.getElementById('subb-'+key);
+        const sc2 = document.getElementById('subchev-'+key);
+        if(sb) { sb.style.display = ''; openSubs[key] = true; }
+        if(sc2) sc2.classList.add('open');
+      });
+    }
+  }
 }
 
 function toggleSub(key) {
@@ -1354,6 +1382,43 @@ async function saveToGH() {
     if(putR.ok) toast('✓ GitHubに保存しました（1〜2分で全デバイスに反映）');
     else { const j = await putR.json(); toast('✗ 保存失敗: ' + j.message); }
   } catch(err) { toast('✗ GitHub保存エラー: ' + err.message); }
+}
+
+// ============================================================
+// SLIDER SCORE
+// ============================================================
+function sliderScore(e, ci, si, ti) {
+  const val = parseInt(e.target.value);
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  t.score = val;
+  const numEl = document.getElementById(`scn-${ci}-${si}-${ti}`);
+  if(numEl) { numEl.textContent = val; numEl.className = 'sc-num ' + scClass(val); }
+  markUpdated();
+}
+
+function sliderScoreFlat(e, ci, si, ti, slider) {
+  const val = parseInt(e.target.value);
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  t.score = val;
+  const numEl = document.getElementById(`scnf-${ci}-${si}-${ti}`);
+  if(numEl) { numEl.textContent = val; numEl.className = 'sc-num ' + scClass(val); }
+  markUpdated();
+}
+
+// ============================================================
+// TAGS (要作業・最重要・ルーティン)
+// ============================================================
+function toggleTag(ci, si, ti, tag) {
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  if(!t.tags) t.tags = [];
+  const idx = t.tags.indexOf(tag);
+  if(idx >= 0) t.tags.splice(idx, 1);
+  else t.tags.push(tag);
+  markUpdated();
+  // Update UI without full re-render
+  const tagMap = {work:'active-work', top:'active-top', routine:'active-routine'};
+  // Find and toggle class
+  render();
 }
 
 // ============================================================
