@@ -874,7 +874,12 @@ window.KB_DATA = {
                 "GitHub API経由のワンクリックデータ同期",
                 "ドラッグ&ドロップでのカテゴリ・スレッド並び替え"
               ],
-              "date": "2026/05/23"
+              "date": "2026/05/23",
+              "tags": [
+                "routine",
+                "top",
+                "work"
+              ]
             },
             {
               "title": "Claude Codeインストール・環境構築",
@@ -969,7 +974,10 @@ window.KB_DATA = {
               "source": "chatgpt",
               "summary": "英語Transcriptを松嶋式で解説",
               "highlights": [],
-              "date": "2026/05/10"
+              "date": "2026/05/10",
+              "tags": [
+                "routine"
+              ]
             },
             {
               "title": "英語Transcript松嶋式解説",
