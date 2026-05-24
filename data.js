@@ -552,7 +552,7 @@ window.KB_DATA = {
             {
               "title": "IPIブランド・ロゴ設計",
               "url": "",
-              "score": 10,
+              "score": 5,
               "source": "chatgpt",
               "summary": "IPI（Island Peak Investment）をベースに、新ファンドブランド名・ロゴ・カラーを検討。奥村氏の登山好きという背景から『山頂』『到達』『峰』をテーマにしたデザイン案を複数作成し、Invescoとの差別化も意識したシャープな方向性を整理した。",
               "highlights": [
@@ -612,7 +612,7 @@ window.KB_DATA = {
             {
               "title": "AIナレッジOS構築",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "ChatGPT会話を統合した『AIナレッジOS』構想について議論。38スレッドでは少ないのではという問題提起から、各スレッドごとのハイライト表示、スレッドオープン連携、平均30ptベースのスコアリング、全0点初期化など、実運用前提のUI/UX改善方針を整理した。",
               "highlights": [
@@ -633,7 +633,7 @@ window.KB_DATA = {
             {
               "title": "会話JSON出力仕様整理",
               "url": "",
-              "score": 10,
+              "score": 1,
               "source": "chatgpt",
               "summary": "ChatGPT会話履歴をJSON形式で構造化出力する仕様を整理。title、category、importance、summaryなどの統一フォーマットを定義し、『不動産ビジネス』『X・noteコンテンツ事業』『新規ビジネス探索』などカテゴリ分類ルールも明確化した。",
               "highlights": [
@@ -732,7 +732,7 @@ window.KB_DATA = {
             {
               "title": "Steve向け英語返信調整",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "Steveからの『次回からは数日前にドラフト共有してほしい』というフィードバックに対する返信を英語で作成。『Apexは比較的シンプル案件だった』という文脈を踏まえつつ、余計に長くならない簡潔かつ丁寧な返答へ調整した。",
               "highlights": [
@@ -753,7 +753,7 @@ window.KB_DATA = {
             {
               "title": "FICメール英語調整",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "5/26予定のFIC案件『PJ Apex』について、Portfolio Analysis作成依頼メールを英語化。『relatively affordable』では弱いという議論から、より強い市場感表現や、『2021年当時の想定NOI』というニュアンスを含めた表現修正も行った。",
               "highlights": [
@@ -774,7 +774,7 @@ window.KB_DATA = {
             {
               "title": "ATEF融資条件比較整理",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "ATEF LoanとMUBKタームシートを比較し、Equity Share RedemptionやReserve条件の差異を整理。『売却日当日の減資のみ許容』『Interest Reserve積立』『戦略Capex Reserve不要』など、Lender視点での論点を実務用に箇条書き化した。",
               "highlights": [
@@ -1009,7 +1009,7 @@ window.KB_DATA = {
             {
               "title": "GitHub接続エラー検証",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "GitHubへ接続できない問題について、Google検索は正常という状況を踏まえながら原因切り分けを実施。画像付きでエラー状況を確認し、DNS・VPN・ブラウザキャッシュ・GitHub側障害可能性などを順番に検証する流れを整理した。",
               "highlights": [
@@ -1030,7 +1030,7 @@ window.KB_DATA = {
             {
               "title": "Tuna比喩と英語感覚",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "『Tuna』という単語が英語圏で持つイメージについて議論。『常に泳ぎ続ける』『止まると死ぬ』という比喩的イメージがあるのか、マグロとカツオの違いは何かなど、英語圏の感覚や生物学的背景も含めて整理した。",
               "highlights": [
@@ -1201,7 +1201,7 @@ window.KB_DATA = {
             {
               "title": "待機列と呼出時間予測",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "施設待機列のスクリーンショットを共有し、『2組目ならあと何分で呼ばれるか』を推測。途中で『なぜグレー席を空席扱いしているのか』というオペレーションへの疑問も議論し、店舗側の調整席・予約席・回転効率確保などの可能性を整理した。",
               "highlights": [
@@ -1222,7 +1222,7 @@ window.KB_DATA = {
             {
               "title": "探偵業への憧れ相談",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "『コナン君に憧れている』という文脈から、現実世界で探偵になる方法について相談。探偵会社勤務、尾行・聞き込み・調査技術、法的制約など、アニメ的イメージとの違いを含めて探偵業界の実態を整理した。",
               "highlights": [
@@ -1243,7 +1243,7 @@ window.KB_DATA = {
             {
               "title": "妊娠確率と排卵日計算",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "生理周期データ（2025/5/20、6/17、7/14）をもとに排卵日と妊娠可能性を推定。2026/4/29の性交タイミング、中出し・外出し差、精液量5ml以上という条件を踏まえ、妊娠確率やアフターピル・排卵周期推定などを整理した。",
               "highlights": [
