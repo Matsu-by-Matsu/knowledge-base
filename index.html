@@ -1148,10 +1148,36 @@ function openImport() {
   let prompt;
   if(lastDate) {
     document.getElementById('last-import-info').textContent = `前回取込日: ${lastDate} → 今回はそれ以降を自動設定`;
-    prompt = `${lastDate}以降にあなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(会話URL、なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度), summary(200文字以内の詳細要約), highlights(重要ポイントの配列3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。`;
+    prompt = `${lastDate}以降にあなたと私が行った会話をJSON配列形式でまとめてください。
+
+必須フィールド（全て必ず含めること）:
+- title: 会話タイトル（30文字以内）
+- url: 会話URL（存在する場合。なければ""）
+- category: 不動産ビジネス / X・noteコンテンツ事業 / 新規ビジネス探索 / テクノロジー学習 / ライフスタイル のいずれか
+- subcategory: サブカテゴリ（自由記述）
+- score: 重要度（0-10の整数。重要な業務・戦略系は7-9、軽い雑談は1-3）
+- summary: 【必須・重要】会話の詳細要約（150-250文字。何を話したか・決定事項・具体的な数値や固有名詞を含めること。省略不可）
+- highlights: 【必須】重要ポイントの配列（3-5個。各ポイントは具体的な内容を20-40文字で記述）
+- date: 日付（YYYY/MM/DD形式）
+- source: "chatgpt"
+
+JSON配列のみ出力してください。前後の説明文は不要です。summaryとhighlightsは絶対に省略しないでください。`;
   } else {
     document.getElementById('last-import-info').textContent = '初回取込 → 全期間を対象';
-    prompt = `今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(会話URL、なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度), summary(200文字以内の詳細要約), highlights(重要ポイントの配列3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。`;
+    prompt = `今月あなたと私が行った会話をJSON配列形式でまとめてください。
+
+必須フィールド（全て必ず含めること）:
+- title: 会話タイトル（30文字以内）
+- url: 会話URL（存在する場合。なければ""）
+- category: 不動産ビジネス / X・noteコンテンツ事業 / 新規ビジネス探索 / テクノロジー学習 / ライフスタイル のいずれか
+- subcategory: サブカテゴリ（自由記述）
+- score: 重要度（0-10の整数。重要な業務・戦略系は7-9、軽い雑談は1-3）
+- summary: 【必須・重要】会話の詳細要約（150-250文字。何を話したか・決定事項・具体的な数値や固有名詞を含めること。省略不可）
+- highlights: 【必須】重要ポイントの配列（3-5個。各ポイントは具体的な内容を20-40文字で記述）
+- date: 日付（YYYY/MM/DD形式）
+- source: "chatgpt"
+
+JSON配列のみ出力してください。前後の説明文は不要です。summaryとhighlightsは絶対に省略しないでください。`;
   }
   document.getElementById('cpt-prompt').textContent = prompt;
   openModal('im');
@@ -1202,13 +1228,13 @@ function doImport() {
     // Check for duplicate
     if(existingTitles.has(title)) {
       if(dupMode === 'skip') { skipped++; return; }
-      // update mode: update existing
+      // update mode: update summary/highlights only, preserve score
       const {ci,si,ti} = existingTitles.get(title);
       const t = data.categories[ci].subcategories[si].threads[ti];
       t.summary = newThread.summary || t.summary;
       t.highlights = newThread.highlights.length ? newThread.highlights : t.highlights;
-      t.score = newThread.score;
       t.url = newThread.url || t.url;
+      // score is intentionally NOT updated to preserve manual settings
       added++;
       return;
     }
