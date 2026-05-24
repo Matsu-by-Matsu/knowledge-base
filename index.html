@@ -870,6 +870,11 @@ function renderFlat() {
           <span style="color:var(--t3);font-size:10px">${data.categories[ci].subcategories[si].name}</span>
         </div>
       </div>
+      <div class="cb-tags" onclick="event.stopPropagation()">
+        <span class="cb-tag ${(t.tags||[]).includes('work')?'active-work':''}" onclick="toggleTag(${ci},${si},${ti},'work')">要作業</span>
+        <span class="cb-tag ${(t.tags||[]).includes('top')?'active-top':''}" onclick="toggleTag(${ci},${si},${ti},'top')">最重要</span>
+        <span class="cb-tag ${(t.tags||[]).includes('routine')?'active-routine':''}" onclick="toggleTag(${ci},${si},${ti},'routine')">ルーティン</span>
+      </div>
       <div class="sc-wrap">
         <input class="sc-slider" type="range" min="0" max="10" value="${sc}" onclick="event.stopPropagation()" oninput="event.stopPropagation();sliderScoreFlat(event,${ci},${si},${ti},this)">
         <span class="sc-num ${scClass(sc)}" id="scnf-${ci}-${si}-${ti}">${sc}</span>
