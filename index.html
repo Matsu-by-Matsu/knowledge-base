@@ -218,6 +218,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 14px;font-size:12px;z-index:200;transform:translateY(60px);opacity:0;transition:all 0.25s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
+/* SCORE 0 GRAYOUT */
+.tr.score-zero { opacity: 0.35; }
+.tr.score-zero .tt { color: var(--t3); }
+.flat-tr.score-zero { opacity: 0.35; }
+
+/* CATEGORY TAG */
+.cat-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+
 /* MOBILE */
 @media(max-width:768px){
   .app{flex-direction:column;}
@@ -532,7 +550,22 @@ const DEFAULT_DATA = {
         {title:"日本語ファイルの文字化け対策（PPTX）",url:"https://claude.ai/chat/2bf17faa-3101-4661-bf13-d51f08910423",score:4,source:"claude",summary:"PPTXファイルの日本語文字化けをXML直接編集で修正。theme1.xmlに日本語フォント指定が欠落していたのが原因。全テーマをYu Gothic（游ゴシック）に統一し、クロスプラットフォームで安全なフォント環境を実現。",highlights:["theme1.xmlの日本語フォント欠落が文字化けの原因","全テーマをYu Gothic（游ゴシック）に統一"],date:"2026/05/08"}
       ]}
     ]},
-    {id:"ls",name:"ライフスタイル・個人",icon:"🌿",color:"#5a9e6f",bg:"rgba(90,158,111,0.05)",subcategories:[
+    {id:"newbiz2",name:"新規ビジネスについて",icon:"🚀",color:"#c8a96e",bg:"rgba(200,169,110,0.08)",subcategories:[
+      {name:"未分類",color:"#c8a96e",threads:[]}
+    ]},
+    {id:"ipi",name:"IPI関連",icon:"🏛️",color:"#4a8fc4",bg:"rgba(74,143,196,0.08)",subcategories:[
+      {name:"未分類",color:"#4a8fc4",threads:[]}
+    ]},
+    {id:"synth",name:"SynthX関連",icon:"⚡",color:"#8b72c8",bg:"rgba(139,114,200,0.08)",subcategories:[
+      {name:"未分類",color:"#8b72c8",threads:[]}
+    ]},
+    {id:"shimauma",name:"シマウマキャピタル関連",icon:"🦓",color:"#e05555",bg:"rgba(224,85,85,0.08)",subcategories:[
+      {name:"未分類",color:"#e05555",threads:[]}
+    ]},
+    {id:"trivia",name:"雑学系",icon:"📚",color:"#5a9e6f",bg:"rgba(90,158,111,0.08)",subcategories:[
+      {name:"未分類",color:"#5a9e6f",threads:[]}
+    ]},
+    {id:"ls",name:"その他プライベート",icon:"🌿",color:"#5a9e6f",bg:"rgba(90,158,111,0.05)",subcategories:[
       {name:"フィットネス",color:"#5a9e6f",threads:[
         {title:"36歳男性の体組成分析・内臓脂肪対策",url:"https://claude.ai/chat/c0173ae6-b320-4aa6-aed3-c04a2edb2d00",score:4,source:"claude",summary:"177cmのMatsuが週数回キックボクシングを継続しながら体脂肪8〜12%を目指す計画。アルコール（週4〜5日）が肝臓の脂肪代謝を阻害する最大障害と特定。週2回以下への削減が最高インパクトの一手。スパーリングは約750kcal消費。",highlights:["アルコール週4〜5日→週2回以下が最優先改善策","スパーリング≒750kcal消費"],date:"2026/04/28"},
         {title:"前髪のうねり対策・ヘアケア",url:"https://claude.ai/chat/4b2c1f59-d574-4eed-bd68-83b3454d65fb",score:3,source:"claude",summary:"細め・ふんわり系の髪質のMatsuが前髪うねりを解決するためのヘアケア相談。オイル系はべたつき・ぺたんこになるとして明確拒否。Ocean Trico Clayをマット仕上げ・うねり抑制の主要製品として推薦。",highlights:["オイル系製品を明確拒否","Ocean Trico Clayがマット仕上げ・うねり抑制に最適"],date:"2026/04/28"}
@@ -749,7 +782,7 @@ function renderSubs(cat, ci) {
     const threadsHTML = sorted.map(t => {
       const realTi = sub.threads.indexOf(t);
       const sc = t.score || 0;
-      return `<div class="tr"
+      return `<div class="tr${sc===0?' score-zero':''}"
         draggable="true"
         onclick="openDetail(${ci},${si},${realTi})"
         ondragstart="onThreadDragStart(event,${ci},${si},${realTi})"
@@ -760,7 +793,11 @@ function renderSubs(cat, ci) {
         <span class="src ${srcClass(t.source)}">${srcLabel(t.source)}</span>
         <div class="tc">
           <div class="tt">${t.title}</div>
-          <div class="tm"><span class="tm-date">${t.date||''}</span><span class="tm-sum">${(t.summary||'').substring(0,50)}${(t.summary||'').length>50?'...':''}</span></div>
+          <div class="tm">
+            <span class="tm-date">${t.date||''}</span>
+            <span class="cat-tag" style="background:${cat.bg};color:${cat.color};border:1px solid ${cat.color}33">${cat.name.length>10?cat.name.substring(0,10)+'…':cat.name}</span>
+            <span class="tm-sum">${(t.summary||'').substring(0,40)}${(t.summary||'').length>40?'...':''}</span>
+          </div>
         </div>
         <div class="sc-wrap">
           <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${realTi},-1)">－</button>
@@ -805,11 +842,16 @@ function renderFlat() {
     const div = document.createElement('div');
     div.className = 'flat-tr';
     div.onclick = () => openDetail(ci, si, ti);
+    const flatCat = data.categories[ci];
+    div.className = 'flat-tr' + (sc===0?' score-zero':'');
     div.innerHTML = `
       <span class="src ${srcClass(t.source)}">${srcLabel(t.source)}</span>
       <div class="tc">
         <div class="tt">${t.title}</div>
-        <div class="flat-meta">${data.categories[ci].name} · ${data.categories[ci].subcategories[si].name}</div>
+        <div class="flat-meta" style="display:flex;align-items:center;gap:5px;margin-top:2px">
+          <span class="cat-tag" style="background:${flatCat.bg};color:${flatCat.color};border:1px solid ${flatCat.color}33">${flatCat.name.length>12?flatCat.name.substring(0,12)+'…':flatCat.name}</span>
+          <span style="color:var(--t3);font-size:10px">${data.categories[ci].subcategories[si].name}</span>
+        </div>
       </div>
       <div class="sc-wrap">
         <button class="sc-btn" onclick="event.stopPropagation();changeScore(${ci},${si},${ti},-1);renderFlat()">－</button>
