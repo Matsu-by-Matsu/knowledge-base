@@ -273,7 +273,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
       <div class="sb-sec">MANAGE</div>
       <div class="ni" onclick="openModal('acm')"><div class="ni-dot" style="background:var(--red)"></div>＋ カテゴリ追加</div>
       <div class="ni" onclick="openAddThread()"><div class="ni-dot" style="background:var(--pur)"></div>＋ スレッド追加</div>
-      <div class="ni" onclick="openModal('im')"><div class="ni-dot" style="background:var(--grn)"></div>↓ 取込</div>
+      <div class="ni" onclick="openImport()"><div class="ni-dot" style="background:var(--grn)"></div>↓ 取込</div>
       <div class="ni" onclick="openGH()"><div class="ni-dot" style="background:var(--blu)"></div>⚙ GitHub設定</div>
       <div class="ni" data-view="inst" onclick="setView('inst',this)"><div class="ni-dot" style="background:var(--t3)"></div>更新手順</div>
     </nav>
@@ -426,10 +426,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
       <button class="itab" onclick="switchImportTab('raw',this)">JSON直接</button>
     </div>
     <div class="ipanel active" id="itab-chatgpt">
-      <p style="font-size:11px;color:var(--t2);margin-bottom:8px;line-height:1.6">①プロンプトをコピー → ChatGPTに送る → ②返答JSONをペースト → 取込</p>
-      <div class="code-box" id="cpt-prompt">今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度), summary(200文字以内の詳細要約), highlights(重要ポイントの配列3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <p style="font-size:11px;color:var(--t2);line-height:1.6">①プロンプトをコピー → ChatGPTに送る → ②返答JSONをペースト → 取込</p>
+      </div>
+      <div style="font-size:10px;color:var(--amb);margin-bottom:6px;" id="last-import-info"></div>
+      <div class="code-box" id="cpt-prompt"></div>
       <button class="copy-btn" onclick="copyEl('cpt-prompt')" style="margin-bottom:10px">コピー</button>
-      <label class="fl">②JSONをペースト</label>
+      <label class="fl">②JSONをペースト（重複スレッドは自動スキップ or 更新）</label>
+      <div style="display:flex;gap:8px;margin-bottom:6px;">
+        <label style="font-size:11px;color:var(--t2);display:flex;align-items:center;gap:4px;">
+          <input type="radio" name="dup-mode" value="skip" checked> 重複スキップ
+        </label>
+        <label style="font-size:11px;color:var(--t2);display:flex;align-items:center;gap:4px;">
+          <input type="radio" name="dup-mode" value="update"> 重複上書き
+        </label>
+      </div>
       <textarea class="fta" id="cpt-json" style="min-height:100px" placeholder='[{"title":"...","score":8,"summary":"...","highlights":["..."],...}]'></textarea>
     </div>
     <div class="ipanel" id="itab-nlm">
@@ -1129,6 +1140,23 @@ function onThreadDragEnd(e) { e.currentTarget.style.opacity = '1'; dragThread = 
 // ============================================================
 // IMPORT
 // ============================================================
+function openImport() {
+  fillCatSelects();
+  // Build prompt with last import date
+  const lastDate = localStorage.getItem('kb_last_import');
+  const today = new Date().toLocaleDateString('ja-JP');
+  let prompt;
+  if(lastDate) {
+    document.getElementById('last-import-info').textContent = `前回取込日: ${lastDate} → 今回はそれ以降を自動設定`;
+    prompt = `${lastDate}以降にあなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(会話URL、なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度), summary(200文字以内の詳細要約), highlights(重要ポイントの配列3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。`;
+  } else {
+    document.getElementById('last-import-info').textContent = '初回取込 → 全期間を対象';
+    prompt = `今月あなたと私が行った会話をJSON配列形式でまとめてください。各会話について: title(30文字以内), url(会話URL、なければ""), category(不動産ビジネス/X・noteコンテンツ事業/新規ビジネス探索/テクノロジー学習/ライフスタイルから選択), subcategory, score(0-10の重要度), summary(200文字以内の詳細要約), highlights(重要ポイントの配列3-5個), date(YYYY/MM/DD), source:"chatgpt"。JSON配列のみ出力。`;
+  }
+  document.getElementById('cpt-prompt').textContent = prompt;
+  openModal('im');
+}
+
 function switchImportTab(tab, btn) {
   curImportTab = tab;
   document.querySelectorAll('.itab').forEach(b => b.classList.remove('active'));
@@ -1153,24 +1181,50 @@ function doImport() {
 
   if(!Array.isArray(items) || !items.length) { toast('データが空です'); return; }
 
-  let added = 0;
+  let added = 0, skipped = 0;
+  const dupMode = document.querySelector('input[name="dup-mode"]:checked')?.value || 'skip';
+  // Get all existing titles for dup check
+  const existingTitles = new Map();
+  data.categories.forEach((cat,ci) => cat.subcategories.forEach((sub,si) => sub.threads.forEach((t,ti) => {
+    existingTitles.set(t.title, {ci,si,ti});
+  })));
+
   items.forEach(item => {
+    const title = item.title || '無題';
+    const score = item.score !== undefined ? item.score : (item.importance === 'high' ? 8 : item.importance === 'mid' ? 5 : 3);
+    const newThread = {
+      title, url: item.url || '', score,
+      source: item.source || 'manual',
+      summary: item.summary || '', highlights: item.highlights || [],
+      date: item.date || new Date().toLocaleDateString('ja-JP')
+    };
+
+    // Check for duplicate
+    if(existingTitles.has(title)) {
+      if(dupMode === 'skip') { skipped++; return; }
+      // update mode: update existing
+      const {ci,si,ti} = existingTitles.get(title);
+      const t = data.categories[ci].subcategories[si].threads[ti];
+      t.summary = newThread.summary || t.summary;
+      t.highlights = newThread.highlights.length ? newThread.highlights : t.highlights;
+      t.score = newThread.score;
+      t.url = newThread.url || t.url;
+      added++;
+      return;
+    }
+
     const cat = data.categories.find(c => c.name === item.category || c.id === item.category) || data.categories[0];
     const subName = item.subcategory || 'インポート';
     let sub = cat.subcategories.find(s => s.name === subName);
     if(!sub) { sub = {name: subName, color: cat.color, threads: []}; cat.subcategories.push(sub); }
-    // Convert importance to score if needed
-    const score = item.score !== undefined ? item.score : (item.importance === 'high' ? 8 : item.importance === 'mid' ? 5 : 3);
-    sub.threads.push({
-      title: item.title || '無題', url: item.url || '',
-      score, source: item.source || 'manual',
-      summary: item.summary || '', highlights: item.highlights || [],
-      date: item.date || new Date().toLocaleDateString('ja-JP')
-    });
+    sub.threads.push(newThread);
     added++;
   });
 
-  markUpdated(); fillCatSelects(); render(); closeModal('im'); toast(`✓ ${added}件取り込みました`);
+  // Save last import date
+  localStorage.setItem('kb_last_import', new Date().toLocaleDateString('ja-JP'));
+  markUpdated(); fillCatSelects(); render(); closeModal('im');
+  toast(`✓ ${added}件取り込み${skipped>0?' ('+skipped+'件スキップ)':''}しました`);
 }
 
 // ============================================================
