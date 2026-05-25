@@ -615,7 +615,7 @@ window.KB_DATA = {
               "url": "",
               "score": 0,
               "source": "chatgpt",
-              "summary": "ChatGPT会話を統合した『AIナレッジOS』構想について議論。38スレッドでは少ないのではという問題提起から、各スレッドごとのハイライト表示、スレッドオープン連携、平均30ptベースのスコアリング、全0点初期化など、実運用前提のUI/UX改善方針を整理した。",
+              "summary": "ChatGPT会話を統合した『AIナレッジOS』構想について議論。38スレッドでは少ないのではという問題提起から、各スレッドごとのハイライト表示、スレッドオープン連携、平均30ptベースのスコアリング、全0点初期化など、実運用前提のUI/UX改善方針を整理した。最終的にHTML編集＋JSON全出力を指示。",
               "highlights": [
                 "38スレッド数の妥当性を検証",
                 "スレッド別ハイライト表示を提案",
@@ -636,7 +636,7 @@ window.KB_DATA = {
               "url": "",
               "score": 1,
               "source": "chatgpt",
-              "summary": "ChatGPT会話履歴をJSON形式で構造化出力する仕様を整理。title、category、importance、summaryなどの統一フォーマットを定義し、『不動産ビジネス』『X・noteコンテンツ事業』『新規ビジネス探索』などカテゴリ分類ルールも明確化した。",
+              "summary": "ChatGPT会話履歴をJSON形式で構造化出力する仕様を整理。title、category、importance、summaryなどの統一フォーマットを定義し、『新規ビジネスについて』『IPI関連』『SynthX関連』などカテゴリ分類ルールも明確化した。",
               "highlights": [
                 "JSON配列フォーマットを定義",
                 "カテゴリ分類ルールを整理",
