@@ -254,6 +254,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .cb-tag.active-work{background:rgba(224,85,85,0.15);border-color:var(--red);color:var(--red);}
 .cb-tag.active-top{background:rgba(200,169,110,0.15);border-color:var(--gold);color:var(--gold);}
 .cb-tag.active-routine{background:rgba(74,143,196,0.15);border-color:var(--blu);color:var(--blu);}
+.cb-tag.active-money{background:rgba(90,158,111,0.15);border-color:var(--grn);color:var(--grn);}
 
 /* SCORE 0 GRAYOUT */
 .tr.score-zero { opacity: 0.35; }
@@ -913,6 +914,7 @@ function renderSubs(cat, ci) {
           <span class="cb-tag ${(t.tags||[]).includes('work')?'active-work':''}" onclick="toggleTag(${ci},${si},${realTi},'work')">要作業</span>
           <span class="cb-tag ${(t.tags||[]).includes('top')?'active-top':''}" onclick="toggleTag(${ci},${si},${realTi},'top')">最重要</span>
           <span class="cb-tag ${(t.tags||[]).includes('routine')?'active-routine':''}" onclick="toggleTag(${ci},${si},${realTi},'routine')">ルーティン</span>
+          <span class="cb-tag ${(t.tags||[]).includes('money')?'active-money':''}" onclick="toggleTag(${ci},${si},${realTi},'money')">収益化</span>
         </div>
         <div class="sc-wrap">
           <input class="sc-slider" type="range" min="0" max="10" value="${sc}" onclick="event.stopPropagation()" oninput="event.stopPropagation();sliderScore(event,${ci},${si},${realTi})">
@@ -971,6 +973,7 @@ function renderFlat() {
         <span class="cb-tag ${(t.tags||[]).includes('work')?'active-work':''}" onclick="toggleTag(${ci},${si},${ti},'work')">要作業</span>
         <span class="cb-tag ${(t.tags||[]).includes('top')?'active-top':''}" onclick="toggleTag(${ci},${si},${ti},'top')">最重要</span>
         <span class="cb-tag ${(t.tags||[]).includes('routine')?'active-routine':''}" onclick="toggleTag(${ci},${si},${ti},'routine')">ルーティン</span>
+        <span class="cb-tag ${(t.tags||[]).includes('money')?'active-money':''}" onclick="toggleTag(${ci},${si},${ti},'money')">収益化</span>
       </div>
       <div class="sc-wrap">
         <input class="sc-slider" type="range" min="0" max="10" value="${sc}" onclick="event.stopPropagation()" oninput="event.stopPropagation();sliderScoreFlat(event,${ci},${si},${ti},this)">
