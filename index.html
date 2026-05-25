@@ -449,9 +449,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
           <button class="attach-tab" onclick="switchAttachTab('text',this)">📝 テキスト・表</button>
         </div>
         <div class="attach-input-wrap active" id="atab-image">
-          <input class="attach-url-input" id="attach-url" placeholder="https://...（画像URLを貼り付け）">
-          <input class="attach-url-input" id="attach-label" placeholder="ラベル（例：売上グラフ2026）" style="margin-top:4px">
-          <button class="attach-add-btn" onclick="addAttachment('image')">追加</button>
+          <div id="drop-zone" style="border:2px dashed var(--b2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:8px;"
+            ondragover="event.preventDefault();this.style.borderColor='var(--gold)';this.style.background='var(--gold-g)'"
+            ondragleave="this.style.borderColor='var(--b2)';this.style.background=''"
+            ondrop="handleImageDrop(event)"
+            onclick="document.getElementById('file-input').click()">
+            <div style="font-size:24px;margin-bottom:6px">📸</div>
+            <div style="font-size:11px;color:var(--t2)">画像をドラッグ&ドロップ<br>またはクリックして選択</div>
+            <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
+          </div>
+          <div id="image-preview" style="display:none;margin-bottom:8px">
+            <img id="preview-img" style="width:100%;max-height:150px;object-fit:contain;border-radius:6px;background:var(--s2)">
+          </div>
+          <input class="attach-url-input" id="attach-label" placeholder="ラベル（例：売上グラフ2026）">
+          <button class="attach-add-btn" onclick="addAttachment('image')" style="margin-top:6px">追加</button>
         </div>
         <div class="attach-input-wrap" id="atab-text">
           <textarea class="attach-textarea" id="attach-text" placeholder="テキスト・表・メモを貼り付け..."></textarea>
@@ -1506,12 +1517,13 @@ function addAttachment(type) {
 
   let attachment;
   if(type === 'image') {
-    const url = document.getElementById('attach-url').value.trim();
+    const preview = document.getElementById('preview-img');
     const label = document.getElementById('attach-label').value.trim() || '画像';
-    if(!url) { toast('URLを入力してください'); return; }
-    attachment = {type:'image', url, label, id: Date.now()};
-    document.getElementById('attach-url').value = '';
+    if(!preview || !preview.src || preview.src === window.location.href) { toast('画像を選択してください'); return; }
+    attachment = {type:'image', url: preview.src, label, id: Date.now()};
     document.getElementById('attach-label').value = '';
+    document.getElementById('image-preview').style.display = 'none';
+    preview.src = '';
   } else {
     const text = document.getElementById('attach-text').value.trim();
     const label = document.getElementById('attach-text-label').value.trim() || 'メモ';
@@ -1552,6 +1564,35 @@ function renderAttachments() {
       </div>
       ${a.type==='image' ? `<img class="attach-img" src="${a.url}" alt="${a.label}" onclick="window.open('${a.url}','_blank')" onerror="this.style.display='none'">` : `<div class="attach-text">${a.text}</div>`}
     </div>`).join('');
+}
+
+// ============================================================
+// IMAGE DRAG & DROP
+// ============================================================
+function handleImageDrop(e) {
+  e.preventDefault();
+  const zone = document.getElementById('drop-zone');
+  zone.style.borderColor = 'var(--b2)';
+  zone.style.background = '';
+  const file = e.dataTransfer.files[0];
+  if(file && file.type.startsWith('image/')) loadImageFile(file);
+  else toast('画像ファイルを選択してください');
+}
+
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if(file) loadImageFile(file);
+}
+
+function loadImageFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const preview = document.getElementById('preview-img');
+    const previewWrap = document.getElementById('image-preview');
+    preview.src = e.target.result;
+    previewWrap.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
 }
 
 // ============================================================
