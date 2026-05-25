@@ -218,6 +218,30 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 .toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 14px;font-size:12px;z-index:200;transform:translateY(60px);opacity:0;transition:all 0.25s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
+/* ATTACHMENTS */
+.attach-icon{font-size:10px;color:var(--blu);flex-shrink:0;opacity:0.8;}
+.attach-section{margin-top:12px;}
+.attach-title{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--t2);margin-bottom:8px;font-weight:500;}
+.attach-list{display:flex;flex-direction:column;gap:8px;}
+.attach-item{background:var(--s2);border:1px solid var(--b1);border-radius:7px;overflow:hidden;}
+.attach-item-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;}
+.attach-item-label{font-size:11px;color:var(--t1);flex:1;}
+.attach-item-del{font-size:10px;color:var(--t2);cursor:pointer;padding:2px 6px;border-radius:3px;border:1px solid var(--b1);background:transparent;font-family:"DM Sans",sans-serif;}
+.attach-item-del:hover{color:var(--red);border-color:var(--red);}
+.attach-img{width:100%;max-height:300px;object-fit:contain;display:block;cursor:pointer;}
+.attach-text{font-size:11px;color:var(--t2);line-height:1.6;padding:8px 10px;white-space:pre-wrap;font-family:monospace;max-height:200px;overflow-y:auto;}
+.attach-add-area{border:1px dashed var(--b2);border-radius:7px;padding:14px;text-align:center;cursor:pointer;transition:all 0.15s;margin-top:8px;}
+.attach-add-area:hover{border-color:var(--gold);background:var(--gold-g);}
+.attach-add-text{font-size:11px;color:var(--t2);}
+.attach-tabs{display:flex;gap:6px;margin-bottom:8px;}
+.attach-tab{font-size:10px;padding:3px 10px;border-radius:12px;border:1px solid var(--b1);cursor:pointer;color:var(--t2);background:transparent;font-family:"DM Sans",sans-serif;transition:all 0.12s;}
+.attach-tab.active{background:var(--blu-d);border-color:rgba(74,143,196,0.3);color:var(--blu);}
+.attach-input-wrap{display:none;}
+.attach-input-wrap.active{display:block;}
+.attach-textarea{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:5px;padding:7px 10px;color:var(--t1);font-family:monospace;font-size:11px;outline:none;min-height:80px;resize:vertical;}
+.attach-url-input{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:5px;padding:7px 10px;color:var(--t1);font-family:"DM Sans",sans-serif;font-size:12px;outline:none;margin-bottom:6px;}
+.attach-add-btn{padding:5px 14px;background:var(--blu-d);border:1px solid rgba(74,143,196,0.25);border-radius:5px;color:var(--blu);font-family:"DM Sans",sans-serif;font-size:11px;cursor:pointer;}
+
 /* SCORE SLIDER */
 .sc-slider{-webkit-appearance:none;appearance:none;width:80px;height:3px;border-radius:2px;background:var(--b2);outline:none;cursor:pointer;flex-shrink:0;}
 .sc-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:12px;height:12px;border-radius:50%;background:var(--gold);cursor:pointer;}
@@ -254,18 +278,52 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
   .app{flex-direction:column;}
   .sb{width:100%;height:auto;position:relative;flex-shrink:0;border-right:none;border-bottom:1px solid var(--b1);}
   .sb-logo{padding:10px 14px 8px;}
-  .sb-nav{display:flex;flex-wrap:wrap;padding:5px 10px;gap:3px;}
+  .sb-brand{font-size:9px;}
+  .sb-nav{display:flex;flex-wrap:nowrap;padding:5px 10px;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .sb-nav::-webkit-scrollbar{display:none;}
   .sb-sec{display:none;}
-  .ni{padding:3px 9px;font-size:11px;border-left:none;border-radius:14px;border:1px solid var(--b1);white-space:nowrap;flex-shrink:0;}
-  .sb-foot{display:flex;align-items:center;gap:7px;padding:7px 12px;}
-  .gh-st{margin:0;white-space:nowrap;}
-  .save-btn{width:auto;padding:5px 10px;white-space:nowrap;flex-shrink:0;}
-  .mn{margin-left:0;width:100%;}
-  .tb{padding:0 12px;height:42px;}
-  .srch{width:110px;}
-  .stats{grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px;}
-  .md{width:94vw;padding:16px;max-height:92vh;}
-  .md-lg{width:94vw;}
+  .ni{padding:4px 10px;font-size:11px;border-left:none;border-radius:14px;border:1px solid var(--b1);white-space:nowrap;flex-shrink:0;}
+  .ni.active{border-color:rgba(200,169,110,0.3);}
+  .sb-foot{display:flex;align-items:center;gap:7px;padding:6px 12px;}
+  .gh-st{margin:0;white-space:nowrap;font-size:9px;}
+  .save-btn{width:auto;padding:5px 12px;white-space:nowrap;flex-shrink:0;font-size:11px;}
+  .mn{margin-left:0;width:100%;min-width:0;}
+  .tb{padding:0 10px;height:42px;}
+  .tb-title{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px;}
+  .tb-r{gap:4px;}
+  .srch{width:90px;}
+  .pills{gap:2px;}
+  .pill{padding:2px 5px;font-size:9px;}
+  .ct{padding:8px 10px;}
+  .stats{grid-template-columns:repeat(2,1fr);gap:5px;margin-bottom:10px;}
+  .sc{padding:8px 10px;}
+  .sc-v{font-size:18px;}
+  .sc-l{font-size:8px;}
+  .sc-s{font-size:9px;}
+  .cat{margin-bottom:7px;border-radius:7px;}
+  .ch{padding:8px 10px;}
+  .ci{width:22px;height:22px;font-size:11px;}
+  .cn{font-size:11px;}
+  .cm{font-size:9px;}
+  .sg{padding:0 10px;}
+  .tr{padding:5px 6px;gap:4px;flex-wrap:nowrap;}
+  .tt{font-size:11px;}
+  .tm{font-size:9px;gap:3px;flex-wrap:nowrap;}
+  .tm-sum{display:none;}
+  .sc-slider{width:50px;}
+  .sc-num{font-size:11px;width:14px;}
+  .cb-tags{gap:2px;}
+  .cb-tag{padding:1px 4px;font-size:8px;}
+  .ta{gap:2px;opacity:1;}
+  .tb2{font-size:8px;padding:1px 4px;}
+  .tr-arr{display:none;}
+  .flat-tr{padding:6px 10px;gap:5px;}
+  .flat-tr .sc-slider{width:50px;}
+  .md{width:96vw;padding:14px;max-height:93vh;}
+  .md-lg{width:96vw;}
+  .sc-editor{padding:8px 10px;}
+  .sc-editor-num{font-size:24px;width:32px;}
+  .attach-img{max-height:180px;}
 }
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px;}
@@ -374,6 +432,30 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
     <div style="display:flex;gap:8px;margin-top:8px">
       <button class="btn-ai" onclick="autoSummarize()" id="ai-btn">✦ AI要約を生成</button>
       <button class="open-link" id="dm-link">スレッドを開く →</button>
+    </div>
+    <!-- ATTACHMENTS -->
+    <div class="attach-section">
+      <div class="attach-title">添付ファイル・メモ</div>
+      <div class="attach-list" id="attach-list"></div>
+      <div class="attach-add-area" onclick="toggleAttachInput()">
+        <div class="attach-add-text">＋ 画像・テキスト・表を追加</div>
+      </div>
+      <div id="attach-input-area" style="display:none;margin-top:8px">
+        <div class="attach-tabs">
+          <button class="attach-tab active" onclick="switchAttachTab('image',this)">🖼 画像URL</button>
+          <button class="attach-tab" onclick="switchAttachTab('text',this)">📝 テキスト・表</button>
+        </div>
+        <div class="attach-input-wrap active" id="atab-image">
+          <input class="attach-url-input" id="attach-url" placeholder="https://...（画像URLを貼り付け）">
+          <input class="attach-url-input" id="attach-label" placeholder="ラベル（例：売上グラフ2026）" style="margin-top:4px">
+          <button class="attach-add-btn" onclick="addAttachment('image')">追加</button>
+        </div>
+        <div class="attach-input-wrap" id="atab-text">
+          <textarea class="attach-textarea" id="attach-text" placeholder="テキスト・表・メモを貼り付け..."></textarea>
+          <input class="attach-url-input" id="attach-text-label" placeholder="ラベル（例：収支試算表）" style="margin-top:4px">
+          <button class="attach-add-btn" onclick="addAttachment('text')" style="margin-top:4px">追加</button>
+        </div>
+      </div>
     </div>
     <div class="ma" style="margin-top:10px">
       <button class="btn-c" onclick="closeModal('dm')">閉じる</button>
@@ -809,6 +891,7 @@ function renderSubs(cat, ci) {
           <div class="tm">
             <span class="tm-date">${t.date||''}</span>
             <span class="cat-tag" style="background:${cat.bg};color:${cat.color};border:1px solid ${cat.color}33">${cat.name.length>10?cat.name.substring(0,10)+'…':cat.name}</span>
+            ${(t.attachments||[]).length>0?'<span class="attach-icon" title="添付あり">📎'+t.attachments.length+'</span>':''}
             <span class="tm-sum">${(t.summary||'').substring(0,40)}${(t.summary||'').length>40?'...':''}</span>
           </div>
         </div>
@@ -864,7 +947,7 @@ function renderFlat() {
     div.innerHTML = `
       <span class="src ${srcClass(t.source)}">${srcLabel(t.source)}</span>
       <div class="tc">
-        <div class="tt">${t.title}</div>
+        <div class="tt">${t.title}${(t.attachments||[]).length>0?' <span class="attach-icon">📎'+t.attachments.length+'</span>':''}</div>
         <div class="flat-meta" style="display:flex;align-items:center;gap:5px;margin-top:2px">
           <span class="cat-tag" style="background:${flatCat.bg};color:${flatCat.color};border:1px solid ${flatCat.color}33">${flatCat.name.length>12?flatCat.name.substring(0,12)+'…':flatCat.name}</span>
           <span style="color:var(--t3);font-size:10px">${data.categories[ci].subcategories[si].name}</span>
@@ -984,6 +1067,11 @@ function showDetailModal() {
   } else {
     lb.style.display = 'none';
   }
+  // Render attachments
+  renderAttachments();
+  // Reset attach input
+  const inp = document.getElementById('attach-input-area');
+  if(inp) inp.style.display = 'none';
 }
 
 function dmScoreChange(delta) {
@@ -1227,7 +1315,7 @@ function openImport() {
 
 必須フィールド（全て必ず含めること）:
 - title: 会話タイトル（30文字以内）
-- url: 会話URL（存在する場合。なければ""）
+- url: 会話URL（必ずchatgpt.com/c/から始まるURLを取得して記載。ブラウザで会話を開いた時のURLをそのまま使用。取得できない場合のみ""）
 - category: 新規ビジネスについて / IPI関連 / SynthX関連 / シマウマキャピタル関連 / LaSalle関連 / 雑学系 / その他プライベート のいずれか
 - subcategory: サブカテゴリ（自由記述）
 - score: 重要度（0-10の整数。重要な業務・戦略系は7-9、軽い雑談は1-3）
@@ -1243,7 +1331,7 @@ JSON配列のみ出力してください。前後の説明文は不要です。s
 
 必須フィールド（全て必ず含めること）:
 - title: 会話タイトル（30文字以内）
-- url: 会話URL（存在する場合。なければ""）
+- url: 会話URL（必ずchatgpt.com/c/から始まるURLを取得して記載。ブラウザで会話を開いた時のURLをそのまま使用。取得できない場合のみ""）
 - category: 新規ビジネスについて / IPI関連 / SynthX関連 / シマウマキャピタル関連 / LaSalle関連 / 雑学系 / その他プライベート のいずれか
 - subcategory: サブカテゴリ（自由記述）
 - score: 重要度（0-10の整数。重要な業務・戦略系は7-9、軽い雑談は1-3）
@@ -1387,6 +1475,80 @@ async function saveToGH() {
     if(putR.ok) toast('✓ GitHubに保存しました（1〜2分で全デバイスに反映）');
     else { const j = await putR.json(); toast('✗ 保存失敗: ' + j.message); }
   } catch(err) { toast('✗ GitHub保存エラー: ' + err.message); }
+}
+
+// ============================================================
+// ATTACHMENTS
+// ============================================================
+let curAttachTab = 'image';
+
+function toggleAttachInput() {
+  const area = document.getElementById('attach-input-area');
+  area.style.display = area.style.display === 'none' ? 'block' : 'none';
+}
+
+function switchAttachTab(tab, btn) {
+  curAttachTab = tab;
+  document.querySelectorAll('.attach-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.attach-input-wrap').forEach(p => p.classList.remove('active'));
+  document.getElementById('atab-'+tab).classList.add('active');
+}
+
+function addAttachment(type) {
+  if(!dmRef) return;
+  const {ci, si, ti} = dmRef;
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  if(!t.attachments) t.attachments = [];
+
+  let attachment;
+  if(type === 'image') {
+    const url = document.getElementById('attach-url').value.trim();
+    const label = document.getElementById('attach-label').value.trim() || '画像';
+    if(!url) { toast('URLを入力してください'); return; }
+    attachment = {type:'image', url, label, id: Date.now()};
+    document.getElementById('attach-url').value = '';
+    document.getElementById('attach-label').value = '';
+  } else {
+    const text = document.getElementById('attach-text').value.trim();
+    const label = document.getElementById('attach-text-label').value.trim() || 'メモ';
+    if(!text) { toast('テキストを入力してください'); return; }
+    attachment = {type:'text', text, label, id: Date.now()};
+    document.getElementById('attach-text').value = '';
+    document.getElementById('attach-text-label').value = '';
+  }
+
+  t.attachments.push(attachment);
+  markUpdated();
+  renderAttachments();
+  document.getElementById('attach-input-area').style.display = 'none';
+  toast('✓ 添付しました');
+}
+
+function deleteAttachment(attachId) {
+  if(!dmRef) return;
+  const {ci, si, ti} = dmRef;
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  t.attachments = (t.attachments||[]).filter(a => a.id !== attachId);
+  markUpdated();
+  renderAttachments();
+}
+
+function renderAttachments() {
+  if(!dmRef) return;
+  const {ci, si, ti} = dmRef;
+  const t = data.categories[ci].subcategories[si].threads[ti];
+  const list = document.getElementById('attach-list');
+  if(!list) return;
+  const attachments = t.attachments || [];
+  list.innerHTML = attachments.map(a => `
+    <div class="attach-item">
+      <div class="attach-item-hdr">
+        <span class="attach-item-label">${a.type==='image'?'🖼':'📝'} ${a.label}</span>
+        <button class="attach-item-del" onclick="deleteAttachment(${a.id})">削除</button>
+      </div>
+      ${a.type==='image' ? `<img class="attach-img" src="${a.url}" alt="${a.label}" onclick="window.open('${a.url}','_blank')" onerror="this.style.display='none'">` : `<div class="attach-text">${a.text}</div>`}
+    </div>`).join('');
 }
 
 // ============================================================
