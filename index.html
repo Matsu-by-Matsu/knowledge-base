@@ -306,10 +306,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
   .cn{font-size:11px;}
   .cm{font-size:9px;}
   .sg{padding:0 10px;}
-  .tr{padding:5px 6px;gap:4px;flex-wrap:nowrap;}
+  .tr{padding:5px 6px;gap:4px;flex-wrap:nowrap;overflow:hidden;}
   .tt{font-size:11px;}
-  .tm{font-size:9px;gap:3px;flex-wrap:nowrap;}
+  .tm{font-size:9px;gap:3px;flex-wrap:nowrap;overflow:hidden;max-width:100%;}
   .tm-sum{display:none;}
+  .tm-date{flex-shrink:0;}
+  .cat-tag{flex-shrink:0;max-width:80px;overflow:hidden;text-overflow:ellipsis;}
+  .tc{min-width:0;overflow:hidden;}
   .sc-slider{width:50px;}
   .sc-num{font-size:11px;width:14px;}
   .cb-tags{gap:2px;}
