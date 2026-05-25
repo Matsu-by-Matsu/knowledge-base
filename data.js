@@ -422,6 +422,19 @@ window.KB_DATA = {
                 "RENOSYはiBuyerではなくプロップテック仲介と訂正"
               ],
               "date": "2026/04/09"
+            },
+            {
+              "title": "Buzz X",
+              "url": "https://notebooklm.google.com/notebook/07c8a42a-3202-47e3-83e0-54a3ddaba9df",
+              "score": 10,
+              "source": "notebooklm",
+              "summary": "Buzz Xに関するノートブック。バズ生成・マーケティング戦略やSNS拡散メカニズムの調査資料を整理。X（旧Twitter）を活用したコンテンツ戦略への応用を検討。",
+              "highlights": [
+                "Buzz生成メカニズムの整理",
+                "SNS拡散戦略の分析",
+                "X活用コンテンツ戦略への応用"
+              ],
+              "date": "2026/04/10"
             }
           ]
         },
@@ -498,6 +511,70 @@ window.KB_DATA = {
                 "Apify+Claude APIで¥100/件以下のコスト構造"
               ],
               "date": "2026/04/20"
+            }
+          ]
+        },
+        {
+          "name": "市場分析・データ",
+          "color": "#c8a96e",
+          "threads": [
+            {
+              "title": "KDDI Location Analyzer",
+              "url": "https://notebooklm.google.com/notebook/b966e6ef-d7a8-4896-a3f9-7fe1e05a1eca",
+              "score": 10,
+              "source": "notebooklm",
+              "summary": "KDDIの施設・立地分析ツールに関するノートブック。位置情報データと施設データを組み合わせた立地分析の調査・研究資料を整理。不動産投資判断への活用可能性を検討。",
+              "highlights": [
+                "KDDI位置情報データの活用方法",
+                "施設立地分析の手法整理",
+                "不動産投資への応用可能性"
+              ],
+              "date": "2026/05/13"
+            },
+            {
+              "title": "Urban Roadway Demographic Analysis",
+              "url": "https://notebooklm.google.com/notebook/00fceb4a-f57b-4a5e-a0ff-a42b397500c9",
+              "score": 10,
+              "source": "notebooklm",
+              "summary": "都市道路の人口動態分析に関するノートブック。道路別の通行量・人口属性データを整理し、商業立地判断や不動産価値評価への活用を検討。",
+              "highlights": [
+                "道路別人口動態データの整理",
+                "商業立地判断への活用",
+                "不動産価値評価との連携"
+              ],
+              "date": "2026/05/12"
+            },
+            {
+              "title": "Tokyo EV Charging Station Master",
+              "url": "https://notebooklm.google.com/notebook/99653d5c-2217-4ceb-b920-04029a76efe5",
+              "score": 10,
+              "source": "notebooklm",
+              "summary": "東京都内のEV充電ステーションに関するマスターデータノートブック。充電インフラの整備状況・立地分布を分析し、不動産開発や施設投資の参考情報として整理。",
+              "highlights": [
+                "東京EV充電ステーション分布の整理",
+                "充電インフラ整備状況の分析",
+                "不動産開発への活用可能性"
+              ],
+              "date": "2026/05/12"
+            }
+          ]
+        },
+        {
+          "name": "市場分析・アンダーライティング",
+          "color": "#c8a96e",
+          "threads": [
+            {
+              "title": "2015 Construction Cost Index",
+              "url": "https://notebooklm.google.com/notebook/602987f6-0ec6-408a-b13d-ddef9fb49570",
+              "score": 10,
+              "source": "notebooklm",
+              "summary": "2015年基準の建築費指数に関するノートブック。建築単価のベースライン整理と、コロナ前後・現在までのコスト変動トレンドを分析するための参照資料。",
+              "highlights": [
+                "2015年基準建築費指数の整理",
+                "建築単価ベースラインの確立",
+                "コスト変動トレンドの参照資料"
+              ],
+              "date": "2026/05/12"
             }
           ]
         }
