@@ -584,7 +584,7 @@ window.KB_DATA = {
             {
               "title": "ChatGPT会話JSON構想",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "ChatGPT会話をJSON化し、AIナレッジOSとして整理・可視化する構想を議論。38スレッドしか取得できていない問題や、重要箇所ハイライト機能、スコアリング設計を検討。ユーザーは全スレッドをスコア0開始に修正し、自ら重要度を編集する運用方針を決定した。",
               "highlights": [
@@ -968,7 +968,7 @@ window.KB_DATA = {
             {
               "title": "豪州ロジ案件Sprout分析",
               "url": "",
-              "score": 10,
+              "score": 1,
               "source": "chatgpt",
               "summary": "豪州物流案件「Project Sprout」のFIC Paperを基に、立地・リーシング戦略・分割貸し前提のストーリーを分析。ユーザーは『そもそも立地が悪いからリーシングできていないのでは』と指摘し、CBDから遠い立地では重貨物用途しか需要が限定され、分割だけで解決する論理は弱いと評価。電力需要テナントのパイも小さい点を問題視した。",
               "highlights": [
@@ -988,7 +988,7 @@ window.KB_DATA = {
             {
               "title": "大型物流Juno案件分析",
               "url": "",
-              "score": 10,
+              "score": 1,
               "source": "chatgpt",
               "summary": "「Project Juno」のDisposition IC資料を基に案件構造を分析。売主背景や出口戦略、マーケット環境について議論を実施。ユーザーは、売主が困窮していた背景や、ディール成立に至るまでの価格形成・マーケット需給の整合性に着目し、案件ストーリーの妥当性を検証した。",
               "highlights": [
@@ -1008,7 +1008,7 @@ window.KB_DATA = {
             {
               "title": "Docklandsオフィス崩壊分析",
               "url": "",
-              "score": 10,
+              "score": 1,
               "source": "chatgpt",
               "summary": "「380 Docklands Additional Equity Request Mar2026」を基に、豪州Docklandsオフィス案件の悪化要因を分析。WFH定着による需要蒸発、CBD外立地の弱さ、出口戦略の遅れが主因と整理。ユーザーは『2020年時点で売却できたはず』と指摘し、プロとして市場変化への反応が遅すぎたと厳しく評価した。",
               "highlights": [
@@ -1029,7 +1029,7 @@ window.KB_DATA = {
             {
               "title": "QA分析とExit感応度議論",
               "url": "",
-              "score": 10,
+              "score": 0,
               "source": "chatgpt",
               "summary": "Entry AIC 20.3bn、Exit Value 22.9bn前提のモデル感応度分析を実施。CAGRを2%→0%に変更するとExit Valueは22.1bn、さらに足元賃料適用で15.6bnまで低下する点を確認。▲4.7bnのネガティブオフセット解消にはExit Cap 2.35%が必要と整理し、最終QA文面も英語・日本語で整備した。",
               "highlights": [
@@ -1312,7 +1312,7 @@ window.KB_DATA = {
             {
               "title": "MCとフル変動ML議論",
               "url": "",
-              "score": 10,
+              "score": 3,
               "source": "chatgpt",
               "summary": "MC（メザニンコミット）やフル変動MLの議論を通じ、説明の冗長性や論点整理についてユーザーから強いフィードバックを受領。『本質を一発で打ち抜け』というスタイル要求が示され、今後は余計な周辺論点を削ぎ落とし、核心のみを短く伝える回答方針が確認された。",
               "highlights": [
@@ -1545,7 +1545,7 @@ window.KB_DATA = {
             {
               "title": "性格分析レポート改善要求",
               "url": "",
-              "score": 10,
+              "score": 5,
               "source": "chatgpt",
               "summary": "性格分析・Big5・星座分析について、ユーザーから『浅すぎる』『大学生レベル』と厳しい評価を受けた。単なる分類ではなく、人生観や運命レベルで刺さる深い分析を要求。参考サイトとしてQabalah.jpも提示され、1000字以上の濃密な人物分析レポートが求められた。",
               "highlights": [
@@ -1565,7 +1565,7 @@ window.KB_DATA = {
             {
               "title": "無限スタミナの作り方",
               "url": "",
-              "score": 10,
+              "score": 1,
               "source": "chatgpt",
               "summary": "格闘技で『100の体力上限そのものを増やしたい』というテーマで議論。単なる省エネ戦術ではなく、心肺機能・ミトコンドリア密度・乳酸耐性・回復能力そのものを高める必要性を整理。VO2max向上、Zone2持久走、高強度インターバル、脚筋持久力の重要性を中心に議論した。",
               "highlights": [
@@ -1585,7 +1585,7 @@ window.KB_DATA = {
             {
               "title": "医療脱毛と美容脱毛比較",
               "url": "",
-              "score": 10,
+              "score": 2,
               "source": "chatgpt",
               "summary": "ゴリラクリニックとSBCを中心に、医療脱毛機器の性能比較を実施。アレキサンドライト、ヤグ、ダイオードの違いや、ジェントルマックスPro、アバランチ等の機器性能を整理。ユーザーは『強い順』や『簡潔な比較表』を要求し、植毛の痛みや回数比較も含め、実務的・即断型の整理を重視した。",
               "highlights": [
